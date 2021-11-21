@@ -4,10 +4,14 @@ import React, { Component } from 'react';
 class SignUp extends Component {
     state = {
         login: '',
-        password: ''
+        password: '',
+        err: ''
     }
     SignUp = () => {
         console.log(this.state.login, this.state.password)
+        if(this.state.login === "" || this.state.password === ""){
+            this.setState({err: 'Nie poprawna wartość login lub hasło'})
+        }
     }
     changeLogin = (e) => {
         this.setState({login: e.target.value})
@@ -21,6 +25,7 @@ class SignUp extends Component {
                 <input placeholder="Login" onChange={this.changeLogin}></input>
                 <input placeholder="Password" onChange={this.changePassword}></input>
                 <button onClick={this.SignUp}>Sign Up</button>
+                <div>{this.state.err}</div>
             </div>
         )
     }
