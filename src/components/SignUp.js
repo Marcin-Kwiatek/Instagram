@@ -23,7 +23,7 @@ class SignUp extends Component {
         return (
             <div className="container">
                 <input placeholder="Login" onChange={this.changeLogin}></input>
-                <input placeholder="Password" onChange={this.changePassword}></input>
+                <input placeholder="Hasło" onChange={this.changePassword}></input>
                 <button onClick={this.SignUp}>Sign Up</button>
                 <div>{this.state.err}</div>
             </div>
