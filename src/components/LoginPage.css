@@ -26,13 +26,18 @@ body {
 }
 
 .submitButton {
-    background-color: lightblue;
+    background-color: #0086f9;
     color: white;
     border: 0;
     border-radius: 3px;
     width: 258px;
     height: 30px;
     margin: 15px 40px;
+    cursor: pointer;
+}
+
+.submitButton:hover {
+    background-color: #5252ff;
 }
 
 .signUpText {
