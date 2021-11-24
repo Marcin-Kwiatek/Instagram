@@ -42,12 +42,12 @@ body {
     background-color: #5252ff;
 }
 
-.signUpText {
+.text {
     margin: 30px 0;
     text-align: center;
 }
 
-.signUpLink {
+.link {
     text-decoration: none;
     color: #5252ff;
 }
