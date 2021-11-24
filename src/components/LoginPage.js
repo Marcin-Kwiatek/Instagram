@@ -1,5 +1,6 @@
 import './LoginPage.css';
 import React, { Component } from 'react';
+import {Link} from "react-router-dom";
 
 class LoginPage extends Component {
     render(){
@@ -11,7 +12,8 @@ class LoginPage extends Component {
             <input placeholder="Login" className="input" maxLength="20" type="text"></input>
             <input placeholder="Hasło" className="input" maxLength="20" type="text"></input>
             <button className="submitButton">Zaloguj się</button>
-            <div className="signUpText">Nie masz konta? Zarejestruj się</div>
+            <div className="signUpText">Nie masz konta? <Link className='signUpLink' to='/SignUp'>Zarejestruj się</Link>
+</div>
         </div>
     )}
   }

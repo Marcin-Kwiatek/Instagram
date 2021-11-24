@@ -44,3 +44,8 @@ body {
     margin: 30px 0;
     text-align: center;
 }
+
+.signUpLink {
+    text-decoration: none;
+    color: #5252ff;
+}
