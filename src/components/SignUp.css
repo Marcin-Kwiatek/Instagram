@@ -1,5 +1,47 @@
 .container {
-    width: 1000px;
+    max-width: 350px;
+    background-color: white;
+    margin-top: 32px;
+    border: 1px solid #999;
+    border-radius: 1%;
     margin-left: auto;
     margin-right: auto;
+}
+
+.logo {
+    padding: 30px;
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+.submitButton {
+    background-color: #0086f9;
+    color: white;
+    border: 0;
+    border-radius: 3px;
+    width: 258px;
+    height: 30px;
+    margin: 15px 40px;
+    cursor: pointer;
+}
+
+.submitButton:hover {
+    background-color: #5252ff;
+}
+
+.err {
+    color: red;
+    padding: 5px;
+    text-align: center;
+    font-weight: bold;
+}
+
+.signUpText {
+    margin: 30px 0;
+    text-align: center;
+}
+
+.signUpLink {
+    text-decoration: none;
+    color: #5252ff;
 }
