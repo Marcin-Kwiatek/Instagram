@@ -4,16 +4,29 @@ import { Link } from "react-router-dom";
 
 
 class SignUp extends Component {
+    constructor(props){
+        super(props)
+        this.SignUp = this.SignUp.bind(this)
+    }
     state = {
         login: '',
         password: '',
         err: ''
     }
     SignUp = () => {
-        console.log(this.state.login, this.state.password)
         if (this.state.login === "" || this.state.password === "") {
             this.setState({ err: 'Nie poprawna wartość login lub hasło' })
         }
+        else {
+            fetch(`http://localhost:5000/user`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ id: Math.random(), login: this.state.login, password: this.state.password})
+                })
+                .then(function() { window.location.href = "/" })
+         }
     }
     changeLogin = (e) => {
         this.setState({ login: e.target.value })
