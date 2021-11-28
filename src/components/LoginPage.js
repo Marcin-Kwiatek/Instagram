@@ -42,7 +42,7 @@ class LoginPage extends Component {
                     <img src={require("../img/logo.png").default}></img>
                 </div>
                 <input placeholder="Login" className="input" maxLength="20" type="text" onChange={this.changeLogin}></input>
-                <input placeholder="Hasło" className="input" maxLength="20" type="text" onChange={this.changePassword}></input>
+                <input placeholder="Hasło" className="input" maxLength="20" type="password" onChange={this.changePassword}></input>
                 <button className="submitButton" onClick={this.Login}>Zaloguj się</button>
                 <div className="err">{this.state.err}</div>
                 <div className="text">Nie masz konta? <Link className='link' to='/SignUp'>Zarejestruj się</Link>

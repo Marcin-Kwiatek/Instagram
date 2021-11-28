@@ -41,7 +41,7 @@ class SignUp extends Component {
                     <img src={require("../img/logo.png").default}></img>
                 </div>
                 <input placeholder="Login" className="input" onChange={this.changeLogin}></input>
-                <input placeholder="Hasło" className="input" onChange={this.changePassword}></input>
+                <input placeholder="Hasło" className="input" onChange={this.changePassword} type="password"></input>
                 <button className="submitButton" onClick={this.SignUp}>Sign Up</button>
                 <div className="err">{this.state.err}</div>
                 <div className="text">Masz już konto? <Link className='link' to='/SignIn'>Zaloguj się</Link></div>
