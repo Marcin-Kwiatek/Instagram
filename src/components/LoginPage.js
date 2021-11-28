@@ -9,10 +9,18 @@ class LoginPage extends Component {
         err: ''
     }
     Login = () => {
-        console.log(this.state.login, this.state.password)
         if (this.state.login === "" || this.state.password === "") {
             this.setState({ err: 'Nie poprawna wartość login lub hasło' })
         }
+        else {
+            fetch(`http://localhost:5000/signIn`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ login: this.state.login, password: this.state.password})
+                })
+         }
     }
     changeLogin = (e) => {
         this.setState({ login: e.target.value })

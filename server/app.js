@@ -15,4 +15,10 @@ app.post('/user', function(request, response) {
     const result = db.insertUser(request.body)
     response.sendStatus(200)
 })
+app.post('/signIn', async function(request, response) {
+    const db = dbService.getDbServiceInstance()
+    const result = await db.selectUser(request.body)
+    if (result === null) { response.sendStatus(404) } else response.sendStatus(200)
+    console.log(result)
+})
 app.listen(process.env.PORT, function() { console.log('app is running') })
