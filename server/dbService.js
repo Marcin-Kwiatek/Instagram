@@ -18,13 +18,6 @@ connection.connect((err) => {
     console.log('db ' + connection.state)
 })
 
-connection.connect((err) => {
-    if (err) {
-        console.log(err.message)
-    }
-    console.log('db ' + connection.state)
-})
-
 class DbService {
     static getDbServiceInstance() {
         return instance ? instance : new DbService()
