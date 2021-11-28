@@ -26,19 +26,19 @@ class DbService {
         try {
             const responseAddUser = await new Promise((resolve, reject) => {
                 const queryAddUser = "INSERT INTO users (id, login, password) " +
-                    `VALUES ('` + user.id + `','` + user.login + `','` + user.password + ` )`
+                    `VALUES ('` + user.id + `','` + user.login + `','` + user.password + `' )`
                 console.log(queryAddUser)
                 connection.query(queryAddUser, (err, results) => {
                     if (err) reject(new Error(err.message))
                     resolve(results)
-
                 })
             })
             return responseAddUser
         } catch (error) {
-            console.log(error)
+            console.error(error)
         }
     }
+
 }
 
 module.exports = DbService

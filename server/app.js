@@ -12,7 +12,7 @@ app.use(express.urlencoded({ extended: false }))
 
 app.post('/user', function(request, response) {
     const db = dbService.getDbServiceInstance()
-    const result = db.insertUser(request.body, )
-    response.json({ status: 200, })
+    const result = db.insertUser(request.body)
+    response.sendStatus(200)
 })
 app.listen(process.env.PORT, function() { console.log('app is running') })
