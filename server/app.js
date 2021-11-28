@@ -27,4 +27,22 @@ app.post('/signIn', async function(request, response) {
     }
     console.log(result)
 })
+app.get('/currentUser/posts', authenticateJwt, function(request, response) {
+    console.log(request.currentUserId)
+})
+
+function authenticateJwt(request, response, next) {
+    if (!request.headers.authorization) {
+        response.sendStatus(401)
+        return
+    }
+    jwt.verify(request.headers.authorization, process.env.ACCESS_TOKEN_SECRET, (err, result) => {
+        if (err) {
+            response.sendStatus(403)
+            return
+        }
+        request.currentUserId = result.currentUserId
+        next()
+    })
+}
 app.listen(process.env.PORT, function() { console.log('app is running') })
