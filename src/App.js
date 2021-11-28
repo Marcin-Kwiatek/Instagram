@@ -7,6 +7,7 @@ import {
 } from "react-router-dom";
 import SignUp from './components/SignUp';
 import LoginPage from './components/LoginPage';
+import MainPage from './components/MainPage';
 
 
 class App extends Component {
@@ -14,11 +15,14 @@ class App extends Component {
   return (
     <Router>    
       <Switch>
-          <Route exact path='/'>
+          <Route exact path='/SignIn'>
               <LoginPage></LoginPage>
           </Route>
           <Route exact path='/SignUp'>
               <SignUp></SignUp>
+          </Route>
+          <Route exact path='/'>
+              <MainPage></MainPage>
           </Route>
       </Switch>
   </Router>

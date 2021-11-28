@@ -44,7 +44,7 @@ class SignUp extends Component {
                 <input placeholder="Hasło" className="input" onChange={this.changePassword}></input>
                 <button className="submitButton" onClick={this.SignUp}>Sign Up</button>
                 <div className="err">{this.state.err}</div>
-                <div className="text">Masz już konto? <Link className='link' to='/'>Zaloguj się</Link></div>
+                <div className="text">Masz już konto? <Link className='link' to='/SignIn'>Zaloguj się</Link></div>
             </div>
         )
     }
