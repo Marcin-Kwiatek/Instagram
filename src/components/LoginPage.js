@@ -20,11 +20,14 @@ class LoginPage extends Component {
                 },
                 body: JSON.stringify({ login: this.state.login, password: this.state.password })
             })
-                .then((a) => {
-                    if (a.status === 404) {
+                .then((response) => {
+                    if (response.status === 404) {
                         this.setState({ err: 'Nie znaleziono użytkownika o podanym loginie lub haśle' })
                     } else {
-                        window.location.href = '/'
+                        response.json().then(data => {
+                            localStorage.setItem('accessToken', data.accessToken);
+                            window.location.href = '/'
+                        })
                     }
                 })
         }
