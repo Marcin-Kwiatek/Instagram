@@ -1,4 +1,9 @@
 import React,{Component} from 'react';
+import { AiFillHome } from "react-icons/ai";
+import { BsFillPersonFill } from "react-icons/bs";
+import {Link} from "react-router-dom";
+import './MainPage.css';
+
 
 class MainPage extends Component {
   componentDidMount(){
@@ -12,8 +17,19 @@ class MainPage extends Component {
          }
   render(){
   return (
-    <div>ta strona</div>
-  )
+    <>
+    <div className="logo">
+      <div className="logoContainer">
+        <div className="imgLogo">
+          <Link to='/'><img src={require("../img/logo.png").default}></img></Link>
+        </div>
+        <div className="icons">
+        <Link className='iconLink' to='/'><div className="oneIcon"><AiFillHome></AiFillHome></div></Link>
+        <Link className='iconLink' to='/myProfile'><div className="oneIcon"><BsFillPersonFill></BsFillPersonFill></div></Link>
+        </div>
+      </div>
+    </div>
+  </>  )
   }
 }
 

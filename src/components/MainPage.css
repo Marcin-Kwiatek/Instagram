@@ -1,0 +1,42 @@
+.logo {
+    height: 30px;
+    border: solid 1px rgba(var(--b6a, 219, 219, 219), 1);
+    padding-top: 20px;
+    background-color: white;
+}
+
+.imgLogo {
+    width: 50%;
+    min-width: 360px;
+    height: 36px;
+}
+
+.imgLogo img {
+    max-height: 100%;
+    max-width: 100%;
+    cursor: pointer;
+}
+
+.logoContainer {
+    max-width: 975px;
+    width: 100%;
+    margin-left: auto;
+    margin-right: auto;
+    display: flex;
+}
+
+.icons {
+    display: flex;
+    justify-content: flex-end;
+    font-size: 30px;
+    width: 50%;
+}
+
+.oneIcon {
+    margin-right: 20px;
+    cursor: pointer;
+}
+
+.iconLink {
+    color: black;
+}
