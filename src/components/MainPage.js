@@ -23,6 +23,7 @@ class MainPage extends Component {
         <div className="imgLogo">
           <Link to='/'><img src={require("../img/logo.png").default}></img></Link>
         </div>
+        <input type='text' placeholder="Szukaj" className="searchUserInput"></input>
         <div className="icons">
         <Link className='iconLink' to='/'><div className="oneIcon"><AiFillHome></AiFillHome></div></Link>
         <Link className='iconLink' to='/myProfile'><div className="oneIcon"><BsFillPersonFill></BsFillPersonFill></div></Link>
