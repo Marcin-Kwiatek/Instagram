@@ -1,6 +1,12 @@
 import './FormFields.css';
 import React, { Component } from 'react';
 import { Link } from "react-router-dom";
+import { useHistory } from "react-router-dom";
+
+function EnhanceLoginPageWithHistory(props){
+    const history = useHistory()
+    return <LoginPage history={history} {...props}></LoginPage>
+}
 
 class LoginPage extends Component {
     state = {
@@ -26,7 +32,7 @@ class LoginPage extends Component {
                     } else {
                         response.json().then(data => {
                             localStorage.setItem('accessToken', data.accessToken);
-                            window.location.href = '/'
+                            this.props.history.push("/");
                         })
                     }
                 })
@@ -55,4 +61,4 @@ class LoginPage extends Component {
     }
 }
 
-export default LoginPage;
+export default EnhanceLoginPageWithHistory;
