@@ -12,23 +12,20 @@ class MainPage extends Component {
   changeSearchUser = (e) => {
     this.searchUser(e.target.value)
 }
-  searchUser = (value) => {
-    fetch(`http://localhost:5000/searchUser`, {
+  searchUser = async (value) => {
+    let response = await fetch(`http://localhost:5000/searchUser`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
                 },
                 body: JSON.stringify({ login: value})
             })
-            .then((response) => {
-              if (response.status === 404) {
-              } else {
-                let responseJson = response.json()
-                responseJson.then((result) => {
-                  this.setState({searchUsers: result.users})
-                })
-              }
-          })
+            if (response.status === 404) {
+            } else {
+              let responseJson = response.json()
+              let result = await responseJson 
+              this.setState({searchUsers: result.users})
+            }
   }
   componentDidMount(){
     fetch(`http://localhost:5000/currentUser/posts`, {
