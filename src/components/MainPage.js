@@ -7,10 +7,9 @@ import './MainPage.css';
 
 class MainPage extends Component {
   state = {
-    returnUser: ''
+    searchUsers: []
   }
   changeSearchUser = (e) => {
-    console.log('targetValue', e.target.value)
     this.searchUser(e.target.value)
 }
   searchUser = (value) => {
@@ -24,8 +23,10 @@ class MainPage extends Component {
             .then((response) => {
               if (response.status === 404) {
               } else {
-                console.log('value', value)
-                  this.setState({returnUser: value})
+                let responseJson = response.json()
+                responseJson.then((result) => {
+                  this.setState({searchUsers: result.users})
+                })
               }
           })
   }
@@ -53,7 +54,7 @@ class MainPage extends Component {
         </div>
       </div>
     </div>
-    <div className="posts">{this.state.returnUser}</div>
+    <div className="posts">{this.state.searchUsers.map(user => <div key={user.id}>{user.login}</div>)}</div>
   </>  )
   }
 }
