@@ -53,6 +53,21 @@ class DbService {
             console.error(error)
         }
     }
+    async searchUser(user) {
+        try {
+            const responseSearchUser = await new Promise((resolve, reject) => {
+                const querySearchUser = `SELECT login, id FROM users WHERE login LIKE '${user.login}%'`
+                console.log(querySearchUser)
+                connection.query(querySearchUser, (err, results) => {
+                    if (err) reject(new Error(err.message))
+                    resolve(results)
+                })
+            })
+            if (responseSearchUser.length === 0) { return null } else return responseSearchUser
+        } catch (error) {
+            console.error(error)
+        }
+    }
 
 }
 

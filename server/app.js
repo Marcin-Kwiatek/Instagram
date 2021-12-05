@@ -27,6 +27,16 @@ app.post('/signIn', async function(request, response) {
     }
     console.log(result)
 })
+app.post('/searchUser', async function(request, response) {
+    const db = dbService.getDbServiceInstance()
+    const result = await db.searchUser(request.body)
+    if (result === null) {
+        response.sendStatus(404)
+    } else {
+        response.status(200).json({ users: result })
+    }
+    console.log(result)
+})
 app.get('/currentUser/posts', authenticateJwt, function(request, response) {
     console.log(request.currentUserId)
 })
