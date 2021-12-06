@@ -50,8 +50,9 @@ class MainPage extends Component {
         <Link className='iconLink' to='/myProfile'><div className="oneIcon"><BsFillPersonFill></BsFillPersonFill></div></Link>
         </div>
       </div>
+      <div className='proptedUsersContainer'>{this.state.searchUsers.map(user => <div className="proptedUsers" key={user.id}>{user.login}</div>)}</div>
     </div>
-    <div className="posts">{this.state.searchUsers.map(user => <div key={user.id}>{user.login}</div>)}</div>
+    <div className="posts"></div>
   </>  )
   }
 }

@@ -52,3 +52,19 @@
     font-weight: 300;
     padding: 0 12px;
 }
+.proptedUsers{
+    cursor: pointer;
+    padding: 12px;
+    background: rgba(var(--d87,255,255,255),1);
+    border: 1px solid lightgray;
+
+
+}
+.proptedUsersContainer{
+    border-radius: 6px;
+    width: 375px;
+    height: 20px;
+    margin-left: auto;
+    margin-right: auto;
+
+}
