@@ -1,8 +1,12 @@
 import './FormFields.css';
 import React, { Component } from 'react';
 import { Link } from "react-router-dom";
+import { useHistory } from "react-router-dom";
 
-
+function EnhanceSignUpWithHistory(props){
+    const history = useHistory()
+    return <SignUp history={history} {...props}></SignUp>
+}
 class SignUp extends Component {
     constructor(props){
         super(props)
@@ -25,8 +29,8 @@ class SignUp extends Component {
                     },
                     body: JSON.stringify({ id: Math.random(), login: this.state.login, password: this.state.password})
                 })
-                .then(function() { window.location.href = "/" })
-         }
+                this.props.history.push("/SignIn");
+            }
     }
     changeLogin = (e) => {
         this.setState({ login: e.target.value })
@@ -51,4 +55,4 @@ class SignUp extends Component {
 
 }
 
-export default SignUp;
+export default EnhanceSignUpWithHistory;
