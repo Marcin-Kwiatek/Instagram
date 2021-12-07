@@ -12,6 +12,9 @@ class MainPage extends Component {
   changeSearchUser = (e) => {
     this.searchUser(e.target.value)
 }
+resetSearchUser = () => {
+  this.setState({searchUsers: []})
+}
   searchUser = async (value) => {
     let response = await fetch(`http://localhost:5000/searchUser`, {
                 method: 'POST',
@@ -38,23 +41,23 @@ class MainPage extends Component {
          }
   render(){
   return (
-    <>
-    <div className="logo">
-      <div className="logoContainer">
-        <div className="imgLogo">
-          <Link to='/'><img src={require("../img/logo.png").default}></img></Link>
+    <div onClick={this.resetSearchUser}>
+      <div className="logo">
+        <div className="logoContainer">
+          <div className="imgLogo">
+            <Link to='/'><img src={require("../img/logo.png").default}></img></Link>
+          </div>
+          <input type='text' placeholder="Szukaj" className="searchUserInput" onChange={this.changeSearchUser}></input>
+          <div className="icons">
+          <Link className='iconLink' to='/'><div className="oneIcon"><AiFillHome></AiFillHome></div></Link>
+          <Link className='iconLink' to='/myProfile'><div className="oneIcon"><BsFillPersonFill></BsFillPersonFill></div></Link>
+          </div>
         </div>
-        <input type='text' placeholder="Szukaj" className="searchUserInput" onChange={this.changeSearchUser}></input>
-        <div className="icons">
-        <Link className='iconLink' to='/'><div className="oneIcon"><AiFillHome></AiFillHome></div></Link>
-        <Link className='iconLink' to='/myProfile'><div className="oneIcon"><BsFillPersonFill></BsFillPersonFill></div></Link>
-        </div>
+        <div className='proptedUsersContainer'>{this.state.searchUsers.slice(0,5).map(user => <div className="proptedUsers" key={user.id}>{user.login}</div>)}</div>
       </div>
-      <div className='proptedUsersContainer'>{this.state.searchUsers.slice(0,5).map(user => <div className="proptedUsers" key={user.id}>{user.login}</div>)}</div>
-    </div>
-    <div className="posts"></div>
-  </>  )
-  }
+      <div className="posts"></div>
+  </div>  
+  )}
 }
 
 export default MainPage;
