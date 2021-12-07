@@ -27,6 +27,16 @@ app.post('/signIn', async function(request, response) {
     }
     console.log(result)
 })
+app.post('/signUp', async function(request, response) {
+    const db = dbService.getDbServiceInstance()
+    const result = await db.selectSignUp(request.body)
+    if (result === null) {
+        response.sendStatus(200)
+    } else {
+        response.sendStatus(404)
+    }
+    console.log(result)
+})
 app.post('/searchUser', async function(request, response) {
     const db = dbService.getDbServiceInstance()
     const result = await db.searchUser(request.body)

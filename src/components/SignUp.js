@@ -22,15 +22,29 @@ class SignUp extends Component {
             this.setState({ err: 'Nie poprawna wartość login lub hasło' })
         }
         else {
-            fetch(`http://localhost:5000/user`, {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify({ id: Math.random(), login: this.state.login, password: this.state.password})
+            fetch(`http://localhost:5000/signUp`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ login: this.state.login, password: this.state.password })
+            })
+                .then((response) => {
+                    if (response.status === 404) {
+                        this.setState({ err: 'Ten login jest już zajęty' })
+                    } else {
+                        fetch(`http://localhost:5000/user`, {
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/json'
+                            },
+                            body: JSON.stringify({ id: Math.random(), login: this.state.login, password: this.state.password})
+                        })
+                        this.props.history.push("/SignIn");
+                    }
                 })
-                this.props.history.push("/SignIn");
-            }
+
+        }
     }
     changeLogin = (e) => {
         this.setState({ login: e.target.value })
