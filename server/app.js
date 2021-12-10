@@ -16,6 +16,11 @@ app.post('/user', function(request, response) {
     const result = db.insertUser(request.body)
     response.sendStatus(200)
 })
+app.post('/addPost', function(request, response) {
+    const db = dbService.getDbServiceInstance()
+    const result = db.insertPost(request.body)
+    response.sendStatus(200)
+})
 app.post('/signIn', async function(request, response) {
     const db = dbService.getDbServiceInstance()
     const result = await db.selectUser(request.body)

@@ -10,7 +10,7 @@ class MainPage extends Component {
     searchUsers: [],
     visibiltyAddPost: false,
     addPostText: '',
-    err:''
+    err: ''
   }
   changeSearchUser = (e) => {
     this.searchUser(e.target.value)
@@ -31,6 +31,15 @@ class MainPage extends Component {
   approvalOfAddingAPost = () => {
     if (this.state.addPostText === "") {
       this.setState({ err: 'Pole nie może być puste' })
+    }
+    else {
+      fetch(`http://localhost:5000/addPost`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ id: Math.random(), text: this.state.addPostText })
+      })
     }
   }
 

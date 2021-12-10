@@ -38,6 +38,22 @@ class DbService {
             console.error(error)
         }
     }
+    async insertPost(post) {
+        try {
+            const responseAddPost = await new Promise((resolve, reject) => {
+                const queryAddPost = "INSERT INTO posts (id, text) " +
+                    `VALUES ('` + post.id + `','` + post.text +`' )`
+                console.log(queryAddPost)
+                connection.query(queryAddPost, (err, results) => {
+                    if (err) reject(new Error(err.message))
+                    resolve(results)
+                })
+            })
+            return responseAddPost
+        } catch (error) {
+            console.error(error)
+        }
+    }
     async selectUser(user) {
         try {
             const responseSelectUser = await new Promise((resolve, reject) => {
