@@ -9,13 +9,14 @@ class MainPage extends Component {
   state = {
     searchUsers: [],
     visibiltyAddPost: false,
-    addPostText: ''
+    addPostText: '',
+    err:''
   }
   changeSearchUser = (e) => {
     this.searchUser(e.target.value)
   }
   changeAddPostText = (e) => {
-    this.setState({addPostText: e.target.value})
+    this.setState({ addPostText: e.target.value })
   }
   resetSearchUser = () => {
     this.setState({ searchUsers: [] })
@@ -25,9 +26,12 @@ class MainPage extends Component {
   }
   cancelAddPost = () => {
     this.setState({ visibiltyAddPost: false })
+    this.setState({ err: '' })
   }
   approvalOfAddingAPost = () => {
-    console.log(this.state.addPostText)
+    if (this.state.addPostText === "") {
+      this.setState({ err: 'Pole nie może być puste' })
+    }
   }
 
   searchUser = async (value) => {
@@ -76,6 +80,7 @@ class MainPage extends Component {
             <div className='addText' ><input onChange={this.changeAddPostText} type='text' placeholder='enter your post content'></input></div>
             <button onClick={this.cancelAddPost}>Cancel</button>
             <button onClick={this.approvalOfAddingAPost}>Add Post</button>
+            <div className="err">{this.state.err}</div>
           </div>
         }
 
