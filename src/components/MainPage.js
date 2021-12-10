@@ -3,7 +3,13 @@ import { AiFillHome } from "react-icons/ai";
 import { BsFillPersonFill, BsPlusSquare } from "react-icons/bs";
 import { Link } from "react-router-dom";
 import './MainPage.css';
+import { useHistory } from "react-router-dom";
 
+
+function EnhanceMainPageHistory(props) {
+  const history = useHistory()
+  return <MainPage history={history} {...props}></MainPage>
+}
 
 class MainPage extends Component {
   state = {
@@ -40,6 +46,7 @@ class MainPage extends Component {
         },
         body: JSON.stringify({ id: Math.random(), text: this.state.addPostText })
       })
+      this.setState({visibiltyAddPost: false})
     }
   }
 
@@ -99,4 +106,4 @@ class MainPage extends Component {
   }
 }
 
-export default MainPage;
+export default EnhanceMainPageHistory;
