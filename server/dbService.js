@@ -87,7 +87,7 @@ class DbService {
     async searchUser(user) {
         try {
             const responseSearchUser = await new Promise((resolve, reject) => {
-                const querySearchUser = `SELECT login, id FROM users WHERE login LIKE '${user.login}%'`
+                const querySearchUser = `SELECT login, id FROM users WHERE login LIKE '${user.login}%' LIMIT 5`
                 console.log(querySearchUser)
                 connection.query(querySearchUser, (err, results) => {
                     if (err) reject(new Error(err.message))
