@@ -21,14 +21,14 @@ class Navbar extends Component {
     resetSearchUser = () => {
         this.setState({ searchUsers: [] })
     }
-    addPost = () => {
+    showPostForm = () => {
         this.setState({ visibiltyAddPost: true })
     }
     cancelAddPost = () => {
         this.setState({ visibiltyAddPost: false })
         this.setState({ err: '' })
     }
-    approvalOfAddingAPost = () => {
+    addPost = () => {
         if (this.state.addPostText === "") {
             this.setState({ err: 'Pole nie może być puste' })
         }
@@ -70,7 +70,7 @@ class Navbar extends Component {
                         <input type='text' placeholder="Szukaj" className="searchUserInput" onChange={this.changeSearchUser}></input>
                         <div className="icons">
                             <Link className='iconLink' to='/'><div className="oneIcon"><AiFillHome></AiFillHome></div></Link>
-                            <div className='oneIcon' onClick={this.addPost}><BsPlusSquare ></BsPlusSquare></div>
+                            <div className='oneIcon' onClick={this.showPostForm}><BsPlusSquare ></BsPlusSquare></div>
                             <Link className='iconLink' to='/myProfile'><div className="oneIcon"><BsFillPersonFill></BsFillPersonFill></div></Link>
                         </div>
                     </div>
@@ -80,7 +80,7 @@ class Navbar extends Component {
                     <div className='addPostContainer'>
                         <div className='addText' ><input onChange={this.changeAddPostText} type='text' placeholder='enter your post content'></input></div>
                         <button onClick={this.cancelAddPost}>Cancel</button>
-                        <button onClick={this.approvalOfAddingAPost}>Add Post</button>
+                        <button onClick={this.addPost}>Add Post</button>
                         <div className="err">{this.state.err}</div>
                     </div>
                 }
