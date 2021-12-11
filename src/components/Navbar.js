@@ -3,20 +3,15 @@ import './Navbar.css';
 import { Link } from "react-router-dom";
 import { AiFillHome } from "react-icons/ai";
 import { BsFillPersonFill, BsPlusSquare } from "react-icons/bs";
-
+import AddPost from './AddPost';
 
 class Navbar extends Component {
     state = {
         searchUsers: [],
-        visibiltyAddPost: false,
-        addPostText: '',
-        err: ''
+        visibiltyAddPost: false
     }
     changeSearchUser = (e) => {
         this.searchUser(e.target.value)
-    }
-    changeAddPostText = (e) => {
-        this.setState({ addPostText: e.target.value })
     }
     resetSearchUser = () => {
         this.setState({ searchUsers: [] })
@@ -24,25 +19,10 @@ class Navbar extends Component {
     showPostForm = () => {
         this.setState({ visibiltyAddPost: true })
     }
-    cancelAddPost = () => {
+    hidePostForm = () => {
         this.setState({ visibiltyAddPost: false })
-        this.setState({ err: '' })
     }
-    addPost = () => {
-        if (this.state.addPostText === "") {
-            this.setState({ err: 'Pole nie może być puste' })
-        }
-        else {
-            fetch(`http://localhost:5000/addPost`, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({ id: Math.random(), text: this.state.addPostText })
-            })
-            this.setState({ visibiltyAddPost: false })
-        }
-    }
+    
     searchUser = async (value) => {
         let response = await fetch(`http://localhost:5000/searchUser`, {
             method: 'POST',
@@ -77,12 +57,7 @@ class Navbar extends Component {
                     <div className='proptedUsersContainer'>{this.state.searchUsers.slice(0, 5).map(user => <div className="proptedUsers" key={user.id}>{user.login}</div>)}</div>
                 </div>
                 {this.state.visibiltyAddPost &&
-                    <div className='addPostContainer'>
-                        <div className='addText' ><input onChange={this.changeAddPostText} type='text' placeholder='enter your post content'></input></div>
-                        <button onClick={this.cancelAddPost}>Cancel</button>
-                        <button onClick={this.addPost}>Add Post</button>
-                        <div className="err">{this.state.err}</div>
-                    </div>
+                    <AddPost cancelAddPost={this.hidePostForm} onPostAdded={this.hidePostForm}></AddPost>
                 }
             </div>
         )

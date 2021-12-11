@@ -1,0 +1,10 @@
+.addPostContainer{
+    position: absolute;
+    width: 50%;
+    left: 25%;
+    background-color: #fff;
+}
+.addText{
+    text-align: center;
+    padding: 40px;
+}
