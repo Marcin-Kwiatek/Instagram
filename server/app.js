@@ -11,12 +11,12 @@ app.use(cors())
 app.use(express.json())
 app.use(express.urlencoded({ extended: false }))
 
-app.post('/user', function(request, response) {
+app.post('/user', function (request, response) {
     const db = dbService.getDbServiceInstance()
     const result = db.insertUser(request.body)
     response.sendStatus(200)
 })
-app.post('/addPost', function(request, response) {
+app.post('/addPost', function (request, response) {
     const db = dbService.getDbServiceInstance()
     const result = db.insertPost(request.body)
     response.sendStatus(200)
@@ -32,7 +32,7 @@ app.post('/signIn', async function (request, response) {
     }
     console.log(id)
 })
-app.post('/signUp', async function(request, response) {
+app.post('/signUp', async function (request, response) {
     const db = dbService.getDbServiceInstance()
     const result = await db.selectSignUp(request.body)
     if (result === null) {
@@ -42,7 +42,7 @@ app.post('/signUp', async function(request, response) {
     }
     console.log(result)
 })
-app.post('/searchUser', async function(request, response) {
+app.post('/searchUser', async function (request, response) {
     const db = dbService.getDbServiceInstance()
     const result = await db.searchUser(request.body)
     if (result === null) {
@@ -52,7 +52,7 @@ app.post('/searchUser', async function(request, response) {
     }
     console.log(result)
 })
-app.get('/currentUser/posts', authenticateJwt, function(request, response) {
+app.get('/currentUser/posts', authenticateJwt, function (request, response) {
     console.log(request.currentUserId)
 })
 
@@ -70,4 +70,4 @@ function authenticateJwt(request, response, next) {
         next()
     })
 }
-app.listen(process.env.PORT, function() { console.log('app is running') })
+app.listen(process.env.PORT, function () { console.log('app is running') })
