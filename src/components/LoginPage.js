@@ -32,6 +32,7 @@ class LoginPage extends Component {
                     } else {
                         response.json().then(data => {
                             localStorage.setItem('accessToken', data.accessToken);
+                            localStorage.setItem('currentUserId', data.userId);
                             this.props.history.push("/");
                         })
                     }

@@ -21,16 +21,16 @@ app.post('/addPost', function(request, response) {
     const result = db.insertPost(request.body)
     response.sendStatus(200)
 })
-app.post('/signIn', async function(request, response) {
+app.post('/signIn', async function (request, response) {
     const db = dbService.getDbServiceInstance()
-    const result = await db.selectUser(request.body)
-    if (result === null) {
+    const id = await db.getUserId(request.body)
+    if (id === null) {
         response.sendStatus(404)
     } else {
-        let accessToken = jwt.sign({ currentUserId: result }, process.env.ACCESS_TOKEN_SECRET)
-        response.status(200).json({ accessToken })
+        let accessToken = jwt.sign({ currentUserId: id }, process.env.ACCESS_TOKEN_SECRET)
+        response.status(200).json({ accessToken, userId: id })
     }
-    console.log(result)
+    console.log(id)
 })
 app.post('/signUp', async function(request, response) {
     const db = dbService.getDbServiceInstance()

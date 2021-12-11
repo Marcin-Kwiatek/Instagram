@@ -54,7 +54,7 @@ class DbService {
             console.error(error)
         }
     }
-    async selectUser(user) {
+    async getUserId(user) {
         try {
             const responseSelectUser = await new Promise((resolve, reject) => {
                 const querySelectUser = `SELECT id FROM users WHERE login = '${user.login}' and password = '${user.password}' `
@@ -64,7 +64,11 @@ class DbService {
                     resolve(results)
                 })
             })
-            if (responseSelectUser.length === 0) { return null } else return responseSelectUser[0].id
+            if (responseSelectUser.length === 0) {
+                return null 
+            } else{ 
+                return responseSelectUser[0].id
+            }
         } catch (error) {
             console.error(error)
         }
