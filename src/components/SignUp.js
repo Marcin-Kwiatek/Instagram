@@ -2,6 +2,7 @@ import './FormFields.css';
 import React, { Component } from 'react';
 import { Link } from "react-router-dom";
 import { useHistory } from "react-router-dom";
+import generateId from '../utils/generateId';
 
 function EnhanceSignUpWithHistory(props){
     const history = useHistory()
@@ -38,7 +39,7 @@ class SignUp extends Component {
                             headers: {
                                 'Content-Type': 'application/json'
                             },
-                            body: JSON.stringify({ id: Math.random(), login: this.state.login, password: this.state.password})
+                            body: JSON.stringify({ id: generateId(), login: this.state.login, password: this.state.password})
                         })
                         this.props.history.push("/SignIn");
                     }

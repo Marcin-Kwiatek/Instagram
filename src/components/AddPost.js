@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import './AddPost.css';
+import generateId from '../utils/generateId';
 
 
 class AddPost extends Component {
@@ -24,7 +25,7 @@ class AddPost extends Component {
                 headers: {
                     'Content-Type': 'application/json'
                 },
-                body: JSON.stringify({ id: Math.random(), text: this.state.addPostText })
+                body: JSON.stringify({ id: generateId(), text: this.state.addPostText })
             }).then(() => {this.props.onPostAdded()})
             .catch((err) => {console.error(err)})
         }
