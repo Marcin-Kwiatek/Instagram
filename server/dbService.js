@@ -41,8 +41,8 @@ class DbService {
     async insertPost(post) {
         try {
             const responseAddPost = await new Promise((resolve, reject) => {
-                const queryAddPost = "INSERT INTO posts (id, text) " +
-                    `VALUES ('` + post.id + `','` + post.text +`' )`
+                const queryAddPost = "INSERT INTO posts (id, text, postAuthorId) " +
+                    `VALUES ('` + post.id + `','` + post.text + `','` + post.postAuthorId + `' )`
                 console.log(queryAddPost)
                 connection.query(queryAddPost, (err, results) => {
                     if (err) reject(new Error(err.message))
@@ -65,8 +65,8 @@ class DbService {
                 })
             })
             if (responseSelectUser.length === 0) {
-                return null 
-            } else{ 
+                return null
+            } else {
                 return responseSelectUser[0].id
             }
         } catch (error) {

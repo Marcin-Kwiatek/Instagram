@@ -6,7 +6,12 @@ import generateId from '../utils/generateId';
 class AddPost extends Component {
     state = {
         addPostText: '',
-        err: ''
+        err: '',
+        currentUserId: ''
+    }
+    componentDidMount(){
+        const currentUserId = localStorage.getItem("currentUserId")
+        this.setState({currentUserId:currentUserId})
     }
     changeAddPostText = (e) => {
         this.setState({ addPostText: e.target.value })
@@ -25,7 +30,7 @@ class AddPost extends Component {
                 headers: {
                     'Content-Type': 'application/json'
                 },
-                body: JSON.stringify({ id: generateId(), text: this.state.addPostText })
+                body: JSON.stringify({ id: generateId(), text: this.state.addPostText, postAuthorId: this.state.currentUserId })
             }).then(() => {this.props.onPostAdded()})
             .catch((err) => {console.error(err)})
         }
