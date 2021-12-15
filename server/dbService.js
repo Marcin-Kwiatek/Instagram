@@ -38,6 +38,21 @@ class DbService {
             console.error(error)
         }
     }
+    async getPosts(idAuthor) {
+        try {
+            const responseGetPosts = await new Promise((resolve, reject) => {
+                const queryGetPosts = "SELECT * FROM posts WHERE postAuthorId = '" + idAuthor + "'"
+                console.log(queryGetPosts)
+                connection.query(queryGetPosts, (err, results) => {
+                    if (err) reject(new Error(err.message))
+                    resolve(results)
+                })
+            })
+            return responseGetPosts
+        } catch (error) {
+            console.log(error)
+        }
+    }
     async insertPost(post) {
         try {
             const responseAddPost = await new Promise((resolve, reject) => {

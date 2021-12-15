@@ -16,6 +16,17 @@ app.post('/user', function (request, response) {
     const result = db.insertUser(request.body)
     response.sendStatus(200)
 })
+app.get('/userId', function(request, response) {
+    console.log(request.query.id)
+    let idAuthor = request.query.id
+    const db = dbService.getDbServiceInstance()
+    const result = db.getPosts(idAuthor)
+    result
+        .then(data => {
+            response.json({ data: data })
+        })
+        .catch(err => console.log(err))
+})
 app.post('/addPost', function (request, response) {
     const db = dbService.getDbServiceInstance()
     const result = db.insertPost(request.body)

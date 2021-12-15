@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import Navbar from './Navbar';
+import ProfilePosts from './ProfilePosts';
 
 
 class MyProfile extends Component {
@@ -9,6 +10,7 @@ class MyProfile extends Component {
         return (
             <div>
                 <Navbar></Navbar>
+                <ProfilePosts></ProfilePosts>
             </div>
         )
     }
