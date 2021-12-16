@@ -1,18 +1,19 @@
 import React, { Component } from 'react';
 import Navbar from './Navbar';
-import MyProfilePosts from './MyProfilePosts';
+import ProfilePosts from './ProfilePosts';
 
-class MyProfile extends Component {
+
+class Profile extends Component {
     
     render() {
 
         return (
             <div>
                 <Navbar></Navbar>
-                <MyProfilePosts></MyProfilePosts>
+                <ProfilePosts></ProfilePosts>
             </div>
         )
     }
 }
 
-export default MyProfile;
+export default Profile;

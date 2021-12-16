@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import ClickAwayListener from 'react-click-away-listener';
 import './SearchUser.css';
+import { Link } from "react-router-dom";
 
 
 class SearchUser extends Component {
@@ -28,13 +29,17 @@ class SearchUser extends Component {
     hideProptedUsers = () => {
         this.setState({ searchUsers: [] })
     }
+    changeFokusUser = (id) => {
+        localStorage.setItem('focusUserId', id);
+    }
     render() {
 
         return (
             <ClickAwayListener onClickAway={this.hideProptedUsers}>
                 <div>
                     <input type='text' placeholder="Szukaj" className="searchUserInput" onChange={this.changeSearchUser}></input>
-                    <div className='proptedUsersContainer'>{this.state.searchUsers.map(user => <div className="proptedUsers" key={user.id}>{user.login}</div>)}</div>
+                    <div className='proptedUsersContainer'>{this.state.searchUsers.map(user => <Link to='Profile' className='proptedLink'>
+                        <div onClick={this.changeFokusUser(user.id)} className="proptedUsers" key={user.id}>{user.login}</div></Link>)}</div>
                 </div>
             </ClickAwayListener>
         )

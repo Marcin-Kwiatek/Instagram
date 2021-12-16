@@ -9,6 +9,7 @@ import SignUp from './components/SignUp';
 import LoginPage from './components/LoginPage';
 import MainPage from './components/MainPage';
 import MyProfile from './components/MyProfile';
+import Profile from './components/Profile';
 
 
 class App extends Component {
@@ -27,6 +28,9 @@ class App extends Component {
           </Route>
           <Route exact path='/myProfile'>
               <MyProfile></MyProfile>
+          </Route>
+          <Route exact path='/Profile'>
+              <Profile></Profile>
           </Route>
       </Switch>
   </Router>

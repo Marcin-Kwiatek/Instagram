@@ -2,14 +2,14 @@ import React, { Component } from 'react';
 import './ProfilePosts.css';
 
 
-class ProfilePosts extends Component {
+class MyProfilePosts extends Component {
 
     state = {
         posts: []
     }
     componentDidMount() {
-        const userId = localStorage.getItem("focusUserId")
-        fetch(`http://localhost:5000/userId?id=${userId}`, {})
+        const currentUserId = localStorage.getItem("currentUserId")
+        fetch(`http://localhost:5000/userId?id=${currentUserId}`, {})
             .then(function (response) { return response.json() })
             .then((data) => {
                 let posts = data.data
@@ -31,4 +31,4 @@ class ProfilePosts extends Component {
 
 }
 
-export default ProfilePosts;
+export default MyProfilePosts;
