@@ -1,4 +1,6 @@
 import React, { Component } from 'react';
+import './ProfilePosts.css';
+
 
 class ProfilePosts extends Component {
     
@@ -17,9 +19,9 @@ class ProfilePosts extends Component {
     }
     render() {
         return (
-            <div>
+            <div className='postsContainer'>
                 {this.state.posts.map(posts => 
-                    <div key={posts.id}>
+                    <div className='onePost' key={posts.id}>
                         {posts.text}
                     </div>
                 )}
