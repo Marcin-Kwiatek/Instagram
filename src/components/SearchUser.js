@@ -31,6 +31,7 @@ class SearchUser extends Component {
     }
     changeFokusUser = (id) => {
         localStorage.setItem('focusUserId', id);
+        window.location.href = '/Profile'
     }
     render() {
 
@@ -38,8 +39,8 @@ class SearchUser extends Component {
             <ClickAwayListener onClickAway={this.hideProptedUsers}>
                 <div>
                     <input type='text' placeholder="Szukaj" className="searchUserInput" onChange={this.changeSearchUser}></input>
-                    <div className='proptedUsersContainer'>{this.state.searchUsers.map(user => <Link to='Profile' className='proptedLink'>
-                        <div onClick={this.changeFokusUser(user.id)} className="proptedUsers" key={user.id}>{user.login}</div></Link>)}</div>
+                    <div className='proptedUsersContainer'>{this.state.searchUsers.map(user => <Link key={user.id} to='Profile' className='proptedLink'>
+                        <div onClick={() => this.changeFokusUser(user.id)} className="proptedUsers" key={user.id}>{user.login}</div></Link>)}</div>
                 </div>
             </ClickAwayListener>
         )
