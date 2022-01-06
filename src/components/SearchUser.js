@@ -31,7 +31,7 @@ class SearchUser extends Component {
     }
     changeFokusUser = (id) => {
         localStorage.setItem('focusUserId', id);
-        window.location.href = '/Profile'
+        window.location.href = `/Profile?id=${id}`
     }
     render() {
 
