@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import Navbar from './Navbar';
 import ProfilePosts from './ProfilePosts';
+import PersonIntro from './PersonIntro';
 
 
 class Profile extends Component {
@@ -10,6 +11,7 @@ class Profile extends Component {
         return (
             <div>
                 <Navbar></Navbar>
+                <PersonIntro></PersonIntro>
                 <ProfilePosts></ProfilePosts>
             </div>
         )
