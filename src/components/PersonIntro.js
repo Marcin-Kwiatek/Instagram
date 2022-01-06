@@ -20,6 +20,7 @@ class PersonIntro extends Component {
         return (
             <div className='introContainer'>
                 {this.state.nickName}
+                <button className='followButton'>Follow</button>
             </div>
         )
     }

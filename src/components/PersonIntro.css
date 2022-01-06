@@ -5,3 +5,16 @@
     max-width: 975px;
     padding: 50px;
 }
+.followButton{
+    background-color: #0086f9;
+    color: white;
+    border: 0;
+    border-radius: 3px;
+    width: 110px;
+    height: 30px;
+    margin: 15px 40px;
+    cursor: pointer;
+}
+.followButton:hover {
+    background-color: #5252ff;
+}
