@@ -43,6 +43,11 @@ app.post('/addPost', function (request, response) {
     const result = db.insertPost(request.body)
     response.sendStatus(200)
 })
+app.post('/addFollow', function (request, response) {
+    const db = dbService.getDbServiceInstance()
+    const result = db.insertFollow(request.body)
+    response.sendStatus(200)
+})
 app.post('/signIn', async function (request, response) {
     const db = dbService.getDbServiceInstance()
     const id = await db.getUserId(request.body)

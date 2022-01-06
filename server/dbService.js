@@ -84,6 +84,22 @@ class DbService {
             console.error(error)
         }
     }
+    async insertFollow(users) {
+        try {
+            const responseAddFollow = await new Promise((resolve, reject) => {
+                const queryAddFollow = "INSERT INTO followers (observerId, watchedId) " +
+                    `VALUES ('` + users.observerId + `','` + users.watchedId + `' )`
+                console.log(queryAddFollow)
+                connection.query(queryAddFollow, (err, results) => {
+                    if (err) reject(new Error(err.message))
+                    resolve(results)
+                })
+            })
+            return responseAddFollow
+        } catch (error) {
+            console.error(error)
+        }
+    }
     async getUserId(user) {
         try {
             const responseSelectUser = await new Promise((resolve, reject) => {
