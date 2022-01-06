@@ -53,6 +53,21 @@ class DbService {
             console.log(error)
         }
     }
+    async getIntro(idUser) {
+        try {
+            const responseGetIntro = await new Promise((resolve, reject) => {
+                const queryGetIntro = "SELECT login FROM users WHERE id = '" + idUser + "'"
+                console.log(queryGetIntro)
+                connection.query(queryGetIntro, (err, results) => {
+                    if (err) reject(new Error(err.message))
+                    resolve(results)
+                })
+            })
+            return responseGetIntro[0].login
+        } catch (error) {
+            console.log(error)
+        }
+    }
     async insertPost(post) {
         try {
             const responseAddPost = await new Promise((resolve, reject) => {
