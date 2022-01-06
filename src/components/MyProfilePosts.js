@@ -14,7 +14,6 @@ class MyProfilePosts extends Component {
             .then((data) => {
                 let posts = data.data
                 this.setState({ posts: posts })
-                console.log(this.state.posts)
             })
     }
     render() {
