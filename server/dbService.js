@@ -119,6 +119,21 @@ class DbService {
             console.error(error)
         }
     }
+    async unfollow(idObserver, idWatched) {
+        try {
+            const response = await new Promise((resolve, reject) => {
+                const query = `DELETE FROM followers WHERE observerId = '${idObserver}' and watchedId = '${idWatched}'`
+                console.log(query)
+                connection.query(query, (err, results) => {
+                    if (err) reject(new Error(err.message))
+                    resolve(results)
+                })
+            })
+            return response
+        } catch (error) {
+            console.log(error)
+        }
+    }
     async selectSignUp(user) {
         try {
             const responseSelectSignUp = await new Promise((resolve, reject) => {
