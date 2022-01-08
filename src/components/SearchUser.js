@@ -30,7 +30,6 @@ class SearchUser extends Component {
         this.setState({ searchUsers: [] })
     }
     changeFokusUser = (id) => {
-        localStorage.setItem('focusUserId', id);
         window.location.href = `/Profile?id=${id}`
     }
     render() {

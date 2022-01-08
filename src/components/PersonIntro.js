@@ -1,7 +1,12 @@
 import React, { Component } from 'react';
 import './PersonIntro.css';
+import { useLocation } from "react-router-dom"
 
 
+function EnhancePersonIntroWithLocation(props){
+    const location = useLocation()
+    return <PersonIntro location={location} {...props}></PersonIntro>
+}
 class PersonIntro extends Component {
     state = {
         nickName: [],
@@ -9,7 +14,7 @@ class PersonIntro extends Component {
     }
     followUser = () => {
         const currentUserId = localStorage.getItem("currentUserId")
-        const focusUserId = localStorage.getItem("focusUserId")
+        const focusUserId = new URLSearchParams(this.props.location.search).get('id')
         if (this.state.isUserFollowed === true) {
             this.setState({ isUserFollowed: false })
             fetch(`http://localhost:5000/addFollow`, {
@@ -30,7 +35,7 @@ class PersonIntro extends Component {
     }
     async componentDidMount() {
         const userId = localStorage.getItem("currentUserId")
-        const focusUserId = localStorage.getItem("focusUserId")
+        const focusUserId = new URLSearchParams(this.props.location.search).get('id')
         fetch(`http://localhost:5000/personIntro?id=${focusUserId}`, {})
             .then(function (response) { return response.json() })
             .then((data) => {
@@ -64,4 +69,4 @@ class PersonIntro extends Component {
 
 }
 
-export default PersonIntro;
+export default EnhancePersonIntroWithLocation;
