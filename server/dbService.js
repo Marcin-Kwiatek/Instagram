@@ -38,10 +38,10 @@ class DbService {
             console.error(error)
         }
     }
-    async getPosts(idAuthor) {
+    async getUserPosts(authorId) {
         try {
             const responseGetPosts = await new Promise((resolve, reject) => {
-                const queryGetPosts = "SELECT * FROM posts WHERE postAuthorId = '" + idAuthor + "'"
+                const queryGetPosts = "SELECT * FROM posts WHERE postAuthorId = '" + authorId + "'"
                 console.log(queryGetPosts)
                 connection.query(queryGetPosts, (err, results) => {
                     if (err) reject(new Error(err.message))

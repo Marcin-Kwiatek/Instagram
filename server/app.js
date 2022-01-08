@@ -16,18 +16,20 @@ app.post('/user', function (request, response) {
     const result = db.insertUser(request.body)
     response.sendStatus(200)
 })
-app.get('/user/:userId/posts', function(request, response) {
-    console.log(request.params.userId)
-    let idAuthor = request.params.userId
-    const db = dbService.getDbServiceInstance()
-    const result = db.getPosts(idAuthor)
-    result
-        .then(data => {
-            response.json({ data: data })
-        })
-        .catch(err => console.log(err))
+app.get('/user/:userId/posts', async function (request, response) {
+    try {
+        console.log(request.params.userId)
+        let authorId = request.params.userId
+        const db = dbService.getDbServiceInstance()
+        const posts = await db.getUserPosts(authorId)
+        response.json({ data: posts })
+    }
+    catch(err) {
+        console.error(err)
+        response.sendStatus(500)
+    }
 })
-app.get('/personIntro', function(request, response) {
+app.get('/personIntro', function (request, response) {
     console.log(request.query.id)
     let idUser = request.query.id
     const db = dbService.getDbServiceInstance()
@@ -80,7 +82,7 @@ app.post('/searchUser', async function (request, response) {
     console.log(result)
 })
 
-app.delete('/unfollow', function(request, response) {
+app.delete('/unfollow', function (request, response) {
     console.log(request.query.id)
     let idObserver = request.query.id.substring(0, 30)
     let idWatched = request.query.id.substring(30, 60)
@@ -95,7 +97,7 @@ app.delete('/unfollow', function(request, response) {
 app.post('/searchFollow', async function (request, response) {
     const db = dbService.getDbServiceInstance()
     const result = await db.searchFollow(request.body)
-    console.log('Search Follow result',  result)
+    console.log('Search Follow result', result)
     if (result === null) {
         response.sendStatus(404)
     } else {
