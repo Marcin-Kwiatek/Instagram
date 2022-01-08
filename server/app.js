@@ -82,12 +82,11 @@ app.post('/searchUser', async function (request, response) {
     console.log(result)
 })
 
-app.delete('/unfollow', function (request, response) {
+app.delete('/unfollow', authenticateJwt, function (request, response) {
     console.log(request.query.id)
-    let idObserver = request.query.id.substring(0, 30)
-    let idWatched = request.query.id.substring(30, 60)
+    let watchedId = request.query.id
     const db = dbService.getDbServiceInstance()
-    const result = db.unfollow(idObserver, idWatched)
+    const result = db.unfollow(request.currentUserId, watchedId)
     result
         .then(data => {
             response.json({ data: data })

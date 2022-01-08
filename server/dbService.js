@@ -119,10 +119,10 @@ class DbService {
             console.error(error)
         }
     }
-    async unfollow(idObserver, idWatched) {
+    async unfollow(observerId, watchedId) {
         try {
             const response = await new Promise((resolve, reject) => {
-                const query = `DELETE FROM followers WHERE observerId = '${idObserver}' and watchedId = '${idWatched}'`
+                const query = `DELETE FROM followers WHERE observerId = '${observerId}' and watchedId = '${watchedId}'`
                 console.log(query)
                 connection.query(query, (err, results) => {
                     if (err) reject(new Error(err.message))
