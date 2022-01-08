@@ -5,13 +5,13 @@ import './PersonIntro.css';
 class PersonIntro extends Component {
     state = {
         nickName: [],
-        followButton: 'Follow'
+        isUserFollowed: true
     }
     followUser = () => {
         const currentUserId = localStorage.getItem("currentUserId")
         const focusUserId = localStorage.getItem("focusUserId")
-        if (this.state.followButton === 'Follow') {
-            this.setState({ followButton: 'Unfollow' })
+        if (this.state.isUserFollowed === true) {
+            this.setState({ isUserFollowed: false })
             fetch(`http://localhost:5000/addFollow`, {
                 method: 'POST',
                 headers: {
@@ -21,7 +21,7 @@ class PersonIntro extends Component {
             })
                 .catch((err) => { console.error(err) })
         } else {
-            this.setState({ followButton: 'Follow' })
+            this.setState({ isUserFollowed: true })
             fetch(`http://localhost:5000/unfollow?id=${currentUserId}${focusUserId}`, {
                 method: 'DELETE',
             })
@@ -46,16 +46,18 @@ class PersonIntro extends Component {
             body: JSON.stringify({ observerId: userId, watchedId: focusUserId })
         })
         if (response.status === 404) {
-            this.setState({ followButton: 'Follow' })
+            this.setState({ isUserFollowed: true })
         } else {
-            this.setState({ followButton: 'Unfollow' })
+            this.setState({ isUserFollowed: false })
         }
     }
     render() {
         return (
             <div className='introContainer'>
                 {this.state.nickName}
-                <button onClick={this.followUser} className='followButton'>{this.state.followButton}</button>
+                <button onClick={this.followUser} className='followButton'>
+                    {this.state.isUserFollowed ? 'Follow' : 'Unfollow'}
+                </button>
             </div>
         )
     }
