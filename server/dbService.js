@@ -164,6 +164,21 @@ class DbService {
             console.error(error)
         }
     }
+    async searchFollow(id) {
+        try {
+            const responseSearchFollow = await new Promise((resolve, reject) => {
+                const querySearchFollow = `SELECT * FROM followers WHERE observerId LIKE '${id.observerId}' AND  watchedId LIKE '${id.watchedId}'`
+                console.log(querySearchFollow)
+                connection.query(querySearchFollow, (err, results) => {
+                    if (err) reject(new Error(err.message))
+                    resolve(results)
+                })
+            })
+            if (responseSearchFollow.length === 0) { return null } else return responseSearchFollow
+        } catch (error) {
+            console.error(error)
+        }
+    }
 
 }
 

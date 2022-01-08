@@ -28,16 +28,28 @@ class PersonIntro extends Component {
                 .then(function (response) { return response.json() })
         }
     }
-    componentDidMount() {
-        const userId = localStorage.getItem("focusUserId")
-        fetch(`http://localhost:5000/personIntro?id=${userId}`, {})
+    async componentDidMount() {
+        const userId = localStorage.getItem("currentUserId")
+        const focusUserId = localStorage.getItem("focusUserId")
+        fetch(`http://localhost:5000/personIntro?id=${focusUserId}`, {})
             .then(function (response) { return response.json() })
             .then((data) => {
                 console.log(data.data)
                 let nick = data.data
                 this.setState({ nickName: nick })
             })
-
+        let response = await fetch(`http://localhost:5000/searchFollow`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ observerId: userId, watchedId: focusUserId })
+        })
+        if (response.status === 404) {
+            this.setState({ followButton: 'Follow' })
+        } else {
+            this.setState({ followButton: 'Unfollow' })
+        }
     }
     render() {
         return (

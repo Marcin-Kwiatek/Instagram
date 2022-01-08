@@ -79,11 +79,11 @@ app.post('/searchUser', async function (request, response) {
     }
     console.log(result)
 })
+
 app.delete('/unfollow', function(request, response) {
     console.log(request.query.id)
     let idObserver = request.query.id.substring(0, 30)
     let idWatched = request.query.id.substring(30, 60)
-    console.log(idObserver)
     const db = dbService.getDbServiceInstance()
     const result = db.unfollow(idObserver, idWatched)
     result
@@ -91,6 +91,16 @@ app.delete('/unfollow', function(request, response) {
             response.json({ data: data })
         })
         .catch(err => console.log(err))
+})
+app.post('/searchFollow', async function (request, response) {
+    const db = dbService.getDbServiceInstance()
+    const result = await db.searchFollow(request.body)
+    console.log('Search Follow result',  result)
+    if (result === null) {
+        response.sendStatus(404)
+    } else {
+        response.sendStatus(200)
+    }
 })
 app.get('/currentUser/posts', authenticateJwt, function (request, response) {
     console.log(request.currentUserId)
