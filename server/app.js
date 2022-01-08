@@ -45,9 +45,9 @@ app.post('/addPost', function (request, response) {
     const result = db.insertPost(request.body)
     response.sendStatus(200)
 })
-app.post('/addFollow', function (request, response) {
+app.post('/addFollow', authenticateJwt, function (request, response) {
     const db = dbService.getDbServiceInstance()
-    const result = db.insertFollow(request.body)
+    const result = db.insertFollow(request.currentUserId, request.body.watchedId)
     response.sendStatus(200)
 })
 app.post('/signIn', async function (request, response) {
@@ -103,9 +103,6 @@ app.post('/searchFollow', async function (request, response) {
     } else {
         response.sendStatus(200)
     }
-})
-app.get('/currentUser/posts', authenticateJwt, function (request, response) {
-    console.log(request.currentUserId)
 })
 
 function authenticateJwt(request, response, next) {

@@ -20,9 +20,10 @@ class PersonIntro extends Component {
             fetch(`http://localhost:5000/addFollow`, {
                 method: 'POST',
                 headers: {
-                    'Content-Type': 'application/json'
+                    'Content-Type': 'application/json',
+                    'authorization': localStorage.getItem("accessToken")
                 },
-                body: JSON.stringify({ observerId: currentUserId, watchedId: focusUserId })
+                body: JSON.stringify({ watchedId: focusUserId })
             })
                 .catch((err) => { console.error(err) })
         } else {
