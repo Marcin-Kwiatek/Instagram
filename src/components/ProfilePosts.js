@@ -9,7 +9,7 @@ class ProfilePosts extends Component {
     }
     componentDidMount() {
         const userId = localStorage.getItem("focusUserId")
-        fetch(`http://localhost:5000/userId?id=${userId}`, {})
+        fetch(`http://localhost:5000/user/${userId}/posts`, {})
             .then(function (response) { return response.json() })
             .then((data) => {
                 let posts = data.data

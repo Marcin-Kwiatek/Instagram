@@ -9,7 +9,7 @@ class MyProfilePosts extends Component {
     }
     componentDidMount() {
         const currentUserId = localStorage.getItem("currentUserId")
-        fetch(`http://localhost:5000/userId?id=${currentUserId}`, {})
+        fetch(`http://localhost:5000/user/${currentUserId}/posts`, {})
             .then(function (response) { return response.json() })
             .then((data) => {
                 let posts = data.data

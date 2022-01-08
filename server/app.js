@@ -16,9 +16,9 @@ app.post('/user', function (request, response) {
     const result = db.insertUser(request.body)
     response.sendStatus(200)
 })
-app.get('/userId', function(request, response) {
-    console.log(request.query.id)
-    let idAuthor = request.query.id
+app.get('/user/:userId/posts', function(request, response) {
+    console.log(request.params.userId)
+    let idAuthor = request.params.userId
     const db = dbService.getDbServiceInstance()
     const result = db.getPosts(idAuthor)
     result
