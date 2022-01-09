@@ -45,7 +45,7 @@ app.post('/addPost', function (request, response) {
     const result = db.insertPost(request.body)
     response.sendStatus(200)
 })
-app.post('/addFollow', authenticateJwt, function (request, response) {
+app.post('/follow', authenticateJwt, function (request, response) {
     const db = dbService.getDbServiceInstance()
     const result = db.insertFollow(request.currentUserId, request.body.watchedId)
     response.sendStatus(200)
@@ -82,7 +82,7 @@ app.post('/searchUser', async function (request, response) {
     console.log(result)
 })
 
-app.delete('/unfollow', authenticateJwt, function (request, response) {
+app.delete('/follow', authenticateJwt, function (request, response) {
     console.log(request.query.id)
     let watchedId = request.query.id
     const db = dbService.getDbServiceInstance()

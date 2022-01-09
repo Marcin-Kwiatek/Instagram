@@ -16,7 +16,7 @@ class PersonIntro extends Component {
         const focusUserId = new URLSearchParams(this.props.location.search).get('id')
         if (this.state.isUserFollowed === true) {
             this.setState({ isUserFollowed: false })
-            fetch(`http://localhost:5000/addFollow`, {
+            fetch(`http://localhost:5000/follow`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -27,7 +27,7 @@ class PersonIntro extends Component {
                 .catch((err) => { console.error(err) })
         } else {
             this.setState({ isUserFollowed: true })
-            fetch(`http://localhost:5000/unfollow?id=${focusUserId}`, {
+            fetch(`http://localhost:5000/follow?id=${focusUserId}`, {
                 method: 'DELETE',
                 headers: {
                     'authorization': localStorage.getItem("accessToken")
