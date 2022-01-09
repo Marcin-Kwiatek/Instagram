@@ -46,12 +46,11 @@ class PersonIntro extends Component {
                 let nick = data.data
                 this.setState({ nickName: nick })
             })
-        let response = await fetch(`http://localhost:5000/searchFollow`, {
-            method: 'POST',
+            .catch((error) => console.error(error) )
+        let response = await fetch(`http://localhost:5000/follow?observedId=${userId}&watchedId=${focusUserId}`, {
             headers: {
                 'Content-Type': 'application/json'
             },
-            body: JSON.stringify({ observerId: userId, watchedId: focusUserId })
         })
         if (response.status === 404) {
             this.setState({ isUserFollowed: true })

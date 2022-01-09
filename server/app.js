@@ -93,9 +93,11 @@ app.delete('/follow', authenticateJwt, function (request, response) {
         })
         .catch(err => console.log(err))
 })
-app.post('/searchFollow', async function (request, response) {
+app.get('/follow', async function (request, response) {
+    let observerId = request.query.observerId
+    let watchedId = request.query.watchedId
     const db = dbService.getDbServiceInstance()
-    const result = await db.searchFollow(request.body)
+    const result = await db.getIsFollowing(observerId, watchedId)
     console.log('Search Follow result', result)
     if (result === null) {
         response.sendStatus(404)
