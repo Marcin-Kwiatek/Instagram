@@ -25,7 +25,7 @@ class AddPost extends Component {
             this.setState({ err: 'Pole nie może być puste' })
         }
         else {
-            fetch(`http://localhost:5000/addPost`, {
+            fetch(`http://localhost:5000/post`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'

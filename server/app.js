@@ -40,7 +40,7 @@ app.get('/personIntro', function (request, response) {
         })
         .catch(err => console.log(err))
 })
-app.post('/addPost', function (request, response) {
+app.post('/post', function (request, response) {
     const db = dbService.getDbServiceInstance()
     const result = db.insertPost(request.body)
     response.sendStatus(200)
