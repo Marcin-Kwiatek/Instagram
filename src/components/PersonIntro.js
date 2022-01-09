@@ -3,7 +3,7 @@ import './PersonIntro.css';
 import { useLocation } from "react-router-dom"
 
 
-function EnhancePersonIntroWithLocation(props){
+function EnhancePersonIntroWithLocation(props) {
     const location = useLocation()
     return <PersonIntro location={location} {...props}></PersonIntro>
 }
@@ -46,16 +46,21 @@ class PersonIntro extends Component {
                 let nick = data.data
                 this.setState({ nickName: nick })
             })
-            .catch((error) => console.error(error) )
-        let response = await fetch(`http://localhost:5000/follow?observedId=${userId}&watchedId=${focusUserId}`, {
-            headers: {
-                'Content-Type': 'application/json'
-            },
-        })
-        if (response.status === 404) {
-            this.setState({ isUserFollowed: true })
-        } else {
-            this.setState({ isUserFollowed: false })
+            .catch((error) => console.error(error))
+        try {
+            let response = await fetch(`http://localhost:5000/follow?observedId=${userId}&watchedId=${focusUserId}`, {
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+            })
+            if (response.status === 404) {
+                this.setState({ isUserFollowed: true })
+            } else {
+                this.setState({ isUserFollowed: false })
+            }
+        }
+        catch(error){
+            console.error(error)
         }
     }
     render() {
