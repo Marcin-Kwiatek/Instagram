@@ -24,7 +24,7 @@ app.get('/user/:userId/posts', async function (request, response) {
         const posts = await db.getUserPosts(authorId)
         response.json({ data: posts })
     }
-    catch(err) {
+    catch (err) {
         console.error(err)
         response.sendStatus(500)
     }
@@ -39,6 +39,22 @@ app.get('/personIntro', function (request, response) {
             response.json({ data: data })
         })
         .catch(err => console.log(err))
+})
+app.get('/currentUser/observedUsers/posts', authenticateJwt, async function (request, response) {
+    try {
+        let currentUserId = request.currentUserId
+        const db = dbService.getDbServiceInstance()
+        const observedUsers = await db.getObservedUsers(currentUserId)
+        console.log('observedUsers = ', observedUsers)
+        const usersPosts = await db.getUsersPosts(observedUsers)
+        console.log(usersPosts)
+        response.json({posts: usersPosts })
+    }
+    catch (error){
+        console.error(error)
+        response.sendStatus(500)
+    }
+
 })
 app.post('/post', function (request, response) {
     const db = dbService.getDbServiceInstance()

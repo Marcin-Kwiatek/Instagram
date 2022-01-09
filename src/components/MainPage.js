@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import Navbar from './Navbar';
+import WatchedUsersPosts from './WatchedUsersPosts';
 
 
 class MainPage extends Component {
@@ -8,6 +9,7 @@ class MainPage extends Component {
         return (
             <div>
                 <Navbar></Navbar>
+                <WatchedUsersPosts></WatchedUsersPosts>
             </div>
         )
     }

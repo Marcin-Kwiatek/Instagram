@@ -164,6 +164,37 @@ class DbService {
             console.error(error)
         }
     }
+    async getObservedUsers(userId) {
+        try {
+            const observedUsers = await new Promise((resolve, reject) => {
+                const queryObservedUsers = `SELECT watchedId FROM followers WHERE observerId = '${userId}'`
+                console.log(queryObservedUsers)
+                connection.query(queryObservedUsers, (err, results) => {
+                    if (err) reject(new Error(err.message))
+                    resolve(results)
+                })
+            })
+            return observedUsers.map(databaseRow => databaseRow.watchedId)
+        } catch (error) {
+            console.error(error)
+        }
+    }
+    async getUsersPosts(observedUsers) {
+        try {
+            const usersPosts = await new Promise((resolve, reject) => {
+                let observedUsersWithQuotes = observedUsers.map(observedUser => `'${observedUser}'`)
+                const queryUsersPosts = `SELECT text, id FROM posts WHERE postAuthorId IN (${observedUsersWithQuotes})`
+                console.log(queryUsersPosts)
+                connection.query(queryUsersPosts, (err, results) => {
+                    if (err) reject(new Error(err.message))
+                    resolve(results)
+                })
+            })
+            return usersPosts
+        } catch (error) {
+            console.error(error)
+        }
+    }
     async getIsFollowing(observedId, watchedId) {
         try {
             const responseSearchFollow = await new Promise((resolve, reject) => {
