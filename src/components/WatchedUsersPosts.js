@@ -1,4 +1,6 @@
 import React, { Component } from 'react';
+import './WatchedUsersPosts.css';
+
 
 
 class WatchedUsersPosts extends Component {
@@ -18,9 +20,9 @@ class WatchedUsersPosts extends Component {
     }
     render() {
         return (
-            <div>
+            <div className={'container'}>
                 {this.state.posts.map(post =>
-                    <div key={post.id}>{post.text}</div>
+                    <div className={'post'} key={post.id}>{post.text}</div>
                 )}
             </div>
         )
