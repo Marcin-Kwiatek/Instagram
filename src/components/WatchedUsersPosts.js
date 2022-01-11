@@ -15,7 +15,12 @@ class WatchedUsersPosts extends Component {
         })
             .then(function (posts) { return (posts.json()) })
             .then((result) => {
-                this.setState({ posts: result.posts })
+                if (result.posts === undefined) {
+                    this.setState({ posts: [] })
+                }
+                else {
+                    this.setState({ posts: result.posts })
+                }
             })
     }
     render() {
