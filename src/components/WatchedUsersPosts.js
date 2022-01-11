@@ -20,9 +20,9 @@ class WatchedUsersPosts extends Component {
     }
     render() {
         return (
-            <div className={'container'}>
+            <div className={'containerWatchedUsersPosts'}>
                 {this.state.posts.map(post =>
-                    <div className={'post'} key={post.id}>{post.text}</div>
+                    <div className={'watchedUsersPost'} key={post.id}>{post.text}</div>
                 )}
             </div>
         )
