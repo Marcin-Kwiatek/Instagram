@@ -179,11 +179,11 @@ class DbService {
             console.error(error)
         }
     }
-    async getUsersPosts(observedUsers) {
+    async getUsersPosts(observedUsers, limit) {
         try {
             const usersPosts = await new Promise((resolve, reject) => {
                 let observedUsersWithQuotes = observedUsers.map(observedUser => `'${observedUser}'`)
-                const queryUsersPosts = `SELECT text, id FROM posts WHERE postAuthorId IN (${observedUsersWithQuotes})`
+                const queryUsersPosts = `SELECT text, id FROM posts WHERE postAuthorId IN (${observedUsersWithQuotes}) LIMIT ${limit}`
                 console.log(queryUsersPosts)
                 connection.query(queryUsersPosts, (err, results) => {
                     if (err) reject(new Error(err.message))
