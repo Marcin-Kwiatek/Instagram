@@ -9,9 +9,9 @@ class AddPost extends Component {
         err: '',
         currentUserId: ''
     }
-    componentDidMount(){
+    componentDidMount() {
         const currentUserId = localStorage.getItem("currentUserId")
-        this.setState({currentUserId:currentUserId})
+        this.setState({ currentUserId: currentUserId })
     }
     changeAddPostText = (e) => {
         this.setState({ addPostText: e.target.value })
@@ -25,14 +25,27 @@ class AddPost extends Component {
             this.setState({ err: 'Pole nie może być puste' })
         }
         else {
+            var today = new Date()
+            var sc = String(today.getSeconds()).padStart(2, '0')
+            var mi = String(today.getMinutes()).padStart(2, '0')
+            var hh = String(today.getHours()).padStart(2, '0')
+            var dd = String(today.getDate()).padStart(2, '0')
+            var mm = String(today.getMonth() + 1).padStart(2, '0')
+            var yyyy = today.getFullYear()
+
+            today = yyyy + '-' + mm + '-' + dd + '-' + hh + '-' + mi + '-' + sc
+
             fetch(`http://localhost:5000/post`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
                 },
-                body: JSON.stringify({ id: generateId(), text: this.state.addPostText, postAuthorId: this.state.currentUserId })
-            }).then(() => {this.props.onPostAdded()})
-            .catch((err) => {console.error(err)})
+                body: JSON.stringify({
+                    id: generateId(), text: this.state.addPostText, postAuthorId: this.state.currentUserId,
+                    date: today
+                })
+            }).then(() => { this.props.onPostAdded() })
+                .catch((err) => { console.error(err) })
         }
     }
 
