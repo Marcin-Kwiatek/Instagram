@@ -41,7 +41,7 @@ class DbService {
     async getUserPosts(authorId) {
         try {
             const responseGetPosts = await new Promise((resolve, reject) => {
-                const queryGetPosts = "SELECT * FROM posts WHERE postAuthorId = '" + authorId + "'"
+                const queryGetPosts = `SELECT * FROM posts WHERE postAuthorId = '${authorId}' ORDER BY date DESC` 
                 console.log(queryGetPosts)
                 connection.query(queryGetPosts, (err, results) => {
                     if (err) reject(new Error(err.message))
@@ -183,7 +183,7 @@ class DbService {
         try {
             const usersPosts = await new Promise((resolve, reject) => {
                 let observedUsersWithQuotes = observedUsers.map(observedUser => `'${observedUser}'`)
-                const queryUsersPosts = `SELECT text, id FROM posts WHERE postAuthorId IN (${observedUsersWithQuotes}) LIMIT ${limit}`
+                const queryUsersPosts = `SELECT text, id FROM posts WHERE postAuthorId IN (${observedUsersWithQuotes}) ORDER BY date DESC LIMIT ${limit}`
                 console.log(queryUsersPosts)
                 connection.query(queryUsersPosts, (err, results) => {
                     if (err) reject(new Error(err.message))
