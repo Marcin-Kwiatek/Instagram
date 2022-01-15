@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import './WatchedUsersPosts.css';
+import InfiniteScroll from 'react-infinite-scroll-component';
 
 
 
@@ -29,10 +30,16 @@ class WatchedUsersPosts extends Component {
     render() {
         return (
             <div className={'containerWatchedUsersPosts'}>
-                {this.state.posts.map(post =>
-                    <div className={'watchedUsersPost'} key={post.id}>{post.text}</div>
-                )}
-                <button onClick={this.showMoreObservedPosts}>Show more posts</button>
+
+                <InfiniteScroll
+                    dataLength={this.state.posts.length} //This is important field to render the next data
+                    next={this.showMoreObservedPosts}
+                    hasMore={true}
+                >
+                    {this.state.posts.map(post =>
+                        <div className={'watchedUsersPost'} key={post.id}>{post.text}</div>
+                    )}
+                </InfiniteScroll>
             </div>
         )
     }
