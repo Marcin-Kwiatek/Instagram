@@ -42,12 +42,13 @@ app.get('/personIntro', function (request, response) {
 })
 app.get('/currentUser/observedUsers/posts', authenticateJwt, async function (request, response) {
     try {
+        let offset = request.query.offset
         let limit = request.query.limit
         let currentUserId = request.currentUserId
         const db = dbService.getDbServiceInstance()
         const observedUsers = await db.getObservedUsers(currentUserId)
         console.log('observedUsers = ', observedUsers)
-        const usersPosts = await db.getUsersPosts(observedUsers, limit)
+        const usersPosts = await db.getUsersPosts(observedUsers,offset, limit)
         console.log(usersPosts)
         response.json({posts: usersPosts })
     }

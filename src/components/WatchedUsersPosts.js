@@ -5,13 +5,10 @@ import './WatchedUsersPosts.css';
 
 class WatchedUsersPosts extends Component {
     state = {
-        posts: [],
-        limitWatchedPosts: 20
+        posts: []
     }
     showMoreObservedPosts = () => {
-        let newLimitWatchedPosts = this.state.limitWatchedPosts + 10
-        this.setState({limitWatchedPosts: newLimitWatchedPosts})
-        fetch(`http://localhost:5000/currentUser/observedUsers/posts?limit=${this.state.limitWatchedPosts}`, {
+        fetch(`http://localhost:5000/currentUser/observedUsers/posts?offset=${this.state.posts.length}&limit=10`, {
             headers: {
                 'authorization': localStorage.getItem("accessToken")
             },
@@ -22,25 +19,12 @@ class WatchedUsersPosts extends Component {
                     this.setState({ posts: [] })
                 }
                 else {
-                    this.setState({ posts: result.posts })
+                    this.setState({ posts: [...this.state.posts, ...result.posts] })
                 }
             })
     }
     componentDidMount() {
-        fetch(`http://localhost:5000/currentUser/observedUsers/posts?limit=10`, {
-            headers: {
-                'authorization': localStorage.getItem("accessToken")
-            },
-        })
-            .then(function (posts) { return (posts.json()) })
-            .then((result) => {
-                if (result.posts === undefined) {
-                    this.setState({ posts: [] })
-                }
-                else {
-                    this.setState({ posts: result.posts })
-                }
-            })
+        this.showMoreObservedPosts()
     }
     render() {
         return (
