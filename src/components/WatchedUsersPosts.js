@@ -29,15 +29,18 @@ class WatchedUsersPosts extends Component {
     }
     render() {
         return (
-            <div className={'containerWatchedUsersPosts'}>
+            <div className={'containerWatchedUsersPosts'}> 
 
                 <InfiniteScroll
-                    dataLength={this.state.posts.length} //This is important field to render the next data
+                    dataLength={this.state.posts.length}
                     next={this.showMoreObservedPosts}
                     hasMore={true}
                 >
                     {this.state.posts.map(post =>
-                        <div className={'watchedUsersPost'} key={post.id}>{post.text}</div>
+                        <div className={'watchedUsersPost'} key={post.id}>
+                            <div>{post.login}</div>
+                            <div>{post.text}</div>
+                        </div>
                     )}
                 </InfiniteScroll>
             </div>
