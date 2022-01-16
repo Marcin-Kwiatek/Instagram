@@ -7,8 +7,12 @@ class AddPost extends Component {
     state = {
         addPostText: '',
         err: '',
-        currentUserId: ''
+        currentUserId: '',
+        selectedFile: null
     }
+    onFileChange = event => {
+        this.setState({ selectedFile: event.target.files[0] });
+    };
     componentDidMount() {
         const currentUserId = localStorage.getItem("currentUserId")
         this.setState({ currentUserId: currentUserId })
@@ -54,8 +58,9 @@ class AddPost extends Component {
         return (
             <div className='addPostContainer'>
                 <div className='addText' ><input onChange={this.changeAddPostText} type='text' placeholder='enter your post content'></input></div>
+                <input type="file" accept="image/png, image/gif, image/jpeg" onChange={this.onFileChange}></input>
                 <button onClick={this.cancelAddPost}>Cancel</button>
-                <button onClick={this.addPost}>Add Post</button>
+                <button onClick={() => console.log(this.state.selectedFile)}>Add Post</button>
                 <div className="err">{this.state.err}</div>
             </div>
 
