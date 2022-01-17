@@ -21,7 +21,7 @@ class MyProfilePosts extends Component {
             <div className='postsContainer'>
                 {this.state.posts.map(posts =>
                     <div className='onePost' key={posts.id}>
-                        {posts.text}
+                        <img className='postImage' src={`http://localhost:5000/${posts.imageUrl}`} />
                     </div>
                 )}
             </div>

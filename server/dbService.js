@@ -183,7 +183,7 @@ class DbService {
         try {
             const usersPosts = await new Promise((resolve, reject) => {
                 let observedUsersWithQuotes = observedUsers.map(observedUser => `'${observedUser}'`)
-                const queryUsersPosts = `SELECT text, posts.id, postAuthorId, login FROM posts 
+                const queryUsersPosts = `SELECT text, posts.id, postAuthorId, login, imageUrl FROM posts 
                 INNER JOIN users ON posts.postAuthorId=users.id  
                 WHERE postAuthorId IN (${observedUsersWithQuotes}) 
                 ORDER BY date DESC LIMIT ${limit} OFFSET ${offset}`
