@@ -1,13 +1,17 @@
 const express = require('express')
 const app = express()
+const fileUpload = require('express-fileupload');
 const cors = require('cors')
 const dotenv = require('dotenv')
 const dbService = require('./dbService')
 const jwt = require('jsonwebtoken')
 
 dotenv.config()
-
+app.use(fileUpload({
+    createParentPath: true
+}));
 app.use(cors())
+app.use('/uploads', express.static(__dirname + '/uploads'));
 app.use(express.json())
 app.use(express.urlencoded({ extended: false }))
 
@@ -57,6 +61,11 @@ app.get('/currentUser/observedUsers/posts', authenticateJwt, async function (req
         response.sendStatus(500)
     }
 
+})
+app.post('/image', function (request, response) {
+    let file = request.files.file
+    file.mv('./uploads/' + file.name);
+    response.json({url: 'uploads/'+file.name})
 })
 app.post('/post', function (request, response) {
     const db = dbService.getDbServiceInstance()

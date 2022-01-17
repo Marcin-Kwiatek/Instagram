@@ -29,28 +29,45 @@ class AddPost extends Component {
             this.setState({ err: 'Pole nie może być puste' })
         }
         else {
-            var today = new Date()
-            var sc = String(today.getSeconds()).padStart(2, '0')
-            var mi = String(today.getMinutes()).padStart(2, '0')
-            var hh = String(today.getHours()).padStart(2, '0')
-            var dd = String(today.getDate()).padStart(2, '0')
-            var mm = String(today.getMonth() + 1).padStart(2, '0')
-            var yyyy = today.getFullYear()
-
-            today = yyyy + '-' + mm + '-' + dd + '-' + hh + '-' + mi + '-' + sc
-
-            fetch(`http://localhost:5000/post`, {
+            this.addImage().then((url) => {
+                var today = new Date()
+                var sc = String(today.getSeconds()).padStart(2, '0')
+                var mi = String(today.getMinutes()).padStart(2, '0')
+                var hh = String(today.getHours()).padStart(2, '0')
+                var dd = String(today.getDate()).padStart(2, '0')
+                var mm = String(today.getMonth() + 1).padStart(2, '0')
+                var yyyy = today.getFullYear()
+    
+                today = yyyy + '-' + mm + '-' + dd + '-' + hh + '-' + mi + '-' + sc
+    
+                fetch(`http://localhost:5000/post`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        id: generateId(), text: this.state.addPostText, postAuthorId: this.state.currentUserId,
+                        date: today, url: url
+                    })
+                }).then(() => { this.props.onPostAdded() })
+                    .catch((err) => { console.error(err) })
+            })
+        }   
+    }
+    addImage = () => {
+        var data = new FormData()
+        data.append('file', this.state.selectedFile)
+        return new Promise(function (resolve, reject) {
+            fetch(`http://localhost:5000/image`, {
                 method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({
-                    id: generateId(), text: this.state.addPostText, postAuthorId: this.state.currentUserId,
-                    date: today
-                })
-            }).then(() => { this.props.onPostAdded() })
+                body: data
+            }).then((response) => {
+                return response.json()
+            }).then((data) => {
+                resolve(data.url)
+            })
                 .catch((err) => { console.error(err) })
-        }
+        })
     }
 
     render() {
@@ -60,7 +77,7 @@ class AddPost extends Component {
                 <div className='addText' ><input onChange={this.changeAddPostText} type='text' placeholder='enter your post content'></input></div>
                 <input type="file" accept="image/png, image/gif, image/jpeg" onChange={this.onFileChange}></input>
                 <button onClick={this.cancelAddPost}>Cancel</button>
-                <button onClick={() => console.log(this.state.selectedFile)}>Add Post</button>
+                <button onClick={this.addPost}>Add Post</button>
                 <div className="err">{this.state.err}</div>
             </div>
 
