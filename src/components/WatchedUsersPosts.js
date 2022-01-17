@@ -29,7 +29,7 @@ class WatchedUsersPosts extends Component {
     }
     render() {
         return (
-            <div className={'containerWatchedUsersPosts'}> 
+            <div className={'containerWatchedUsersPosts'}>
 
                 <InfiniteScroll
                     dataLength={this.state.posts.length}
@@ -38,8 +38,8 @@ class WatchedUsersPosts extends Component {
                 >
                     {this.state.posts.map(post =>
                         <div className={'watchedUsersPost'} key={post.id}>
-                            <div>{post.login}</div>
-                            <div>{post.text}</div>
+                            <div className='watchedPostNick'>{post.login}</div>
+                            <img className='watchedPostImage' src={`http://localhost:5000/${post.imageUrl}`} />
                         </div>
                     )}
                 </InfiniteScroll>
