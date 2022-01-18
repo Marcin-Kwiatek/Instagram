@@ -1,8 +1,7 @@
 import React, { Component } from 'react';
 import './WatchedUsersPosts.css';
 import InfiniteScroll from 'react-infinite-scroll-component';
-import OnePost from './OnePost';
-
+import OneWatchedPost from './OneWatchedPost';
 class WatchedUsersPosts extends Component {
     state = {
         posts: []
@@ -35,9 +34,9 @@ class WatchedUsersPosts extends Component {
                     hasMore={true}
                 >
                     {this.state.posts.map(post =>
-                        <OnePost key={post.id} imageUrl={post.imageUrl} login={post.login}
+                        <OneWatchedPost key={post.id} imageUrl={post.imageUrl} login={post.login}
                             id={post.id}>
-                        </OnePost>
+                        </OneWatchedPost>
                     )}
                 </InfiniteScroll>
             </div>

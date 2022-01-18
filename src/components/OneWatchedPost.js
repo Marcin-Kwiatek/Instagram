@@ -3,7 +3,7 @@ import { AiFillHeart, AiOutlineHeart, AiOutlineMessage } from "react-icons/ai";
 import './WatchedUsersPosts.css';
 
 
-class OnePost extends Component {
+class OneWatchedPost extends Component {
     state = {
         visibilityLikeIcon: 'inline',
         visibilityUnlikeIcon: 'none'
@@ -35,4 +35,4 @@ class OnePost extends Component {
     }
 }
 
-export default OnePost;
+export default OneWatchedPost;
