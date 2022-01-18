@@ -5,19 +5,19 @@ import './WatchedUsersPosts.css';
 
 class OneWatchedPost extends Component {
     state = {
-        visibilityLikeIcon: 'inline',
-        visibilityUnlikeIcon: 'none'
+        visibilityLikeIcon: '',
+        visibilityUnlikeIcon: ''
     }
     unlikePhoto = (postId) => {
         this.setState({ visibilityLikeIcon: 'inline' })
         this.setState({ visibilityUnlikeIcon: 'none' })
         fetch(`http://localhost:5000/likes?id=${postId}`, {
-                method: 'DELETE',
-                headers: {
-                    'authorization': localStorage.getItem("accessToken")
-                },
-            })
-                .then(function (response) { return response.json() })
+            method: 'DELETE',
+            headers: {
+                'authorization': localStorage.getItem("accessToken")
+            },
+        })
+            .then(function (response) { return response.json() })
     }
     likePhoto = (postId) => {
         this.setState({ visibilityLikeIcon: 'none' })
@@ -31,6 +31,25 @@ class OneWatchedPost extends Component {
             body: JSON.stringify({ likedPostId: postId })
         })
             .catch((err) => { console.error(err) })
+    }
+    async componentDidMount() {
+        try {
+            let response = await fetch(`http://localhost:5000/likes?likedPostId=${this.props.id}`, {
+                headers: {
+                    'Content-Type': 'application/json',
+                    'authorization': localStorage.getItem("accessToken")
+                },
+            })
+            if (response.status === 404) {
+                this.setState({ visibilityLikeIcon: 'inline' })
+                this.setState({ visibilityUnlikeIcon: 'none' })
+            } else {
+                this.setState({ visibilityLikeIcon: 'none' })
+                this.setState({ visibilityUnlikeIcon: 'inline' })            }
+        }
+        catch (error) {
+            console.error(error)
+        }
     }
     render() {
         return (

@@ -52,11 +52,11 @@ app.get('/currentUser/observedUsers/posts', authenticateJwt, async function (req
         const db = dbService.getDbServiceInstance()
         const observedUsers = await db.getObservedUsers(currentUserId)
         console.log('observedUsers = ', observedUsers)
-        const usersPosts = await db.getUsersPosts(observedUsers,offset, limit)
+        const usersPosts = await db.getUsersPosts(observedUsers, offset, limit)
         console.log(usersPosts)
-        response.json({posts: usersPosts })
+        response.json({ posts: usersPosts })
     }
-    catch (error){
+    catch (error) {
         console.error(error)
         response.sendStatus(500)
     }
@@ -65,7 +65,7 @@ app.get('/currentUser/observedUsers/posts', authenticateJwt, async function (req
 app.post('/image', function (request, response) {
     let file = request.files.file
     file.mv('./uploads/' + file.name);
-    response.json({url: 'uploads/'+file.name})
+    response.json({ url: 'uploads/' + file.name })
 })
 app.post('/post', function (request, response) {
     const db = dbService.getDbServiceInstance()
@@ -140,6 +140,15 @@ app.get('/follow', async function (request, response) {
     const db = dbService.getDbServiceInstance()
     const result = await db.getIsFollowing(observerId, watchedId)
     console.log('Search Follow result', result)
+    if (result === null) {
+        response.sendStatus(404)
+    } else {
+        response.sendStatus(200)
+    }
+})
+app.get('/likes', authenticateJwt, async function (request, response) {
+    const db = dbService.getDbServiceInstance()
+    const result = await db.getIsLiking(request.currentUserId, request.query.likedPostId)
     if (result === null) {
         response.sendStatus(404)
     } else {

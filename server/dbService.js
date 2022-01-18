@@ -232,7 +232,7 @@ class DbService {
     async getIsFollowing(observedId, watchedId) {
         try {
             const responseSearchFollow = await new Promise((resolve, reject) => {
-                const querySearchFollow = `SELECT * FROM followers WHERE observerId LIKE '${observedId}' AND  watchedId LIKE '${watchedId}'`
+                const querySearchFollow = `SELECT * FROM followers WHERE observerId = '${observedId}' AND  watchedId = '${watchedId}'`
                 console.log(querySearchFollow)
                 connection.query(querySearchFollow, (err, results) => {
                     if (err) reject(new Error(err.message))
@@ -240,6 +240,21 @@ class DbService {
                 })
             })
             if (responseSearchFollow.length === 0) { return null } else return responseSearchFollow
+        } catch (error) {
+            console.error(error)
+        }
+    }
+    async getIsLiking(likingPersonId, likedPostId) {
+        try {
+            const responseSearchLike = await new Promise((resolve, reject) => {
+                const querySearchLike = `SELECT * FROM likes WHERE likingPersonId = '${likingPersonId}' AND  likedPostId = '${likedPostId}'`
+                console.log(querySearchLike)
+                connection.query(querySearchLike, (err, results) => {
+                    if (err) reject(new Error(err.message))
+                    resolve(results)
+                })
+            })
+            if (responseSearchLike.length === 0) { return null } else return responseSearchLike
         } catch (error) {
             console.error(error)
         }
