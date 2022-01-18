@@ -8,7 +8,9 @@ import { AiFillHeart, AiOutlineHeart, AiOutlineMessage } from "react-icons/ai";
 
 class WatchedUsersPosts extends Component {
     state = {
-        posts: []
+        posts: [],
+        visibilityLikeIcon: 'inline',
+        visibilityUnlikeIcon: 'none'
     }
     showMoreObservedPosts = () => {
         fetch(`http://localhost:5000/currentUser/observedUsers/posts?offset=${this.state.posts.length}&limit=10`, {
@@ -25,6 +27,14 @@ class WatchedUsersPosts extends Component {
                     this.setState({ posts: [...this.state.posts, ...result.posts] })
                 }
             })
+    }
+    unlikePhoto = () => {
+        this.setState({visibilityLikeIcon: 'inline'})
+        this.setState({visibilityUnlikeIcon: 'none'})
+    }
+    likePhoto = () => {
+        this.setState({visibilityLikeIcon: 'none'})
+        this.setState({visibilityUnlikeIcon: 'inline'})
     }
     componentDidMount() {
         this.showMoreObservedPosts()
@@ -43,8 +53,10 @@ class WatchedUsersPosts extends Component {
                             <div className='watchedPostNick'>{post.login}</div>
                             <img className='watchedPostImage' src={`http://localhost:5000/${post.imageUrl}`} />
                             <div className='watchedPostIcons'>
-                                <div className='oneWatchedPostIcon' style={{display:'none'}}><AiFillHeart></AiFillHeart></div>
-                                <div className='oneWatchedPostIcon' style={{display:'inline'}}><AiOutlineHeart></AiOutlineHeart></div>
+                                <div className='oneWatchedPostIcon' onClick={this.unlikePhoto} 
+                                style={{ display: this.state.visibilityUnlikeIcon, color:'red'}}><AiFillHeart></AiFillHeart></div>
+                                <div className='oneWatchedPostIcon' onClick={this.likePhoto} 
+                                style={{ display: this.state.visibilityLikeIcon }}><AiOutlineHeart></AiOutlineHeart></div>
                                 <div className='oneWatchedPostIcon'><AiOutlineMessage></AiOutlineMessage></div>
                             </div>
                         </div>
