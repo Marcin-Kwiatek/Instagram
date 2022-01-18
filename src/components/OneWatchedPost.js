@@ -8,9 +8,16 @@ class OneWatchedPost extends Component {
         visibilityLikeIcon: 'inline',
         visibilityUnlikeIcon: 'none'
     }
-    unlikePhoto = () => {
+    unlikePhoto = (postId) => {
         this.setState({ visibilityLikeIcon: 'inline' })
         this.setState({ visibilityUnlikeIcon: 'none' })
+        fetch(`http://localhost:5000/likes?id=${postId}`, {
+                method: 'DELETE',
+                headers: {
+                    'authorization': localStorage.getItem("accessToken")
+                },
+            })
+                .then(function (response) { return response.json() })
     }
     likePhoto = (postId) => {
         this.setState({ visibilityLikeIcon: 'none' })
@@ -32,7 +39,7 @@ class OneWatchedPost extends Component {
                     <div className='watchedPostNick'>{this.props.login}</div>
                     <img className='watchedPostImage' src={`http://localhost:5000/${this.props.imageUrl}`} />
                     <div className='watchedPostIcons'>
-                        <div className='oneWatchedPostIcon' onClick={this.unlikePhoto}
+                        <div className='oneWatchedPostIcon' onClick={() => this.unlikePhoto(this.props.id)}
                             style={{ display: this.state.visibilityUnlikeIcon, color: 'red' }}><AiFillHeart></AiFillHeart></div>
                         <div className='oneWatchedPostIcon' onClick={() => this.likePhoto(this.props.id)}
                             style={{ display: this.state.visibilityLikeIcon }}><AiOutlineHeart></AiOutlineHeart></div>

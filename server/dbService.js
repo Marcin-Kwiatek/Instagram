@@ -150,6 +150,21 @@ class DbService {
             console.log(error)
         }
     }
+    async unlike(likingPersonId, likedPostId) {
+        try {
+            const response = await new Promise((resolve, reject) => {
+                const query = `DELETE FROM likes WHERE likingPersonId = '${likingPersonId}' and likedPostId = '${likedPostId}'`
+                console.log(query)
+                connection.query(query, (err, results) => {
+                    if (err) reject(new Error(err.message))
+                    resolve(results)
+                })
+            })
+            return response
+        } catch (error) {
+            console.log(error)
+        }
+    }
     async selectSignUp(user) {
         try {
             const responseSelectSignUp = await new Promise((resolve, reject) => {

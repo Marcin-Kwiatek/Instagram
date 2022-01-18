@@ -125,6 +125,15 @@ app.delete('/follow', authenticateJwt, function (request, response) {
         })
         .catch(err => console.log(err))
 })
+app.delete('/likes', authenticateJwt, function (request, response) {
+    const db = dbService.getDbServiceInstance()
+    const result = db.unlike(request.currentUserId, request.query.id)
+    result
+        .then(data => {
+            response.json({ data: data })
+        })
+        .catch(err => console.log(err))
+})
 app.get('/follow', async function (request, response) {
     let observerId = request.query.observerId
     let watchedId = request.query.watchedId
