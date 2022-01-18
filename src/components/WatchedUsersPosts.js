@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import './WatchedUsersPosts.css';
 import InfiniteScroll from 'react-infinite-scroll-component';
+import { AiFillHeart, AiOutlineHeart, AiOutlineMessage } from "react-icons/ai";
+
 
 
 
@@ -40,6 +42,11 @@ class WatchedUsersPosts extends Component {
                         <div className={'watchedUsersPost'} key={post.id}>
                             <div className='watchedPostNick'>{post.login}</div>
                             <img className='watchedPostImage' src={`http://localhost:5000/${post.imageUrl}`} />
+                            <div className='watchedPostIcons'>
+                                <div className='oneWatchedPostIcon' style={{display:'none'}}><AiFillHeart></AiFillHeart></div>
+                                <div className='oneWatchedPostIcon' style={{display:'inline'}}><AiOutlineHeart></AiOutlineHeart></div>
+                                <div className='oneWatchedPostIcon'><AiOutlineMessage></AiOutlineMessage></div>
+                            </div>
                         </div>
                     )}
                 </InfiniteScroll>
