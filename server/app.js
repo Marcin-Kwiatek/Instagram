@@ -77,6 +77,11 @@ app.post('/follow', authenticateJwt, function (request, response) {
     const result = db.insertFollow(request.currentUserId, request.body.watchedId)
     response.sendStatus(200)
 })
+app.post('/likes', authenticateJwt, function (request, response) {
+    const db = dbService.getDbServiceInstance()
+    const result = db.insertLikes(request.currentUserId, request.body.likedPostId)
+    response.sendStatus(200)
+})
 app.post('/signIn', async function (request, response) {
     const db = dbService.getDbServiceInstance()
     const id = await db.getUserId(request.body)

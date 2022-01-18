@@ -100,6 +100,22 @@ class DbService {
             console.error(error)
         }
     }
+    async insertLikes(likingPersonId, likedPostId) {
+        try {
+            const responseAddLikes = await new Promise((resolve, reject) => {
+                const queryAddLikes = "INSERT INTO likes (likingPersonId, likedPostId) " +
+                    `VALUES ('` + likingPersonId + `','` + likedPostId + `' )`
+                console.log(queryAddLikes)
+                connection.query(queryAddLikes, (err, results) => {
+                    if (err) reject(new Error(err.message))
+                    resolve(results)
+                })
+            })
+            return responseAddLikes
+        } catch (error) {
+            console.error(error)
+        }
+    }
     async getUserId(user) {
         try {
             const responseSelectUser = await new Promise((resolve, reject) => {

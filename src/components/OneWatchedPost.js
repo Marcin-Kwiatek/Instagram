@@ -15,6 +15,15 @@ class OneWatchedPost extends Component {
     likePhoto = (postId) => {
         this.setState({ visibilityLikeIcon: 'none' })
         this.setState({ visibilityUnlikeIcon: 'inline' })
+        fetch(`http://localhost:5000/likes`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'authorization': localStorage.getItem("accessToken")
+            },
+            body: JSON.stringify({ likedPostId: postId })
+        })
+            .catch((err) => { console.error(err) })
     }
     render() {
         return (
