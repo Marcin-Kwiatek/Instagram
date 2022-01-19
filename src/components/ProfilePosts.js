@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import './ProfilePosts.css';
 import { useLocation } from "react-router-dom"
+import OneProfilePost from './OneProfilePost';
 
 
 function EnhanceProfilePostsWithLocation(props) {
@@ -24,10 +25,9 @@ class ProfilePosts extends Component {
     render() {
         return (
             <div className='postsContainer'>
-                {this.state.posts.map(posts =>
-                    <div className='onePost' key={posts.id}>
-                        <img className='postImage' src={`http://localhost:5000/${posts.imageUrl}`} />
-                    </div>
+                {this.state.posts.map(post =>
+                    <OneProfilePost key={post.id} imageUrl={post.imageUrl} id={post.id}>
+                    </OneProfilePost>
                 )}
             </div>
         )
