@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import './ProfilePosts.css';
+import OneMyProfilePost from './OneMyProfilePosts';
 
 
 class MyProfilePosts extends Component {
@@ -19,10 +20,9 @@ class MyProfilePosts extends Component {
     render() {
         return (
             <div className='postsContainer'>
-                {this.state.posts.map(posts =>
-                    <div className='onePost' key={posts.id}>
-                        <img className='postImage' src={`http://localhost:5000/${posts.imageUrl}`} />
-                    </div>
+                {this.state.posts.map(post =>
+                    <OneMyProfilePost key={post.id} imageUrl={post.imageUrl} id={post.id}>
+                    </OneMyProfilePost>
                 )}
             </div>
         )
