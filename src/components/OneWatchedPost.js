@@ -6,7 +6,8 @@ import './WatchedUsersPosts.css';
 class OneWatchedPost extends Component {
     state = {
         visibilityLikeIcon: '',
-        visibilityUnlikeIcon: ''
+        visibilityUnlikeIcon: '',
+        likesNumber: 0
     }
     unlikePhoto = (postId) => {
         this.setState({ visibilityLikeIcon: 'inline' })
@@ -45,11 +46,18 @@ class OneWatchedPost extends Component {
                 this.setState({ visibilityUnlikeIcon: 'none' })
             } else {
                 this.setState({ visibilityLikeIcon: 'none' })
-                this.setState({ visibilityUnlikeIcon: 'inline' })            }
+                this.setState({ visibilityUnlikeIcon: 'inline' })
+            }
         }
         catch (error) {
             console.error(error)
         }
+        fetch(`http://localhost:5000/likesNumber?likedPostId=${this.props.id}`, {})
+        .then(function (response) { return response.json() })
+        .then((data) => {
+            this.setState({likesNumber: data.data})
+        })
+        .catch((error) => console.error(error))
     }
     render() {
         return (
@@ -64,6 +72,7 @@ class OneWatchedPost extends Component {
                             style={{ display: this.state.visibilityLikeIcon }}><AiOutlineHeart></AiOutlineHeart></div>
                         <div className='oneWatchedPostIcon'><AiOutlineMessage></AiOutlineMessage></div>
                     </div>
+                    <div className='likesText'>{this.state.likesNumber} users like this</div>
                 </div>
             </>
         )

@@ -68,6 +68,21 @@ class DbService {
             console.log(error)
         }
     }
+    async getLikesNumber(postId) {
+        try {
+            const response = await new Promise((resolve, reject) => {
+                const query = `SELECT likingPersonId FROM likes WHERE likedPostId = '${postId}'`
+                console.log(query)
+                connection.query(query, (err, results) => {
+                    if (err) reject(new Error(err.message))
+                    resolve(results.length)
+                })
+            })
+            return response
+        } catch (error) {
+            console.log(error)
+        }
+    }
     async insertPost(post) {
         try {
             const responseAddPost = await new Promise((resolve, reject) => {
