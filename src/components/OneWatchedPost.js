@@ -63,9 +63,17 @@ class OneWatchedPost extends Component {
     changeNewComment = (e) => {
         this.setState({ newComment: e.target.value })
     }
-    addComment = (id) => {
+    addComment = (postId) => {
         if(this.state.newComment!==""){
-            console.log(id)
+            fetch(`http://localhost:5000/comment`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'authorization': localStorage.getItem("accessToken")
+            },
+            body: JSON.stringify({ postId: postId, commentContent: this.state.newComment})
+        })
+            .catch((err) => { console.error(err) })
         }
     }
     render() {
