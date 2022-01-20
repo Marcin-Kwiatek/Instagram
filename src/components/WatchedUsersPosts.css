@@ -40,4 +40,22 @@
     margin-left: 20px;
     font-weight: bold;
 }
+.addComment{
+    max-height: 40px;
+    width: 90%;
+    margin-left: 5%;
+    margin-top: 10px;
+}
+.addCommentInput{
+    float: left;
+    width: 70%;
+}
+.addCommentButton{
+    color: rgba(var(--d69,0,149,246),1);
+    border: 0;
+    background-color: #fff;
+    cursor: pointer;
+    font-size: 20px;
+    float: right;
+}
 

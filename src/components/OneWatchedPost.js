@@ -7,7 +7,8 @@ class OneWatchedPost extends Component {
     state = {
         visibilityLikeIcon: '',
         visibilityUnlikeIcon: '',
-        likesNumber: 0
+        likesNumber: 0,
+        newComment: ''
     }
     unlikePhoto = (postId) => {
         this.setState({ visibilityLikeIcon: 'inline' })
@@ -59,6 +60,14 @@ class OneWatchedPost extends Component {
         })
         .catch((error) => console.error(error))
     }
+    changeNewComment = (e) => {
+        this.setState({ newComment: e.target.value })
+    }
+    addComment = (id) => {
+        if(this.state.newComment!==""){
+            console.log(id)
+        }
+    }
     render() {
         return (
             <>
@@ -73,6 +82,12 @@ class OneWatchedPost extends Component {
                         <div className='oneWatchedPostIcon'><AiOutlineMessage></AiOutlineMessage></div>
                     </div>
                     <div className='likesText'>{this.state.likesNumber} users like this</div>
+                    <div className='addComment'>
+                        <input
+                            type='text' className='addCommentInput' placeholder='Add comment...' onChange={this.changeNewComment}>
+                        </input>
+                        <button className='addCommentButton' onClick={() => this.addComment(this.props.id)}>Publish</button>
+                    </div>
                 </div>
             </>
         )
