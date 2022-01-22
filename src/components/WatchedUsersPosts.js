@@ -19,6 +19,7 @@ class WatchedUsersPosts extends Component {
                 }
                 else {
                     this.setState({ posts: [...this.state.posts, ...result.posts] })
+                    console.log(result.posts)
                 }
             })
     }
@@ -35,7 +36,7 @@ class WatchedUsersPosts extends Component {
                 >
                     {this.state.posts.map(post =>
                         <OneWatchedPost key={post.id} imageUrl={post.imageUrl} login={post.login}
-                            id={post.id}>
+                            id={post.id} likesNr={post.likesNr}>
                         </OneWatchedPost>
                     )}
                 </InfiniteScroll>

@@ -241,13 +241,16 @@ class DbService {
             console.error(error)
         }
     }
-    async getUsersPosts(observedUsers, offset, limit) {
+    async getUsersPosts(observedUsersId, offset, limit) {
         try {
             const usersPosts = await new Promise((resolve, reject) => {
-                let observedUsersWithQuotes = observedUsers.map(observedUser => `'${observedUser}'`)
-                const queryUsersPosts = `SELECT text, posts.id, postAuthorId, login, imageUrl FROM posts 
+                let observedUsersWithQuotes = observedUsersId.map(observedUserId => `'${observedUserId}'`)
+                const queryUsersPosts = `SELECT text, posts.id, postAuthorId, login, imageUrl, 
+                COUNT(likes.likingPersonId) AS likesNr FROM posts 
                 INNER JOIN users ON posts.postAuthorId=users.id  
+                INNER JOIN likes ON posts.id=likes.likedPostId
                 WHERE postAuthorId IN (${observedUsersWithQuotes}) 
+                GROUP By posts.id
                 ORDER BY date DESC LIMIT ${limit} OFFSET ${offset}`
                 console.log(queryUsersPosts)
                 connection.query(queryUsersPosts, (err, results) => {

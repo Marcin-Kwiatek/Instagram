@@ -7,7 +7,6 @@ class OneWatchedPost extends Component {
     state = {
         visibilityLikeIcon: '',
         visibilityUnlikeIcon: '',
-        likesNumber: 0,
         newComment: ''
     }
     unlikePhoto = (postId) => {
@@ -53,12 +52,6 @@ class OneWatchedPost extends Component {
         catch (error) {
             console.error(error)
         }
-        fetch(`http://localhost:5000/likesNumber?likedPostId=${this.props.id}`, {})
-        .then(function (response) { return response.json() })
-        .then((data) => {
-            this.setState({likesNumber: data.data})
-        })
-        .catch((error) => console.error(error))
     }
     changeNewComment = (e) => {
         this.setState({ newComment: e.target.value })
@@ -89,7 +82,7 @@ class OneWatchedPost extends Component {
                             style={{ display: this.state.visibilityLikeIcon }}><AiOutlineHeart></AiOutlineHeart></div>
                         <div className='oneWatchedPostIcon'><AiOutlineMessage></AiOutlineMessage></div>
                     </div>
-                    <div className='likesText'>{this.state.likesNumber} users like this</div>
+                    <div className='likesText'>{this.props.likesNr} users like this</div>
                     <div className='addComment'>
                         <input
                             type='text' className='addCommentInput' placeholder='Add comment...' onChange={this.changeNewComment}>
