@@ -63,13 +63,13 @@ class OneMyProfilePost extends Component {
         return (
             <div className='onePost'>
                 <img className='postImage' src={`http://localhost:5000/${this.props.imageUrl}`} />
-                <div className='watchedPostIcons'>
-                    <div className='oneWatchedPostIcon' onClick={() => this.unlikePhoto(this.props.id)}
+                <div className='profilePostIcons'>
+                    <div className='profilePostIcon' onClick={() => this.unlikePhoto(this.props.id)}
                         style={{ display: this.state.visibilityUnlikeIcon, color: 'red' }}><AiFillHeart></AiFillHeart></div>
-                    <div className='oneWatchedPostIcon' onClick={() => this.likePhoto(this.props.id)}
+                    <div className='profilePostIcon' onClick={() => this.likePhoto(this.props.id)}
                         style={{ display: this.state.visibilityLikeIcon }}><AiOutlineHeart></AiOutlineHeart></div>
-                    <div>{this.state.likesNumber}</div>
-                    <div className='oneWatchedPostIcon'><AiOutlineMessage></AiOutlineMessage></div>
+                    <div className='profileLikesNumber'>{this.state.likesNumber}</div>
+                    <div className='profilePostIcon'><AiOutlineMessage></AiOutlineMessage></div>
                 </div>
             </div>
         )
