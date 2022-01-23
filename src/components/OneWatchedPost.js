@@ -65,8 +65,10 @@ class OneWatchedPost extends Component {
                 'authorization': localStorage.getItem("accessToken")
             },
             body: JSON.stringify({ postId: postId, commentContent: this.state.newComment})
+        }).then(()=>{
+            this.setState({newComment: ''})
         })
-            .catch((err) => { console.error(err) })
+            .catch((err) => { console.error(err) })  
         }
     }
     render() {
@@ -85,7 +87,11 @@ class OneWatchedPost extends Component {
                     <div className='likesText'>{this.props.likesNr} users like this</div>
                     <div className='addComment'>
                         <input
-                            type='text' className='addCommentInput' placeholder='Add comment...' onChange={this.changeNewComment}>
+                            type='text' 
+                            className='addCommentInput' 
+                            placeholder='Add comment...' 
+                            onChange={this.changeNewComment} 
+                            value={this.state.newComment}>
                         </input>
                         <button className='addCommentButton' onClick={() => this.addComment(this.props.id)}>Publish</button>
                     </div>
