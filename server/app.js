@@ -91,10 +91,16 @@ app.post('/likes', authenticateJwt, function (request, response) {
     const result = db.insertLikes(request.currentUserId, request.body.likedPostId)
     response.sendStatus(200)
 })
-app.post('/comment', authenticateJwt, function (request, response) {
-    const db = dbService.getDbServiceInstance()
-    const result = db.insertComment(request.currentUserId, request.body.postId, request.body.commentContent)
-    response.sendStatus(200)
+app.post('/comment', authenticateJwt, async function (request, response) {
+    try {
+        const db = dbService.getDbServiceInstance()
+        const result = await db.insertComment(request.currentUserId, request.body.postId, request.body.commentContent, request.body.id)
+        response.sendStatus(200)
+    }
+    catch(error){
+        console.error(error)
+        response.sendStatus(500)
+    }
 })
 app.post('/signIn', async function (request, response) {
     const db = dbService.getDbServiceInstance()

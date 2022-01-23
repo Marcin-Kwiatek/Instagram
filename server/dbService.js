@@ -41,7 +41,7 @@ class DbService {
     async getUserPosts(authorId) {
         try {
             const responseGetPosts = await new Promise((resolve, reject) => {
-                const queryGetPosts = `SELECT * FROM posts WHERE postAuthorId = '${authorId}' ORDER BY date DESC` 
+                const queryGetPosts = `SELECT * FROM posts WHERE postAuthorId = '${authorId}' ORDER BY date DESC`
                 console.log(queryGetPosts)
                 connection.query(queryGetPosts, (err, results) => {
                     if (err) reject(new Error(err.message))
@@ -87,7 +87,7 @@ class DbService {
         try {
             const responseAddPost = await new Promise((resolve, reject) => {
                 const queryAddPost = "INSERT INTO posts (id, text, postAuthorId, date, imageUrl) " +
-                    `VALUES ('` + post.id + `','` + post.text + `','` + post.postAuthorId + `','` + post.date + `','` + post.url +`' )`
+                    `VALUES ('` + post.id + `','` + post.text + `','` + post.postAuthorId + `','` + post.date + `','` + post.url + `' )`
                 console.log(queryAddPost)
                 connection.query(queryAddPost, (err, results) => {
                     if (err) reject(new Error(err.message))
@@ -131,21 +131,18 @@ class DbService {
             console.error(error)
         }
     }
-    async insertComment(commentatorId, postId, commentContent) {
-        try {
-            const responseAddComment = await new Promise((resolve, reject) => {
-                const queryAddComment = "INSERT INTO comments (commentatorId, postId, commentContent) " +
-                    `VALUES ('` + commentatorId + `','` + postId + `','` + commentContent +`' )`
-                console.log(queryAddComment)
-                connection.query(queryAddComment, (err, results) => {
-                    if (err) reject(new Error(err.message))
-                    resolve(results)
-                })
+    async insertComment(commentatorId, postId, commentContent, id) {
+
+        const responseAddComment = await new Promise((resolve, reject) => {
+            const queryAddComment = "INSERT INTO comments (commentatorId, postId, commentContent, id) " +
+                `VALUES ('` + commentatorId + `','` + postId + `','` + commentContent + `','` + id + `' )`
+            console.log(queryAddComment)
+            connection.query(queryAddComment, (err, results) => {
+                if (err) reject(new Error(err.message))
+                resolve(results)
             })
-            return responseAddComment
-        } catch (error) {
-            console.error(error)
-        }
+        })
+        return responseAddComment
     }
     async getUserId(user) {
         try {
