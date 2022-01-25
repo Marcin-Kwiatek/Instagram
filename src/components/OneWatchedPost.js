@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import { AiFillHeart, AiOutlineHeart, AiOutlineMessage } from "react-icons/ai";
 import './WatchedUsersPosts.css';
 import generateId from '../utils/generateId';
+import currentDate from '../utils/currentDate';
+
 
 
 class OneWatchedPost extends Component {
@@ -65,7 +67,7 @@ class OneWatchedPost extends Component {
                 'Content-Type': 'application/json',
                 'authorization': localStorage.getItem("accessToken")
             },
-            body: JSON.stringify({ postId: postId, commentContent: this.state.newComment, id: generateId()})
+            body: JSON.stringify({ postId: postId, commentContent: this.state.newComment, id: generateId(), date: currentDate()})
         }).then(()=>{
             this.setState({newComment: ''})
         })

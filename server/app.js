@@ -94,10 +94,12 @@ app.post('/likes', authenticateJwt, function (request, response) {
 app.post('/comment', authenticateJwt, async function (request, response) {
     try {
         const db = dbService.getDbServiceInstance()
-        const result = await db.insertComment(request.currentUserId, request.body.postId, request.body.commentContent, request.body.id)
+        const result = await db.insertComment(
+            request.currentUserId, request.body.postId, request.body.commentContent, request.body.id, request.body.date
+        )
         response.sendStatus(200)
     }
-    catch(error){
+    catch (error) {
         console.error(error)
         response.sendStatus(500)
     }

@@ -131,11 +131,11 @@ class DbService {
             console.error(error)
         }
     }
-    async insertComment(commentatorId, postId, commentContent, id) {
+    async insertComment(commentatorId, postId, commentContent, id, date) {
 
         const responseAddComment = await new Promise((resolve, reject) => {
-            const queryAddComment = "INSERT INTO comments (commentatorId, postId, commentContent, id) " +
-                `VALUES ('` + commentatorId + `','` + postId + `','` + commentContent + `','` + id + `' )`
+            const queryAddComment = "INSERT INTO comments (commentatorId, postId, commentContent, id, date) " +
+                `VALUES ('` + commentatorId + `','` + postId + `','` + commentContent + `','` + id + `','` + date +`' )`
             console.log(queryAddComment)
             connection.query(queryAddComment, (err, results) => {
                 if (err) reject(new Error(err.message))

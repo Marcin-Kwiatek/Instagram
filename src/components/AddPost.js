@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import './AddPost.css';
 import generateId from '../utils/generateId';
+import currentDate from '../utils/currentDate';
 
 
 class AddPost extends Component {
@@ -30,16 +31,6 @@ class AddPost extends Component {
         }
         else {
             this.addImage().then((url) => {
-                var today = new Date()
-                var sc = String(today.getSeconds()).padStart(2, '0')
-                var mi = String(today.getMinutes()).padStart(2, '0')
-                var hh = String(today.getHours()).padStart(2, '0')
-                var dd = String(today.getDate()).padStart(2, '0')
-                var mm = String(today.getMonth() + 1).padStart(2, '0')
-                var yyyy = today.getFullYear()
-    
-                today = yyyy + '-' + mm + '-' + dd + '-' + hh + '-' + mi + '-' + sc
-    
                 fetch(`http://localhost:5000/post`, {
                     method: 'POST',
                     headers: {
@@ -47,7 +38,7 @@ class AddPost extends Component {
                     },
                     body: JSON.stringify({
                         id: generateId(), text: this.state.addPostText, postAuthorId: this.state.currentUserId,
-                        date: today, url: url
+                        date: currentDate(), url: url
                     })
                 }).then(() => { this.props.onPostAdded() })
                     .catch((err) => { console.error(err) })
