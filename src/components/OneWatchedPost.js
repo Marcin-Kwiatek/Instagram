@@ -10,7 +10,8 @@ class OneWatchedPost extends Component {
     state = {
         visibilityLikeIcon: '',
         visibilityUnlikeIcon: '',
-        newComment: ''
+        newComment: '',
+        comments: []
     }
     unlikePhoto = (postId) => {
         this.setState({ visibilityLikeIcon: 'inline' })
@@ -55,6 +56,16 @@ class OneWatchedPost extends Component {
         catch (error) {
             console.error(error)
         }
+        fetch(`http://localhost:5000/comments?id=${this.props.id}`, {})
+            .then(function (posts) { return (posts.json()) })
+            .then((result) => {
+                if (result.data === null) {
+                    this.setState({ comments: [] })
+                }
+                else {
+                    this.setState({ comments: result.data})
+                }
+            })
     }
     changeNewComment = (e) => {
         this.setState({ newComment: e.target.value })
@@ -88,6 +99,14 @@ class OneWatchedPost extends Component {
                         <div className='oneWatchedPostIcon'><AiOutlineMessage></AiOutlineMessage></div>
                     </div>
                     <div className='likesText'>{this.props.likesNr} users like this</div>
+                    <div className='comments'>
+                        {this.state.comments.map(comment => 
+                            <div className='comment'>
+                                {comment.login}
+                                {comment.commentContent}
+                            </div>
+                        )}
+                    </div>
                     <div className='addComment'>
                         <input
                             type='text' 

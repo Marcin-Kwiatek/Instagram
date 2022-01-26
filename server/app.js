@@ -53,6 +53,15 @@ app.get('/likesNumber', function (request, response) {
         })
         .catch(err => console.log(err))
 })
+app.get('/comments', function (request, response) {
+    const db = dbService.getDbServiceInstance()
+    const result = db.getComments(request.query.id)
+    result
+        .then(data => {
+            response.json({ data: data })
+        })
+        .catch(err => console.log(err))
+})
 app.get('/currentUser/observedUsers/posts', authenticateJwt, async function (request, response) {
     try {
         let offset = request.query.offset

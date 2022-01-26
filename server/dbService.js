@@ -135,7 +135,7 @@ class DbService {
 
         const responseAddComment = await new Promise((resolve, reject) => {
             const queryAddComment = "INSERT INTO comments (commentatorId, postId, commentContent, id, date) " +
-                `VALUES ('` + commentatorId + `','` + postId + `','` + commentContent + `','` + id + `','` + date +`' )`
+                `VALUES ('` + commentatorId + `','` + postId + `','` + commentContent + `','` + id + `','` + date + `' )`
             console.log(queryAddComment)
             connection.query(queryAddComment, (err, results) => {
                 if (err) reject(new Error(err.message))
@@ -234,6 +234,25 @@ class DbService {
                 })
             })
             return observedUsers.map(databaseRow => databaseRow.watchedId)
+        } catch (error) {
+            console.error(error)
+        }
+    }
+    async getComments(postId) {
+        try {
+            const responseComments = await new Promise((resolve, reject) => {
+                const queryComments = `SELECT comments.commentatorId, comments.commentContent, users.login FROM comments 
+                INNER JOIN users ON comments.commentatorId=users.id 
+                WHERE postId = '${postId}'
+                ORDER BY comments.date DESC
+                LIMIT 3`
+                console.log(queryComments)
+                connection.query(queryComments, (err, results) => {
+                    if (err) reject(new Error(err.message))
+                    resolve(results)
+                })
+            })
+            if (responseComments.length === 0) { return null } else return responseComments
         } catch (error) {
             console.error(error)
         }
