@@ -55,7 +55,7 @@ app.get('/likesNumber', function (request, response) {
 })
 app.get('/comments', function (request, response) {
     const db = dbService.getDbServiceInstance()
-    const result = db.getComments(request.query.id)
+    const result = db.getComments(request.query.id, request.query.limit)
     result
         .then(data => {
             response.json({ data: data })

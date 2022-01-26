@@ -56,7 +56,7 @@ class OneWatchedPost extends Component {
         catch (error) {
             console.error(error)
         }
-        fetch(`http://localhost:5000/comments?id=${this.props.id}`, {})
+        fetch(`http://localhost:5000/comments?id=${this.props.id}&limit=3`, {})
             .then(function (posts) { return (posts.json()) })
             .then((result) => {
                 if (result.data === null) {

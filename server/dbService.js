@@ -238,14 +238,14 @@ class DbService {
             console.error(error)
         }
     }
-    async getComments(postId) {
+    async getComments(postId, limit) {
         try {
             const responseComments = await new Promise((resolve, reject) => {
                 const queryComments = `SELECT comments.commentatorId, comments.commentContent, users.login FROM comments 
                 INNER JOIN users ON comments.commentatorId=users.id 
                 WHERE postId = '${postId}'
                 ORDER BY comments.date DESC
-                LIMIT 3`
+                LIMIT ${limit}`
                 console.log(queryComments)
                 connection.query(queryComments, (err, results) => {
                     if (err) reject(new Error(err.message))
