@@ -19,7 +19,12 @@ class ProfilePosts extends Component {
             .then(function (response) { return response.json() })
             .then((data) => {
                 let posts = data.data
-                this.setState({ posts: posts })
+                if (posts === undefined) {
+                    this.setState({ posts: [] })
+                }
+                else {
+                    this.setState({ posts: posts })
+                }
             })
     }
     render() {
