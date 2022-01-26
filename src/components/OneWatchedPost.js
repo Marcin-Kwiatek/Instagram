@@ -99,11 +99,12 @@ class OneWatchedPost extends Component {
                         <div className='oneWatchedPostIcon'><AiOutlineMessage></AiOutlineMessage></div>
                     </div>
                     <div className='likesText'>{this.props.likesNr} users like this</div>
+                    <div className='viewAllCommentsText'>View all comments</div>
                     <div className='comments'>
                         {this.state.comments.map(comment => 
                             <div className='comment'>
-                                {comment.login}
-                                {comment.commentContent}
+                                <div className='commentLogin'>{comment.login}</div>
+                                <div className='commentContent'>{comment.commentContent}</div>
                             </div>
                         )}
                     </div>
