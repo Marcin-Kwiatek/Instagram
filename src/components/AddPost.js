@@ -28,6 +28,7 @@ class AddPost extends Component {
     addPost = () => {
         if (this.state.addPostText === "") {
             this.setState({ err: 'Pole nie może być puste' })
+            console.log(this.state.addPostText)
         }
         else {
             this.addImage().then((url) => {
