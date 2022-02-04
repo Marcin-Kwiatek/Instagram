@@ -117,3 +117,11 @@
 .lowerPartOfModal{
     height: 30%;
 }
+.hideModalPost{
+    position: absolute;
+    font-size: 40px;
+    right: 5%;
+    top: 3%;
+    font-weight: bold;
+    cursor: pointer;
+}

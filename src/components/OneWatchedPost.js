@@ -150,6 +150,9 @@ class OneWatchedPost extends Component {
                             </div>
                         </div>
                     </div>
+                    <div className='hideModalPost' style={{ display: this.state.visibilityPostModal }} 
+                         onClick={() => this.setState({ visibilityPostModal: 'none' })}>x
+                    </div>
                     <div className='comments'>
                         {this.state.comments.map(comment =>
                             <div className='comment'>
