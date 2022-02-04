@@ -128,24 +128,27 @@ class OneWatchedPost extends Component {
                                     </div>
                                 )}
                             </div>
-                            <div className='watchedPostIcons'>
-                                <div className='oneWatchedPostIcon' onClick={() => this.unlikePhoto(this.props.id)}
-                                    style={{ display: this.state.visibilityUnlikeIcon, color: 'red' }}><AiFillHeart></AiFillHeart></div>
-                                <div className='oneWatchedPostIcon' onClick={() => this.likePhoto(this.props.id)}
-                                    style={{ display: this.state.visibilityLikeIcon }}><AiOutlineHeart></AiOutlineHeart></div>
-                                <div className='oneWatchedPostIcon'><AiOutlineMessage></AiOutlineMessage></div>
+                            <div className='lowerPartOfModal'>
+                                <div className='watchedPostIcons'>
+                                    <div className='oneWatchedPostIcon' onClick={() => this.unlikePhoto(this.props.id)}
+                                        style={{ display: this.state.visibilityUnlikeIcon, color: 'red' }}><AiFillHeart></AiFillHeart></div>
+                                    <div className='oneWatchedPostIcon' onClick={() => this.likePhoto(this.props.id)}
+                                        style={{ display: this.state.visibilityLikeIcon }}><AiOutlineHeart></AiOutlineHeart></div>
+                                    <div className='oneWatchedPostIcon'><AiOutlineMessage></AiOutlineMessage></div>
+                                </div>
+                                <div className='likesText'>{this.props.likesNr} users like this</div>
+                                <div className='addComment' id='modalPostAddComment'>
+                                    <input
+                                        type='text'
+                                        className='addCommentInput'
+                                        placeholder='Add comment...'
+                                        onChange={this.changeNewComment}
+                                        value={this.state.newComment}>
+                                    </input>
+                                    <button className='addCommentButton' onClick={() => this.addComment(this.props.id)}>Publish</button>
+                                </div>
                             </div>
-                            <div className='likesText'>{this.props.likesNr} users like this</div>
-                            <div className='addComment' id='modalPostAddComment'>
-                                <input
-                                    type='text'
-                                    className='addCommentInput'
-                                    placeholder='Add comment...'
-                                    onChange={this.changeNewComment}
-                                    value={this.state.newComment}>
-                                </input>
-                                <button className='addCommentButton' onClick={() => this.addComment(this.props.id)}>Publish</button>
-                            </div>                        </div>
+                        </div>
                     </div>
                     <div className='comments'>
                         {this.state.comments.map(comment =>

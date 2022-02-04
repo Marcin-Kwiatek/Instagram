@@ -100,9 +100,10 @@
     padding: 20px;
     text-align: left;
     border-bottom: solid 1px rgba(var(--b6a, 219, 219, 219), 1);
+    height: 5%;
 }
 #modalPostComments{
-    height: 68%;
+    height: 65%;
 }
 #modalPostAddComment{
     margin-top: 30px;
@@ -112,4 +113,7 @@
 }
 #modalPostComment{
     margin: 20px;
+}
+.lowerPartOfModal{
+    height: 30%;
 }
