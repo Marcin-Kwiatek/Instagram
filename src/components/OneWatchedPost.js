@@ -123,7 +123,7 @@ class OneWatchedPost extends Component {
                             <div className='modalPostNick'>{this.props.login}</div>
                             <div className='comments' id='modalPostComments'>
                                 {this.state.modalPostComments.map(comment =>
-                                    <div className='comment' id='modalPostComment'>
+                                    <div key={comment.id} className='comment' id='modalPostComment'>
                                         <div className='commentLogin'>{comment.login}</div>
                                         <div className='commentContent'>{comment.commentContent}</div>
                                     </div>
@@ -156,7 +156,7 @@ class OneWatchedPost extends Component {
                     </div>
                     <div className='comments'>
                         {this.state.comments.map(comment =>
-                            <div className='comment'>
+                            <div className='comment' key={comment.id}>
                                 <div className='commentLogin'>{comment.login}</div>
                                 <div className='commentContent'>{comment.commentContent}</div>
                             </div>
