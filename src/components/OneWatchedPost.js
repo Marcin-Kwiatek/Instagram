@@ -129,14 +129,14 @@ class OneWatchedPost extends Component {
                                 )}
                             </div>
                             <div className='lowerPartOfModal'>
-                                <div className='watchedPostIcons'>
+                                <div className='watchedPostIcons' id='modalWatchedPostIcons'>
                                     <div className='oneWatchedPostIcon' onClick={() => this.unlikePhoto(this.props.id)}
                                         style={{ display: this.state.visibilityUnlikeIcon, color: 'red' }}><AiFillHeart></AiFillHeart></div>
                                     <div className='oneWatchedPostIcon' onClick={() => this.likePhoto(this.props.id)}
                                         style={{ display: this.state.visibilityLikeIcon }}><AiOutlineHeart></AiOutlineHeart></div>
                                     <div className='oneWatchedPostIcon'><AiOutlineMessage></AiOutlineMessage></div>
                                 </div>
-                                <div className='likesText'>{this.props.likesNr} users like this</div>
+                                <div className='likesText' id='modalLikesText'>{this.props.likesNr} users like this</div>
                                 <div className='addComment' id='modalPostAddComment'>
                                     <input
                                         type='text'
@@ -150,8 +150,8 @@ class OneWatchedPost extends Component {
                             </div>
                         </div>
                     </div>
-                    <div className='hideModalPost' style={{ display: this.state.visibilityPostModal }} 
-                         onClick={() => this.setState({ visibilityPostModal: 'none' })}>x
+                    <div className='hideModalPost' style={{ display: this.state.visibilityPostModal }}
+                        onClick={() => this.setState({ visibilityPostModal: 'none' })}>x
                     </div>
                     <div className='comments'>
                         {this.state.comments.map(comment =>
