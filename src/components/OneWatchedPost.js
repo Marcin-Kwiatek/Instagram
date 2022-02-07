@@ -116,6 +116,7 @@ class OneWatchedPost extends Component {
                     </div>
                     <div className='likesText'>{this.props.likesNr} users like this</div>
                     <div className='viewAllCommentsText' onClick={this.modalPostShow}>View all comments</div>
+                    <div className='obscureBackground' style={{ display: this.state.visibilityPostModal }}></div>
                     <div className='modalPost' style={{ display: this.state.visibilityPostModal }}>
                         <img className='modalImage' src={`http://localhost:5000/${this.props.imageUrl}`}></img>
                         <div className='modalCommentContainer'>
