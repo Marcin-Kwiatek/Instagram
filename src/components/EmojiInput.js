@@ -17,6 +17,7 @@ function EmojiInput() {
             <input
                 className="input-style"
                 value={inputStr}
+                placeholder='Add comment...'
                 onChange={e => setInputStr(e.target.value)} />
             <img
                 className="emoji-icon"
