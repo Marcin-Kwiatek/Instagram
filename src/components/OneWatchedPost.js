@@ -140,13 +140,7 @@ class OneWatchedPost extends Component {
                                 </div>
                                 <div className='likesText' id='modalLikesText'>{this.props.likesNr} users like this</div>
                                 <div className='addComment' id='modalPostAddComment'>
-                                    <input
-                                        type='text'
-                                        className='addCommentInput'
-                                        placeholder='Add comment...'
-                                        onChange={this.changeNewComment}
-                                        value={this.state.newComment}>
-                                    </input>
+                                    <div className='addCommentInput' id='addCommentModalInput'><EmojiInput></EmojiInput></div>
                                     <button className='addCommentButton' onClick={() => this.addComment(this.props.id)}>Publish</button>
                                 </div>
                             </div>
@@ -166,13 +160,6 @@ class OneWatchedPost extends Component {
                     <div className='addComment'>
                         <div className='addCommentInput'><EmojiInput></EmojiInput></div>
                         <button className='addCommentButton' onClick={() => this.addComment(this.props.id)}>Publish</button>
-                        {/*<input
-                            type='text'
-                            className='addCommentInput'
-                            placeholder='Add comment...'
-                            onChange={this.changeNewComment}
-                            value={this.state.newComment}>
-                        </input>*/}
                     </div>
                 </div>
             </>

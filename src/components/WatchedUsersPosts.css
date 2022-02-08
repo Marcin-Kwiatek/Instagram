@@ -58,7 +58,7 @@
     font-size: 18px;
     margin-right: 5px;
     position: absolute;
-    top: 15px;
+    top: 5%;
     right: 0;
 }
 .comment{
@@ -161,8 +161,10 @@
     .addCommentInput{
         width: 50%;
     }
+    .addCommentButton{
+        top: 0;
+    }
 }
-
 #modalWatchedPostIcons{
     height: 30%;
 }
