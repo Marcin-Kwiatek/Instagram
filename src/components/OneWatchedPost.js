@@ -3,6 +3,7 @@ import { AiFillHeart, AiOutlineHeart, AiOutlineMessage } from "react-icons/ai";
 import './WatchedUsersPosts.css';
 import generateId from '../utils/generateId';
 import currentDate from '../utils/currentDate';
+import EmojiInput from './EmojiInput'
 
 
 
@@ -163,14 +164,15 @@ class OneWatchedPost extends Component {
                         )}
                     </div>
                     <div className='addComment'>
-                        <input
+                        <div className='addCommentInput'><EmojiInput></EmojiInput></div>
+                        <button className='addCommentButton' onClick={() => this.addComment(this.props.id)}>Publish</button>
+                        {/*<input
                             type='text'
                             className='addCommentInput'
                             placeholder='Add comment...'
                             onChange={this.changeNewComment}
                             value={this.state.newComment}>
-                        </input>
-                        <button className='addCommentButton' onClick={() => this.addComment(this.props.id)}>Publish</button>
+                        </input>*/}
                     </div>
                 </div>
             </>

@@ -1,0 +1,15 @@
+.picker-container {
+    position: relative;
+    }
+  .emoji-icon {
+    cursor: pointer;
+    position: absolute;
+    right: 5px;
+    top: 5px;
+  }
+  .input-style {
+    width: 80%;
+    border-radius: 3px;
+    border: 1px solid #999;
+    margin-bottom: 10px;
+  }
