@@ -5,10 +5,19 @@ import { AiFillHome } from "react-icons/ai";
 import { BsFillPersonFill, BsPlusSquare } from "react-icons/bs";
 import AddPost from './AddPost';
 import SearchUser from './SearchUser';
+import ClickAwayListener from 'react-click-away-listener';
+
 
 class Navbar extends Component {
     state = {
-        visibiltyAddPost: false
+        visibiltyAddPost: false,
+        visibiltyShowMyProfileEvents: false,
+    }
+    showMyProfileEvents = () => {
+        this.setState({ visibiltyShowMyProfileEvents: true })
+    }
+    hideMyProfileEvents = () => {
+        this.setState({ visibiltyShowMyProfileEvents: false })
     }
     showPostForm = () => {
         this.setState({ visibiltyAddPost: true })
@@ -29,19 +38,23 @@ class Navbar extends Component {
                         <div className="icons">
                             <Link className='iconLink' to='/'><div className="oneIcon"><AiFillHome></AiFillHome></div></Link>
                             <div className='oneIcon' onClick={this.showPostForm}><BsPlusSquare ></BsPlusSquare></div>
-                            <div className="oneIcon" onClick={this.showMyEvents}><BsFillPersonFill></BsFillPersonFill>
-                                <div className='my-events'>
-                                    <Link className='iconLink' to='/myProfile'>
-                                        <div className='my-event'>
-                                            <BsFillPersonFill></BsFillPersonFill>Profile
+                            <div className="oneIcon" onClick={this.showMyProfileEvents} style={{position:'relative'}}><BsFillPersonFill></BsFillPersonFill>
+                                {this.state.visibiltyShowMyProfileEvents &&
+                                    <ClickAwayListener onClickAway={this.hideMyProfileEvents}>
+                                        <div className='my-events'>
+                                            <Link className='iconLink' to='/myProfile'>
+                                                <div className='my-event'>
+                                                    <BsFillPersonFill></BsFillPersonFill>Profile
+                                                </div>
+                                            </Link>
+                                            <Link className='iconLink' to='/SignIn'>
+                                                <div className='my-event' id='my-event-log-out'>
+                                                    Log Out
+                                                </div>
+                                            </Link>
                                         </div>
-                                    </Link>
-                                    <Link className='iconLink' to='/SignIn'>
-                                        <div className='my-event' id='my-event-log-out'>
-                                            Log Out
-                                        </div>
-                                    </Link>
-                                </div>
+                                    </ClickAwayListener>
+                                }
                             </div>
                         </div>
                     </div>

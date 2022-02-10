@@ -48,6 +48,9 @@
     font-size: 20px;
     width: 100px;
     text-decoration: none;
+    position: absolute;
+    top: 100%;
+    right: -20%;
 }
 .my-event{
     display: flex;
