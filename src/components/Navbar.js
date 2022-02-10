@@ -6,7 +6,12 @@ import { BsFillPersonFill, BsPlusSquare } from "react-icons/bs";
 import AddPost from './AddPost';
 import SearchUser from './SearchUser';
 import ClickAwayListener from 'react-click-away-listener';
+import { useHistory } from "react-router-dom";
 
+function EnhanceNavbarWithHistory(props){
+    const history = useHistory()
+    return <Navbar history={history} {...props}></Navbar>
+}
 
 class Navbar extends Component {
     state = {
@@ -25,6 +30,10 @@ class Navbar extends Component {
     hidePostForm = () => {
         this.setState({ visibiltyAddPost: false })
     }
+    LogOut = () => {
+        localStorage.removeItem('currentUserId');
+        this.props.history.push("/SignIn");
+    }
     render() {
 
         return (
@@ -38,7 +47,8 @@ class Navbar extends Component {
                         <div className="icons">
                             <Link className='iconLink' to='/'><div className="oneIcon"><AiFillHome></AiFillHome></div></Link>
                             <div className='oneIcon' onClick={this.showPostForm}><BsPlusSquare ></BsPlusSquare></div>
-                            <div className="oneIcon" onClick={this.showMyProfileEvents} style={{position:'relative'}}><BsFillPersonFill></BsFillPersonFill>
+                            <div className="oneIcon" onClick={this.showMyProfileEvents} style={{position:'relative'}}>
+                                <BsFillPersonFill></BsFillPersonFill>
                                 {this.state.visibiltyShowMyProfileEvents &&
                                     <ClickAwayListener onClickAway={this.hideMyProfileEvents}>
                                         <div className='my-events'>
@@ -47,11 +57,9 @@ class Navbar extends Component {
                                                     <BsFillPersonFill></BsFillPersonFill>Profile
                                                 </div>
                                             </Link>
-                                            <Link className='iconLink' to='/SignIn'>
-                                                <div className='my-event' id='my-event-log-out'>
-                                                    Log Out
-                                                </div>
-                                            </Link>
+                                            <div className='my-event' id='my-event-log-out' onClick={this.LogOut}>
+                                                Log Out
+                                            </div>
                                         </div>
                                     </ClickAwayListener>
                                 }
@@ -67,4 +75,4 @@ class Navbar extends Component {
     }
 }
 
-export default Navbar;
+export default EnhanceNavbarWithHistory;
