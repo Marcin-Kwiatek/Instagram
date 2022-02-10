@@ -89,7 +89,7 @@ class OneWatchedPost extends Component {
         }
     }
     modalPostShow = () => {
-        fetch(`http://localhost:5000/comments?id=${this.props.id}&limit=10`, {})
+        fetch(`http://localhost:5000/comments?id=${this.props.id}&limit=100`, {})
             .then(function (posts) { return (posts.json()) })
             .then((result) => {
                 if (result.data === null) {

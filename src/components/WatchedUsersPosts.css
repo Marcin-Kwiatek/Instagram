@@ -110,6 +110,7 @@
 }
 #modalPostComments{
     height: 65%;
+    overflow: auto;
 }
 #modalPostAddComment{
     height: 20%;
