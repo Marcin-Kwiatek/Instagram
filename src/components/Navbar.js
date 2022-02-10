@@ -29,7 +29,20 @@ class Navbar extends Component {
                         <div className="icons">
                             <Link className='iconLink' to='/'><div className="oneIcon"><AiFillHome></AiFillHome></div></Link>
                             <div className='oneIcon' onClick={this.showPostForm}><BsPlusSquare ></BsPlusSquare></div>
-                            <Link className='iconLink' to='/myProfile'><div className="oneIcon"><BsFillPersonFill></BsFillPersonFill></div></Link>
+                            <div className="oneIcon" onClick={this.showMyEvents}><BsFillPersonFill></BsFillPersonFill>
+                                <div className='my-events'>
+                                    <Link className='iconLink' to='/myProfile'>
+                                        <div className='my-event'>
+                                            <BsFillPersonFill></BsFillPersonFill>Profile
+                                        </div>
+                                    </Link>
+                                    <Link className='iconLink' to='/SignIn'>
+                                        <div className='my-event' id='my-event-log-out'>
+                                            Log Out
+                                        </div>
+                                    </Link>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
