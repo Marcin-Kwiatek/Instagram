@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import './AddPost.css';
 import generateId from '../utils/generateId';
 import currentDate from '../utils/currentDate';
+import { ImImages } from "react-icons/im";
 
 
 class AddPost extends Component {
@@ -27,7 +28,10 @@ class AddPost extends Component {
     }
     addPost = () => {
         if (this.state.addPostText === "") {
-            this.setState({ err: 'Pole nie może być puste' })
+            this.setState({ err: 'Pole nie może być puste!' })
+        }
+        else if (this.state.addPostText !== "") {
+            this.setState({ err: '' })
         }
         else {
             this.addImage().then((url) => {
@@ -64,14 +68,26 @@ class AddPost extends Component {
     render() {
 
         return (
-            <div className='addPostContainer'>
-                <div className='addText' ><input onChange={this.changeAddPostText} type='text' placeholder='enter your post content'></input></div>
-                <input type="file" accept="image/png, image/gif, image/jpeg" onChange={this.onFileChange}></input>
-                <button onClick={this.cancelAddPost}>Cancel</button>
-                <button onClick={this.addPost}>Add Post</button>
-                <div className="err">{this.state.err}</div>
-            </div>
-
+            <>
+                <div className='obscure-background'></div>
+                <div className='add-post-container'>
+                    <div className='add-post-header'>
+                        <button className='add-post-header-text' style={{float:'left'}} onClick={this.cancelAddPost}>Cancel</button>
+                        <button className='add-post-header-text' style={{float:'right'}} onClick={this.addPost}>Add Post</button>
+                    </div>
+                    <div className='add-post-image-container'>
+                        <ImImages className='add-post-image-icon'></ImImages>
+                        <input 
+                            type="file" 
+                            accept="image/png, image/gif, image/jpeg" 
+                            onChange={this.onFileChange} 
+                            style={{color:'red'}}>
+                        </input>
+                        <div className='add-text' ><input onChange={this.changeAddPostText} type='text' placeholder='enter your post content'></input></div>
+                        <div className="err">{this.state.err}</div>
+                    </div>
+                </div>
+            </>
         )
     }
 }
