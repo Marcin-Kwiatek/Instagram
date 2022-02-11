@@ -3,6 +3,8 @@ import './AddPost.css';
 import generateId from '../utils/generateId';
 import currentDate from '../utils/currentDate';
 import { ImImages } from "react-icons/im";
+import ClickAwayListener from 'react-click-away-listener';
+
 
 
 class AddPost extends Component {
@@ -70,23 +72,25 @@ class AddPost extends Component {
         return (
             <>
                 <div className='obscure-background'></div>
-                <div className='add-post-container'>
-                    <div className='add-post-header'>
-                        <button className='add-post-header-text' style={{float:'left'}} onClick={this.cancelAddPost}>Cancel</button>
-                        <button className='add-post-header-text' style={{float:'right'}} onClick={this.addPost}>Add Post</button>
+                <ClickAwayListener onClickAway={this.cancelAddPost}>
+                    <div className='add-post-container'>
+                        <div className='add-post-header'>
+                            <button className='add-post-header-text' style={{float:'left'}} onClick={this.cancelAddPost}>Cancel</button>
+                            <button className='add-post-header-text' style={{float:'right'}} onClick={this.addPost}>Add Post</button>
+                        </div>
+                        <div className='add-post-image-container'>
+                            <ImImages className='add-post-image-icon'></ImImages>
+                            <input 
+                                type="file" 
+                                accept="image/png, image/gif, image/jpeg" 
+                                onChange={this.onFileChange} 
+                                style={{color:'red'}}>
+                            </input>
+                            <div className='add-text' ><input onChange={this.changeAddPostText} type='text' placeholder='enter your post content'></input></div>
+                            <div className="err">{this.state.err}</div>
+                        </div>
                     </div>
-                    <div className='add-post-image-container'>
-                        <ImImages className='add-post-image-icon'></ImImages>
-                        <input 
-                            type="file" 
-                            accept="image/png, image/gif, image/jpeg" 
-                            onChange={this.onFileChange} 
-                            style={{color:'red'}}>
-                        </input>
-                        <div className='add-text' ><input onChange={this.changeAddPostText} type='text' placeholder='enter your post content'></input></div>
-                        <div className="err">{this.state.err}</div>
-                    </div>
-                </div>
+                </ClickAwayListener>
             </>
         )
     }
