@@ -70,8 +70,8 @@ class OneWatchedPost extends Component {
                 }
             })
     }
-    changeNewComment = (e) => {
-        this.setState({ newComment: e })
+    changeNewComment = (inputValue) => {
+        this.setState({ newComment: inputValue })
     }
     addComment = (postId) => {
         if (this.state.newComment !== "") {
@@ -141,7 +141,7 @@ class OneWatchedPost extends Component {
                                 <div className='likesText' id='modalLikesText'>{this.props.likesNr} users like this</div>
                                 <div className='addComment' id='modalPostAddComment'>
                                     <div className='addCommentInput' id='addCommentModalInput'>
-                                        <EmojiInput onChange={this.changeNewComment}></EmojiInput>
+                                        <EmojiInput onChange={this.changeNewComment} inputValue={this.state.newComment}></EmojiInput>
                                     </div>
                                     <button className='addCommentButton' onClick={() => this.addComment(this.props.id)}>Publish</button>
                                 </div>
@@ -160,7 +160,9 @@ class OneWatchedPost extends Component {
                         )}
                     </div>
                     <div className='addComment'>
-                        <div className='addCommentInput'><EmojiInput onChange={this.changeNewComment}></EmojiInput></div>
+                        <div className='addCommentInput'>
+                            <EmojiInput onChange={this.changeNewComment} inputValue={this.state.newComment}></EmojiInput>
+                        </div>
                         <button className='addCommentButton' onClick={() => this.addComment(this.props.id)}>Publish</button>
                     </div>
                 </div>

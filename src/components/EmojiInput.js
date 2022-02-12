@@ -7,7 +7,7 @@ function EmojiInput(props) {
     const [showPicker, setShowPicker] = useState(false);
 
     const onEmojiClick = (event, emojiObject) => {
-        //setInputStr(prevInput => prevInput + emojiObject.emoji);
+        props.onChange(props.inputValue + emojiObject.emoji);
         setShowPicker(false);
     };
 
@@ -17,6 +17,7 @@ function EmojiInput(props) {
             <input
                 className="input-style"
                 placeholder='Add comment...'
+                value={props.inputValue}
                 onChange={e => props.onChange(e.target.value)} />
             <img
                 className="emoji-icon"
