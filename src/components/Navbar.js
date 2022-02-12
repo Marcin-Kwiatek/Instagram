@@ -32,6 +32,7 @@ class Navbar extends Component {
     }
     LogOut = () => {
         localStorage.removeItem('currentUserId');
+        localStorage.removeItem('accessToken');
         this.props.history.push("/SignIn");
     }
     render() {
