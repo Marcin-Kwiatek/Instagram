@@ -3,7 +3,6 @@ import Picker from 'emoji-picker-react';
 import './EmojiInput.css';
 
 function EmojiInput(props) {
-    console.log(props)
     const [showPicker, setShowPicker] = useState(false);
 
     const onEmojiClick = (event, emojiObject) => {
