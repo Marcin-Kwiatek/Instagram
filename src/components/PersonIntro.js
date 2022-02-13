@@ -1,21 +1,19 @@
-import React, { Component } from 'react';
 import './PersonIntro.css';
 import { useLocation } from "react-router-dom"
+import React, { useState, useEffect } from 'react';
 
 
-function EnhancePersonIntroWithLocation(props) {
+function PersonIntro(props) {
+    const [nickName, setNickName] = useState([]);
+    const [isUserFollowed, setIsUserFollowed] = useState(true);
+
     const location = useLocation()
-    return <PersonIntro location={location} {...props}></PersonIntro>
-}
-class PersonIntro extends Component {
-    state = {
-        nickName: [],
-        isUserFollowed: true
-    }
-    followUser = () => {
-        const focusUserId = new URLSearchParams(this.props.location.search).get('id')
-        if (this.state.isUserFollowed === true) {
-            this.setState({ isUserFollowed: false })
+
+
+    const followUser = () => {
+        const focusUserId = new URLSearchParams(location.search).get('id')
+        if (isUserFollowed === true) {
+            setIsUserFollowed(false)
             fetch(`http://localhost:5000/follow`, {
                 method: 'POST',
                 headers: {
@@ -26,7 +24,7 @@ class PersonIntro extends Component {
             })
                 .catch((err) => { console.error(err) })
         } else {
-            this.setState({ isUserFollowed: true })
+            setIsUserFollowed(true)
             fetch(`http://localhost:5000/follow?id=${focusUserId}`, {
                 method: 'DELETE',
                 headers: {
@@ -36,15 +34,15 @@ class PersonIntro extends Component {
                 .then(function (response) { return response.json() })
         }
     }
-    async componentDidMount() {
+    useEffect(async () => {
         const userId = localStorage.getItem("currentUserId")
-        const focusUserId = new URLSearchParams(this.props.location.search).get('id')
+        const focusUserId = new URLSearchParams(location.search).get('id')
         fetch(`http://localhost:5000/personIntro?id=${focusUserId}`, {})
             .then(function (response) { return response.json() })
             .then((data) => {
                 console.log(data.data)
                 let nick = data.data
-                this.setState({ nickName: nick })
+                setNickName(nick)
             })
             .catch((error) => console.error(error))
         try {
@@ -54,26 +52,25 @@ class PersonIntro extends Component {
                 },
             })
             if (response.status === 404) {
-                this.setState({ isUserFollowed: true })
+                setIsUserFollowed(true)
             } else {
-                this.setState({ isUserFollowed: false })
+                setIsUserFollowed(false)
             }
         }
-        catch(error){
+        catch (error) {
             console.error(error)
         }
-    }
-    render() {
-        return (
-            <div className='introContainer'>
-                {this.state.nickName}
-                <button onClick={this.followUser} className='followButton'>
-                    {this.state.isUserFollowed ? 'Follow' : 'Unfollow'}
-                </button>
-            </div>
-        )
-    }
+    }, [])
+    return (
+        <div className='introContainer'>
+            {nickName}
+            <button onClick={followUser} className='followButton'>
+                {isUserFollowed ? 'Follow' : 'Unfollow'}
+            </button>
+        </div>
+    )
+
 
 }
 
-export default EnhancePersonIntroWithLocation;
+export default PersonIntro;
