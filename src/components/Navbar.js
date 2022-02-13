@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { useState, useEffect } from 'react';
 import './Navbar.css';
 import { Link } from "react-router-dom";
 import { AiFillHome } from "react-icons/ai";
@@ -8,72 +8,68 @@ import SearchUser from './SearchUser';
 import ClickAwayListener from 'react-click-away-listener';
 import { useHistory } from "react-router-dom";
 
-function EnhanceNavbarWithHistory(props){
-    const history = useHistory()
-    return <Navbar history={history} {...props}></Navbar>
-}
 
-class Navbar extends Component {
-    state = {
-        visibiltyAddPost: false,
-        visibiltyShowMyProfileEvents: false,
+function Navbar() {
+    const [visibiltyAddPost, setVisibiltyAddPost] = useState(false);
+    const [visibiltyShowMyProfileEvents, setVisibiltyShowMyProfileEvents] = useState(false);
+
+    const history = useHistory()
+
+    const showMyProfileEvents = () => {
+        setVisibiltyShowMyProfileEvents(true)
     }
-    showMyProfileEvents = () => {
-        this.setState({ visibiltyShowMyProfileEvents: true })
+    const hideMyProfileEvents = () => {
+        setVisibiltyShowMyProfileEvents(false)
     }
-    hideMyProfileEvents = () => {
-        this.setState({ visibiltyShowMyProfileEvents: false })
+    const showPostForm = () => {
+        setVisibiltyAddPost(true)
     }
-    showPostForm = () => {
-        this.setState({ visibiltyAddPost: true })
+    const hidePostForm = () => {
+        setVisibiltyAddPost(false)
     }
-    hidePostForm = () => {
-        this.setState({ visibiltyAddPost: false })
-    }
-    LogOut = () => {
+    const LogOut = () => {
         localStorage.removeItem('currentUserId');
         localStorage.removeItem('accessToken');
-        this.props.history.push("/SignIn");
+        history.push("/SignIn");
     }
-    render() {
 
-        return (
-            <div>
-                <div className="logo">
-                    <div className="logoContainer">
-                        <div className="imgLogo">
-                            <Link to='/'><img src={require("../img/logo.png").default}></img></Link>
-                        </div>
-                        <SearchUser></SearchUser>
-                        <div className="icons">
-                            <Link className='iconLink' to='/'><div className="oneIcon"><AiFillHome></AiFillHome></div></Link>
-                            <div className='oneIcon' onClick={this.showPostForm}><BsPlusSquare ></BsPlusSquare></div>
-                            <div className="oneIcon" onClick={this.showMyProfileEvents} style={{position:'relative'}}>
-                                <BsFillPersonFill></BsFillPersonFill>
-                                {this.state.visibiltyShowMyProfileEvents &&
-                                    <ClickAwayListener onClickAway={this.hideMyProfileEvents}>
-                                        <div className='my-events'>
-                                            <Link className='iconLink' to='/myProfile'>
-                                                <div className='my-event'>
-                                                    <BsFillPersonFill></BsFillPersonFill>Profile
-                                                </div>
-                                            </Link>
-                                            <div className='my-event' id='my-event-log-out' onClick={this.LogOut}>
-                                                Log Out
+    return (
+        <div>
+            <div className="logo">
+                <div className="logoContainer">
+                    <div className="imgLogo">
+                        <Link to='/'><img src={require("../img/logo.png").default}></img></Link>
+                    </div>
+                    <SearchUser></SearchUser>
+                    <div className="icons">
+                        <Link className='iconLink' to='/'><div className="oneIcon"><AiFillHome></AiFillHome></div></Link>
+                        <div className='oneIcon' onClick={showPostForm}><BsPlusSquare ></BsPlusSquare></div>
+                        <div className="oneIcon" onClick={showMyProfileEvents} style={{ position: 'relative' }}>
+                            <BsFillPersonFill></BsFillPersonFill>
+                            {visibiltyShowMyProfileEvents &&
+                                <ClickAwayListener onClickAway={hideMyProfileEvents}>
+                                    <div className='my-events'>
+                                        <Link className='iconLink' to='/myProfile'>
+                                            <div className='my-event'>
+                                                <BsFillPersonFill></BsFillPersonFill>Profile
                                             </div>
+                                        </Link>
+                                        <div className='my-event' id='my-event-log-out' onClick={LogOut}>
+                                            Log Out
                                         </div>
-                                    </ClickAwayListener>
-                                }
-                            </div>
+                                    </div>
+                                </ClickAwayListener>
+                            }
                         </div>
                     </div>
                 </div>
-                {this.state.visibiltyAddPost &&
-                    <AddPost cancelAddPost={this.hidePostForm} onPostAdded={this.hidePostForm}></AddPost>
-                }
             </div>
-        )
-    }
+            {visibiltyAddPost &&
+                <AddPost cancelAddPost={hidePostForm} onPostAdded={hidePostForm}></AddPost>
+            }
+        </div>
+    )
+
 }
 
-export default EnhanceNavbarWithHistory;
+export default Navbar;
