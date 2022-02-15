@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { useState, useEffect } from 'react';
 import './AddPost.css';
 import generateId from '../utils/generateId';
 import currentDate from '../utils/currentDate';
@@ -7,53 +7,50 @@ import ClickAwayListener from 'react-click-away-listener';
 
 
 
-class AddPost extends Component {
-    state = {
-        addPostText: '',
-        err: '',
-        currentUserId: '',
-        selectedFile: null
-    }
-    onFileChange = event => {
-        this.setState({ selectedFile: event.target.files[0] });
+function AddPost(props) {
+    const [addPostText, setAddPostText] = useState('');
+    const [err, setErr] = useState('');
+    const [currentUserId, setCurrentUserId] = useState('');
+    const [selectedFile, setSelectedFile] = useState(null);
+
+    const onFileChange = event => {
+        setSelectedFile(event.target.files[0]);
     };
-    componentDidMount() {
+    useEffect(() => {
         const currentUserId = localStorage.getItem("currentUserId")
-        this.setState({ currentUserId: currentUserId })
+        setCurrentUserId(currentUserId)
+    }, [])
+    const changeAddPostText = (e) => {
+        setAddPostText(e.target.value)
     }
-    changeAddPostText = (e) => {
-        this.setState({ addPostText: e.target.value })
+    const cancelAddPost = () => {
+        setErr('')
+        props.cancelAddPost()
     }
-    cancelAddPost = () => {
-        this.setState({ err: '' })
-        this.props.cancelAddPost()
-    }
-    addPost = () => {
-        if (this.state.addPostText === "") {
-            this.setState({ err: 'Pole nie może być puste!' })
-        }
-        else if (this.state.addPostText !== "") {
-            this.setState({ err: '' })
+    const addPost = () => {
+        console.log(addPostText)
+        if (addPostText === "") {
+            setErr('Pole nie może być puste!')
         }
         else {
-            this.addImage().then((url) => {
+            addImage().then((url) => {
                 fetch(`http://localhost:5000/post`, {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json'
                     },
                     body: JSON.stringify({
-                        id: generateId(), text: this.state.addPostText, postAuthorId: this.state.currentUserId,
+                        id: generateId(), text: addPostText, postAuthorId: currentUserId,
                         date: currentDate(), url: url
                     })
-                }).then(() => { this.props.onPostAdded() })
+                }).then(() => { props.onPostAdded() })
                     .catch((err) => { console.error(err) })
             })
-        }   
+        }
     }
-    addImage = () => {
+    const addImage = () => {
         var data = new FormData()
-        data.append('file', this.state.selectedFile)
+        data.append('file', selectedFile)
         return new Promise(function (resolve, reject) {
             fetch(`http://localhost:5000/image`, {
                 method: 'POST',
@@ -67,33 +64,32 @@ class AddPost extends Component {
         })
     }
 
-    render() {
-
-        return (
-            <>
-                <div className='obscure-background'></div>
-                <ClickAwayListener onClickAway={this.cancelAddPost}>
-                    <div className='add-post-container'>
-                        <div className='add-post-header'>
-                            <button className='add-post-header-text' style={{float:'left'}} onClick={this.cancelAddPost}>Cancel</button>
-                            <button className='add-post-header-text' style={{float:'right'}} onClick={this.addPost}>Add Post</button>
-                        </div>
-                        <div className='add-post-image-container'>
-                            <ImImages className='add-post-image-icon'></ImImages>
-                            <input 
-                                type="file" 
-                                accept="image/png, image/gif, image/jpeg" 
-                                onChange={this.onFileChange} 
-                                style={{color:'red'}}>
-                            </input>
-                            <div className='add-text' ><input onChange={this.changeAddPostText} type='text' placeholder='enter your post content'></input></div>
-                            <div className="err">{this.state.err}</div>
-                        </div>
+    return (
+        <>
+            <div className='obscure-background'></div>
+            <ClickAwayListener onClickAway={cancelAddPost}>
+                <div className='add-post-container'>
+                    <div className='add-post-header'>
+                        <button className='add-post-header-text' style={{ float: 'left' }} onClick={cancelAddPost}>Cancel</button>
+                        <button className='add-post-header-text' style={{ float: 'right' }} onClick={addPost}>Add Post</button>
                     </div>
-                </ClickAwayListener>
-            </>
-        )
-    }
+                    <div className='add-post-image-container'>
+                        <ImImages className='add-post-image-icon'></ImImages>
+                        <input
+                            type="file"
+                            accept="image/png, image/gif, image/jpeg"
+                            onChange={onFileChange}
+                            style={{ color: 'red' }}>
+                        </input>
+                        <div className='add-text' >
+                            <input onChange={changeAddPostText} type='text' placeholder='enter your post content'></input>
+                        </div>
+                        <div className="err">{err}</div>
+                    </div>
+                </div>
+            </ClickAwayListener>
+        </>
+    )
 }
 
 export default AddPost;

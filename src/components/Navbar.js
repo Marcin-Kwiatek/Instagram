@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState} from 'react';
 import './Navbar.css';
 import { Link } from "react-router-dom";
 import { AiFillHome } from "react-icons/ai";
