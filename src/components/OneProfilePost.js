@@ -1,17 +1,18 @@
-import React, { Component } from 'react';
+import React, { useState, useEffect } from 'react';
 import './ProfilePosts.css';
 import { AiFillHeart, AiOutlineHeart, AiOutlineMessage } from "react-icons/ai";
 
 
-class OneProfilePost extends Component {
-    state = {
-        visibilityLikeIcon: '',
-        visibilityUnlikeIcon: '',
-        likesNumber: 0
-    }
-    unlikePhoto = (postId) => {
-        this.setState({ visibilityLikeIcon: 'inline' })
-        this.setState({ visibilityUnlikeIcon: 'none' })
+function OneProfilePost(props) {
+
+    const [visibilityLikeIcon, setVisibilityLikeIcon] = useState('');
+    const [visibilityUnlikeIcon, setVisibilityUnlikeIcon] = useState('');
+    const [likesNumber, setLikesNumber] = useState(0);
+
+
+    const unlikePhoto = (postId) => {
+        setVisibilityLikeIcon('inline')
+        setVisibilityUnlikeIcon('none')
         fetch(`http://localhost:5000/likes?id=${postId}`, {
             method: 'DELETE',
             headers: {
@@ -20,9 +21,9 @@ class OneProfilePost extends Component {
         })
             .then(function (response) { return response.json() })
     }
-    likePhoto = (postId) => {
-        this.setState({ visibilityLikeIcon: 'none' })
-        this.setState({ visibilityUnlikeIcon: 'inline' })
+    const likePhoto = (postId) => {
+        setVisibilityLikeIcon('none')
+        setVisibilityUnlikeIcon('inline')
         fetch(`http://localhost:5000/likes`, {
             method: 'POST',
             headers: {
@@ -33,47 +34,45 @@ class OneProfilePost extends Component {
         })
             .catch((err) => { console.error(err) })
     }
-    async componentDidMount() {
+    useEffect(async () => {
         try {
-            let response = await fetch(`http://localhost:5000/likes?likedPostId=${this.props.id}`, {
+            let response = await fetch(`http://localhost:5000/likes?likedPostId=${props.id}`, {
                 headers: {
                     'Content-Type': 'application/json',
                     'authorization': localStorage.getItem("accessToken")
                 },
             })
             if (response.status === 404) {
-                this.setState({ visibilityLikeIcon: 'inline' })
-                this.setState({ visibilityUnlikeIcon: 'none' })
+                setVisibilityLikeIcon('inline')
+                setVisibilityUnlikeIcon('none')
             } else {
-                this.setState({ visibilityLikeIcon: 'none' })
-                this.setState({ visibilityUnlikeIcon: 'inline' })
+                setVisibilityLikeIcon('none')
+                setVisibilityUnlikeIcon('inline')
             }
         }
         catch (error) {
             console.error(error)
         }
-        fetch(`http://localhost:5000/likesNumber?likedPostId=${this.props.id}`, {})
+        fetch(`http://localhost:5000/likesNumber?likedPostId=${props.id}`, {})
             .then(function (response) { return response.json() })
             .then((data) => {
-                this.setState({ likesNumber: data.data })
+                setLikesNumber(data.data)
             })
             .catch((error) => console.error(error))
-    }
-    render() {
-        return (
-            <div className='onePost'>
-                <img className='postImage' src={`http://localhost:5000/${this.props.imageUrl}`} />
-                <div className='profilePostIcons'>
-                    <div className='profilePostIcon' onClick={() => this.unlikePhoto(this.props.id)}
-                        style={{ display: this.state.visibilityUnlikeIcon, color: 'red' }}><AiFillHeart></AiFillHeart></div>
-                    <div className='profilePostIcon' onClick={() => this.likePhoto(this.props.id)}
-                        style={{ display: this.state.visibilityLikeIcon }}><AiOutlineHeart></AiOutlineHeart></div>
-                    <div className='profileLikesNumber'>{this.state.likesNumber}</div>
-                    <div className='profilePostIcon'><AiOutlineMessage></AiOutlineMessage></div>
-                </div>
+    }, [])
+    return (
+        <div className='onePost'>
+            <img className='postImage' src={`http://localhost:5000/${props.imageUrl}`} />
+            <div className='profilePostIcons'>
+                <div className='profilePostIcon' onClick={() => unlikePhoto(props.id)}
+                    style={{ display: visibilityUnlikeIcon, color: 'red' }}><AiFillHeart></AiFillHeart></div>
+                <div className='profilePostIcon' onClick={() => likePhoto(props.id)}
+                    style={{ display: visibilityLikeIcon }}><AiOutlineHeart></AiOutlineHeart></div>
+                <div className='profileLikesNumber'>{likesNumber}</div>
+                <div className='profilePostIcon'><AiOutlineMessage></AiOutlineMessage></div>
             </div>
-        )
-    }
+        </div>
+    )
 }
 
 export default OneProfilePost;
