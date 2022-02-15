@@ -1,17 +1,14 @@
-import React, { Component } from 'react';
+import React, { useState } from 'react';
 import ClickAwayListener from 'react-click-away-listener';
 import './SearchUser.css';
 import { Link } from "react-router-dom";
 
 
-class SearchUser extends Component {
-    state = {
-        searchUsers: []
-    }
-    changeSearchUser = (e) => {
-        this.searchUser(e.target.value)
-    }
-    searchUser = async (value) => {
+function SearchUser() {
+
+    const [searchUsers, setSearchUsers] = useState([]);
+
+    const searchUser = async (value) => {
         let response = await fetch(`http://localhost:5000/searchUser`, {
             method: 'POST',
             headers: {
@@ -23,30 +20,31 @@ class SearchUser extends Component {
         } else {
             let responseJson = response.json()
             let result = await responseJson
-            this.setState({ searchUsers: result.users })
+            setSearchUsers(result.users)
         }
     }
-    hideProptedUsers = () => {
-        this.setState({ searchUsers: [] })
+    const changeSearchUser = (e) => {
+        searchUser(e.target.value)
     }
-    changeFokusUser = (id) => {
+    const hideProptedUsers = () => {
+        setSearchUsers([])
+    }
+    const changeFokusUser = (id) => {
         window.location.href = `/Profile?id=${id}`
     }
-    render() {
 
-        return (
-            <ClickAwayListener onClickAway={this.hideProptedUsers}>
-                <div>
-                    <input type='text' placeholder="Szukaj" className="searchUserInput" onChange={this.changeSearchUser}></input>
-                    <div className='proptedUsersContainer'>{this.state.searchUsers.map(user =>
-                        <Link key={user.id} to='Profile' className='proptedLink'>
-                            <div onClick={() => this.changeFokusUser(user.id)} className="proptedUsers" key={user.id}>{user.login}</div>
-                        </Link>)}
-                    </div>
+    return (
+        <ClickAwayListener onClickAway={hideProptedUsers}>
+            <div>
+                <input type='text' placeholder="Szukaj" className="searchUserInput" onChange={changeSearchUser}></input>
+                <div className='proptedUsersContainer'>{searchUsers.map(user =>
+                    <Link key={user.id} to='Profile' className='proptedLink'>
+                        <div onClick={() => changeFokusUser(user.id)} className="proptedUsers" key={user.id}>{user.login}</div>
+                    </Link>)}
                 </div>
-            </ClickAwayListener>
-        )
-    }
+            </div>
+        </ClickAwayListener>
+    )
 }
 
 export default SearchUser;
