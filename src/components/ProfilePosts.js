@@ -1,43 +1,35 @@
-import React, { Component } from 'react';
+import React, { useState, useEffect } from 'react';
 import './ProfilePosts.css';
 import { useLocation } from "react-router-dom"
 import OneProfilePost from './OneProfilePost';
 
+function ProfilePosts() {
 
-function EnhanceProfilePostsWithLocation(props) {
+    const [posts, setPosts] = useState([]);
     const location = useLocation()
-    return <ProfilePosts location={location} {...props}></ProfilePosts>
-}
-class ProfilePosts extends Component {
 
-    state = {
-        posts: []
-    }
-    componentDidMount() {
-        const userId = new URLSearchParams(this.props.location.search).get('id')
+    useEffect(() => {
+        const userId = new URLSearchParams(location.search).get('id')
         fetch(`http://localhost:5000/user/${userId}/posts`, {})
             .then(function (response) { return response.json() })
             .then((data) => {
                 let posts = data.data
                 if (posts === undefined) {
-                    this.setState({ posts: [] })
+                    setPosts([])
                 }
                 else {
-                    this.setState({ posts: posts })
+                    setPosts(posts)
                 }
             })
-    }
-    render() {
-        return (
-            <div className='postsContainer'>
-                {this.state.posts.map(post =>
-                    <OneProfilePost key={post.id} imageUrl={post.imageUrl} id={post.id}>
-                    </OneProfilePost>
-                )}
-            </div>
-        )
-    }
-
+    }, [])
+    return (
+        <div className='postsContainer'>
+            {posts.map(post =>
+                <OneProfilePost key={post.id} imageUrl={post.imageUrl} id={post.id}>
+                </OneProfilePost>
+            )}
+        </div>
+    )
 }
 
-export default EnhanceProfilePostsWithLocation;
+export default ProfilePosts;
