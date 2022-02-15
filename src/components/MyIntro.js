@@ -17,7 +17,7 @@ function MyIntro() {
     }, [])
     return (
         <div className='introContainer'>
-            {this.state.nickName}
+            {nickName}
         </div>
     )
 }
