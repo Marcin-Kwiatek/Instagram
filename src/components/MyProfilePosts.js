@@ -1,38 +1,34 @@
-import React, { Component } from 'react';
+import React, { useState, useEffect } from 'react';
 import './ProfilePosts.css';
 import OneMyProfilePost from './OneMyProfilePosts';
 
 
-class MyProfilePosts extends Component {
+function MyProfilePosts() {
 
-    state = {
-        posts: []
-    }
-    componentDidMount() {
+    const [posts, setPosts] = useState([]);
+
+    useEffect(() => {
         const currentUserId = localStorage.getItem("currentUserId")
         fetch(`http://localhost:5000/user/${currentUserId}/posts`, {})
             .then(function (response) { return response.json() })
             .then((data) => {
                 let posts = data.data
                 if (posts === undefined) {
-                    this.setState({ posts: [] })
+                    setPosts([])
                 }
                 else {
-                    this.setState({ posts: posts })
+                    setPosts(posts)
                 }
             })
-    }
-    render() {
-        return (
-            <div className='postsContainer'>
-                {this.state.posts.map(post =>
-                    <OneMyProfilePost key={post.id} imageUrl={post.imageUrl} id={post.id}>
-                    </OneMyProfilePost>
-                )}
-            </div>
-        )
-    }
-
+    }, [])
+    return (
+        <div className='postsContainer'>
+            {posts.map(post =>
+                <OneMyProfilePost key={post.id} imageUrl={post.imageUrl} id={post.id}>
+                </OneMyProfilePost>
+            )}
+        </div>
+    )
 }
 
 export default MyProfilePosts;
