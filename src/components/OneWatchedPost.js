@@ -115,7 +115,7 @@ function OneWatchedPost(props) {
                     <div className='oneWatchedPostIcon'><AiOutlineMessage></AiOutlineMessage></div>
                 </div>
                 <div className='likesText'>{props.likesNr} users like this</div>
-                <div className='viewAllCommentsText' onClick={modalPostShow}>View all comments</div>
+                <div className='viewAllCommentsText' onClick={modalPostShow}>View all comments: {props.commentsNr}</div>
                 <div className='obscureBackground' style={{ display: visibilityPostModal }}></div>
                 <div className='modalPost' style={{ display: visibilityPostModal }}>
                     <img className='modalImage' src={`http://localhost:5000/${props.imageUrl}`}></img>

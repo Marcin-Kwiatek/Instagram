@@ -263,12 +263,15 @@ class DbService {
             const usersPosts = await new Promise((resolve, reject) => {
                 let observedUsersWithQuotes = observedUsersId.map(observedUserId => `'${observedUserId}'`)
                 const queryUsersPosts = `SELECT text, posts.id, postAuthorId, login, imageUrl, 
-                COUNT(likes.likingPersonId) AS likesNr FROM posts 
+                COUNT(DISTINCT likes.likingPersonId) AS likesNr, 
+                COUNT(DISTINCT comments.id) AS commentsNr
+                FROM posts 
                 INNER JOIN users ON posts.postAuthorId=users.id  
                 INNER JOIN likes ON posts.id=likes.likedPostId
+                INNER JOIN comments ON posts.id=comments.postId
                 WHERE postAuthorId IN (${observedUsersWithQuotes}) 
                 GROUP By posts.id
-                ORDER BY date DESC LIMIT ${limit} OFFSET ${offset}`
+                ORDER BY posts.date DESC LIMIT ${limit} OFFSET ${offset}`
                 console.log(queryUsersPosts)
                 connection.query(queryUsersPosts, (err, results) => {
                     if (err) reject(new Error(err.message))

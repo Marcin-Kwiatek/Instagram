@@ -35,7 +35,7 @@ function WatchedUsersPosts() {
             >
                 {posts.map(post =>
                     <OneWatchedPost key={post.id} imageUrl={post.imageUrl} login={post.login}
-                        id={post.id} likesNr={post.likesNr}>
+                        id={post.id} likesNr={post.likesNr} commentsNr={post.commentsNr}>
                     </OneWatchedPost>
                 )}
             </InfiniteScroll>
