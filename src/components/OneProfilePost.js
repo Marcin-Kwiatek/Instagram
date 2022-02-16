@@ -8,6 +8,7 @@ function OneProfilePost(props) {
     const [visibilityLikeIcon, setVisibilityLikeIcon] = useState('');
     const [visibilityUnlikeIcon, setVisibilityUnlikeIcon] = useState('');
     const [likesNumber, setLikesNumber] = useState(0);
+    const [commentsNumber, setCommentsNumber] = useState(0);
 
 
     const unlikePhoto = (postId) => {
@@ -56,7 +57,8 @@ function OneProfilePost(props) {
         fetch(`http://localhost:5000/likesNumber?likedPostId=${props.id}`, {})
             .then(function (response) { return response.json() })
             .then((data) => {
-                setLikesNumber(data.data)
+                setLikesNumber(data.data[0].likesNr)
+                setCommentsNumber(data.data[0].commentsNr)
             })
             .catch((error) => console.error(error))
     }, [])
@@ -70,6 +72,7 @@ function OneProfilePost(props) {
                     style={{ display: visibilityLikeIcon }}><AiOutlineHeart></AiOutlineHeart></div>
                 <div className='profileLikesNumber'>{likesNumber}</div>
                 <div className='profilePostIcon'><AiOutlineMessage></AiOutlineMessage></div>
+                <div >{commentsNumber}</div>
             </div>
         </div>
     )

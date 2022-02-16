@@ -72,13 +72,17 @@ class DbService {
     async getLikesNumber(postId) {
         try {
             const response = await new Promise((resolve, reject) => {
-                const query = `SELECT likingPersonId FROM likes WHERE likedPostId = '${postId}'`
+               
+                const query = `SELECT COUNT(DISTINCT likes.likingPersonId) AS likesNr, COUNT(DISTINCT comments.id) 
+                AS commentsNr FROM likes INNER JOIN comments ON likes.likedPostId=comments.postId 
+                WHERE likedPostId = '${postId}'`
                 console.log(query)
                 connection.query(query, (err, results) => {
                     if (err) reject(new Error(err.message))
-                    resolve(results.length)
+                    resolve(results)
                 })
             })
+            console.log('sadasdsadas'+ response)
             return response
         } catch (error) {
             console.log(error)
