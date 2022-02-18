@@ -6,7 +6,8 @@ import { BsFillPersonFill, BsPlusSquare } from "react-icons/bs";
 import generateId from '../utils/generateId';
 import currentDate from '../utils/currentDate';
 import { ImImages } from "react-icons/im";
-import Modal from 'react-modal'; import SearchUser from './SearchUser';
+import Modal from 'react-modal'; 
+import SearchUser from './SearchUser';
 import ClickAwayListener from 'react-click-away-listener';
 import { useHistory } from "react-router-dom";
 
