@@ -49,6 +49,7 @@
 }
 .addCommentInput{
     width: 70%;
+    padding-left: 10px;
 }
 .addCommentButton{
     color: rgba(var(--d69,0,149,246),1);
@@ -159,6 +160,7 @@
 }
 #modalLikesText{
     height: 15%;
+    padding-bottom: 20px;
 }
 #modalAddCommentButton{
     top: 45%;
