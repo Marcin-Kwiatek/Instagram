@@ -23,7 +23,8 @@ const modalStyles = {
         transform: 'translate(-50%, -50%)',
         padding: '0px',
         margin: '0px',
-        borderRadius: '5%'
+        borderRadius: '5%',
+        overflow: 'hidden'
     },
 };
 
