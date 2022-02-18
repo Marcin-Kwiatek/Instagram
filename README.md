@@ -7,6 +7,7 @@ Umożliwia:
 
 Zastosowane technologie: HTLM, CSS, JAVASCRIPT, REACT.JS, EXPRESS.JS, MYSQL, JSON Web Token
 
-![instagram1](https://user-images.githubusercontent.com/75683529/150788476-8369ecdf-62c5-4539-843b-dff4fdff58f1.jpg)
 ![instagram2](https://user-images.githubusercontent.com/75683529/150788483-131d3a78-ca36-4437-a849-57b69c2d68e4.jpg)
-![instagram3](https://user-images.githubusercontent.com/75683529/150788494-20211378-cfd9-4cae-8950-8c647064b9be.jpg)
+![instagram photo1](https://user-images.githubusercontent.com/75683529/154700624-95c207cf-1dea-41b0-85a8-073dfcfa5db2.jpg)
+![instagram photo2](https://user-images.githubusercontent.com/75683529/154700651-ff7804a8-520d-4fea-8d51-89f3eab48b02.jpg)
+![instagram photo3](https://user-images.githubusercontent.com/75683529/154700674-b6039aa8-5f35-4302-9825-b00f58267655.jpg)
