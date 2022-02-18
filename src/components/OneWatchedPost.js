@@ -9,22 +9,22 @@ import Modal from 'react-modal';
 Modal.setAppElement('#root');
 const modalStyles = {
     content: {
-      top: '50%',
-      left: '50%',
-      right: 'auto',
-      bottom: 'auto',
-      marginRight: '-50%',
-      width: '90%',
-      height: '90%',
-      transform: 'translate(-50%, -50%)',
-      padding: '0px'
+        top: '50%',
+        left: '50%',
+        right: 'auto',
+        bottom: 'auto',
+        marginRight: '-50%',
+        width: '90%',
+        height: '90%',
+        transform: 'translate(-50%, -50%)',
+        padding: '0px'
     },
-  };
+};
 
 function OneWatchedPost(props) {
 
-    const [visibilityLikeIcon, setVisibilityLikeIcon] = useState('');
-    const [visibilityUnlikeIcon, setVisibilityUnlikeIcon] = useState('');
+    const [visibilityLikeIcon, setVisibilityLikeIcon] = useState(false);
+    const [visibilityUnlikeIcon, setVisibilityUnlikeIcon] = useState(false);
     const [newComment, setNewComment] = useState('');
     const [comments, setComments] = useState([]);
     const [modalIsOpen, setIsOpen] = useState(false);
@@ -32,8 +32,8 @@ function OneWatchedPost(props) {
 
 
     const unlikePhoto = (postId) => {
-        setVisibilityLikeIcon('inline')
-        setVisibilityUnlikeIcon('none')
+        setVisibilityLikeIcon(true)
+        setVisibilityUnlikeIcon(false)
         fetch(`http://localhost:5000/likes?id=${postId}`, {
             method: 'DELETE',
             headers: {
@@ -43,8 +43,8 @@ function OneWatchedPost(props) {
             .then(function (response) { return response.json() })
     }
     const likePhoto = (postId) => {
-        setVisibilityLikeIcon('none')
-        setVisibilityUnlikeIcon('inline')
+        setVisibilityLikeIcon(false)
+        setVisibilityUnlikeIcon(true)
         fetch(`http://localhost:5000/likes`, {
             method: 'POST',
             headers: {
@@ -81,11 +81,11 @@ function OneWatchedPost(props) {
                 },
             })
             if (response.status === 404) {
-                setVisibilityLikeIcon('inline')
-                setVisibilityUnlikeIcon('none')
+                setVisibilityLikeIcon(true)
+                setVisibilityUnlikeIcon(false)
             } else {
-                setVisibilityLikeIcon('none')
-                setVisibilityUnlikeIcon('inline')
+                setVisibilityLikeIcon(false)
+                setVisibilityUnlikeIcon(true)
             }
         }
         catch (error) {
@@ -120,27 +120,32 @@ function OneWatchedPost(props) {
                 .catch((err) => { console.error(err) })
         }
     }
-   
+
     return (
         <>
             <div className={'watchedUsersPost'}>
                 <div className='watchedPostNick'>{props.login}</div>
                 <img className='watchedPostImage' src={`http://localhost:5000/${props.imageUrl}`} />
                 <div className='watchedPostIcons'>
-                    <div className='oneWatchedPostIcon' onClick={() => unlikePhoto(props.id)}
-                        style={{ display: visibilityUnlikeIcon, color: 'red' }}><AiFillHeart></AiFillHeart></div>
-                    <div className='oneWatchedPostIcon' onClick={() => likePhoto(props.id)}
-                        style={{ display: visibilityLikeIcon }}><AiOutlineHeart></AiOutlineHeart></div>
+                    {visibilityUnlikeIcon &&
+                        <div className='oneWatchedPostIcon' onClick={() => unlikePhoto(props.id)}
+                            style={{ color: 'red' }}><AiFillHeart></AiFillHeart></div>
+                    }
+                    {visibilityLikeIcon &&
+                        <div className='oneWatchedPostIcon' onClick={() => likePhoto(props.id)}>
+                            <AiOutlineHeart></AiOutlineHeart>
+                        </div>
+                    }
                     <div className='oneWatchedPostIcon'><AiOutlineMessage></AiOutlineMessage></div>
                 </div>
                 <div className='likesText'>{props.likesNr} users like this</div>
-                <div className='viewAllCommentsText'onClick={openModal}>View all comments: {props.commentsNr}</div>
+                <div className='viewAllCommentsText' onClick={openModal}>View all comments: {props.commentsNr}</div>
                 <Modal
                     isOpen={modalIsOpen}
                     onRequestClose={closeModal}
                     style={modalStyles}
                 >
-                    <button className={'hideModalPost'}onClick={closeModal}>x</button>
+                    <button className={'hideModalPost'} onClick={closeModal}>x</button>
                     <img className='modalImage' src={`http://localhost:5000/${props.imageUrl}`}></img>
                     <div className='modalCommentContainer'>
                         <div className='modalPostNick'>{props.login}</div>
@@ -154,10 +159,15 @@ function OneWatchedPost(props) {
                         </div>
                         <div className='lowerPartOfModal'>
                             <div className='watchedPostIcons' id='modalWatchedPostIcons'>
-                            <div className='oneWatchedPostIcon' onClick={() => unlikePhoto(props.id)}
-                                    style={{ display: visibilityUnlikeIcon, color: 'red' }}><AiFillHeart></AiFillHeart></div>
-                                <div className='oneWatchedPostIcon' onClick={() => likePhoto(props.id)}
-                                    style={{ display: visibilityLikeIcon }}><AiOutlineHeart></AiOutlineHeart></div>
+                                {visibilityUnlikeIcon &&
+                                    <div className='oneWatchedPostIcon' onClick={() => unlikePhoto(props.id)}
+                                        style={{ color: 'red' }}><AiFillHeart></AiFillHeart></div>
+                                }
+                                {visibilityUnlikeIcon &&
+                                    <div className='oneWatchedPostIcon' onClick={() => likePhoto(props.id)}>
+                                        <AiOutlineHeart></AiOutlineHeart>
+                                    </div>
+                                }
                                 <div className='oneWatchedPostIcon'><AiOutlineMessage></AiOutlineMessage></div>
                             </div>
                             <div className='likesText' id='modalLikesText'>{props.likesNr} users like this</div>
@@ -165,9 +175,9 @@ function OneWatchedPost(props) {
                                 <div className='addCommentInput' id='addCommentModalInput'>
                                     <EmojiInput onChange={changeNewComment} inputValue={newComment}></EmojiInput>
                                 </div>
-                                <button 
-                                    className='addCommentButton' 
-                                    id='modalAddCommentButton' 
+                                <button
+                                    className='addCommentButton'
+                                    id='modalAddCommentButton'
                                     onClick={() => addComment(props.id)}>Publish
                                 </button>
                             </div>

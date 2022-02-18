@@ -26,8 +26,8 @@ const modalStyles = {
 
 function OneProfilePost(props) {
 
-    const [visibilityLikeIcon, setVisibilityLikeIcon] = useState('');
-    const [visibilityUnlikeIcon, setVisibilityUnlikeIcon] = useState('');
+    const [visibilityLikeIcon, setVisibilityLikeIcon] = useState(false);
+    const [visibilityUnlikeIcon, setVisibilityUnlikeIcon] = useState(false);
     const [likesNumber, setLikesNumber] = useState(0);
     const [commentsNumber, setCommentsNumber] = useState(0);
     const [modalIsOpen, setIsOpen] = useState(false);
@@ -70,8 +70,8 @@ function OneProfilePost(props) {
         setIsOpen(false)
     }
     const unlikePhoto = (postId) => {
-        setVisibilityLikeIcon('inline')
-        setVisibilityUnlikeIcon('none')
+        setVisibilityLikeIcon(true)
+        setVisibilityUnlikeIcon(false)
         fetch(`http://localhost:5000/likes?id=${postId}`, {
             method: 'DELETE',
             headers: {
@@ -81,8 +81,8 @@ function OneProfilePost(props) {
             .then(function (response) { return response.json() })
     }
     const likePhoto = (postId) => {
-        setVisibilityLikeIcon('none')
-        setVisibilityUnlikeIcon('inline')
+        setVisibilityLikeIcon(false)
+        setVisibilityUnlikeIcon(true)
         fetch(`http://localhost:5000/likes`, {
             method: 'POST',
             headers: {
@@ -102,11 +102,11 @@ function OneProfilePost(props) {
                 },
             })
             if (response.status === 404) {
-                setVisibilityLikeIcon('inline')
-                setVisibilityUnlikeIcon('none')
+                setVisibilityLikeIcon(true)
+                setVisibilityUnlikeIcon(false)
             } else {
-                setVisibilityLikeIcon('none')
-                setVisibilityUnlikeIcon('inline')
+                setVisibilityLikeIcon(false)
+                setVisibilityUnlikeIcon(true)
             }
         }
         catch (error) {
@@ -125,10 +125,15 @@ function OneProfilePost(props) {
             <div className='onePost' onClick={openModal}>
                 <img className='postImage' src={`http://localhost:5000/${props.imageUrl}`} />
                 <div className='profilePostIcons'>
-                    <div className='profilePostIcon' onClick={() => unlikePhoto(props.id)}
-                        style={{ display: visibilityUnlikeIcon, color: 'red' }}><AiFillHeart></AiFillHeart></div>
-                    <div className='profilePostIcon' onClick={() => likePhoto(props.id)}
-                        style={{ display: visibilityLikeIcon }}><AiOutlineHeart></AiOutlineHeart></div>
+                    {visibilityUnlikeIcon &&
+                        <div className='profilePostIcon' onClick={() => unlikePhoto(props.id)}
+                            style={{ color: 'red' }}><AiFillHeart></AiFillHeart></div>
+                    }
+                    {visibilityLikeIcon &&
+                        <div className='profilePostIcon' onClick={() => likePhoto(props.id)}>
+                            <AiOutlineHeart></AiOutlineHeart>
+                        </div>
+                    }
                     <div className='profileLikesNumber'>{likesNumber}</div>
                     <div className='profilePostIcon'><AiOutlineMessage></AiOutlineMessage></div>
                     <div >{commentsNumber}</div>
@@ -153,10 +158,14 @@ function OneProfilePost(props) {
                     </div>
                     <div className='lowerPartOfModal'>
                         <div className='watchedPostIcons' id='modalWatchedPostIcons'>
+                        {visibilityUnlikeIcon &&
                             <div className='oneWatchedPostIcon' onClick={() => unlikePhoto(props.id)}
-                                style={{ display: visibilityUnlikeIcon, color: 'red' }}><AiFillHeart></AiFillHeart></div>
+                                style={{ color: 'red' }}><AiFillHeart></AiFillHeart></div>
+                        }
+                        {visibilityLikeIcon &&
                             <div className='oneWatchedPostIcon' onClick={() => likePhoto(props.id)}
                                 style={{ display: visibilityLikeIcon }}><AiOutlineHeart></AiOutlineHeart></div>
+                        }
                             <div className='oneWatchedPostIcon'><AiOutlineMessage></AiOutlineMessage></div>
                         </div>
                         <div className='likesText' id='modalLikesText'>{likesNumber} users like this</div>
