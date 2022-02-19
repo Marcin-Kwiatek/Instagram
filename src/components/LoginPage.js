@@ -2,6 +2,7 @@ import './FormFields.css';
 import React, { useState } from 'react';
 import { Link } from "react-router-dom";
 import { useHistory } from "react-router-dom";
+import { signIn } from '../utils/Api';
 
 
 function LoginPage() {
@@ -16,13 +17,7 @@ function LoginPage() {
             setErr('Nie poprawna wartość login lub hasło')
         }
         else {
-            fetch(`${process.env.REACT_APP_API_URL}/signIn`, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({ login: login, password: password })
-            })
+            signIn(login, password)
                 .then((response) => {
                     if (response.status === 404) {
                         setErr('Nie znaleziono użytkownika o podanym loginie lub haśle')
