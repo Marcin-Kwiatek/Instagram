@@ -3,6 +3,7 @@ import React, { useState } from 'react';
 import { Link } from "react-router-dom";
 import { useHistory } from "react-router-dom";
 import generateId from '../utils/generateId';
+import Logo from './Logo';
 
 function SignUp() {
 
@@ -49,9 +50,7 @@ function SignUp() {
     }
     return (
         <div className="container">
-            <div className="logo">
-                <img src={require("../img/logo.png").default}></img>
-            </div>
+            <Logo></Logo>
             <input placeholder="Login" className="input" onChange={changeLogin}></input>
             <input placeholder="Hasło" className="input" onChange={changePassword} type="password"></input>
             <button className="submitButton" onClick={SignUp}>Sign Up</button>

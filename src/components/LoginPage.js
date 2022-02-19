@@ -3,6 +3,7 @@ import React, { useState } from 'react';
 import { Link } from "react-router-dom";
 import { useHistory } from "react-router-dom";
 import { signIn } from '../utils/Api';
+import Logo from './Logo';
 
 
 function LoginPage() {
@@ -39,9 +40,7 @@ function LoginPage() {
     }
     return (
         <div className="container">
-            <div className="logo">
-                <img src={require("../img/logo.png").default}></img>
-            </div>
+            <Logo></Logo>
             <input placeholder="Login" className="input" maxLength="20" type="text" onChange={changeLogin}></input>
             <input placeholder="Hasło" className="input" maxLength="20" type="password" onChange={changePassword}></input>
             <button className="submitButton" onClick={Login}>Zaloguj się</button>
