@@ -2,6 +2,7 @@ import './FormFields.css';
 import React, { useState } from 'react';
 import { Link } from "react-router-dom";
 import { useHistory } from "react-router-dom";
+import Logo from './Logo';
 import { signUp } from '../utils/Api';
 
 
