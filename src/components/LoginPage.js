@@ -16,7 +16,7 @@ function LoginPage() {
             setErr('Nie poprawna wartość login lub hasło')
         }
         else {
-            fetch(`http://localhost:5000/signIn`, {
+            fetch(`${process.env.REACT_APP_API_URL}/signIn`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
