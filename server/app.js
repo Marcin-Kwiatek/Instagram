@@ -45,33 +45,48 @@ app.get('/user/:userId/posts', async function (request, response) {
     }
 })
 app.get('/personIntro', function (request, response) {
-    console.log(request.query.id)
-    let idUser = request.query.id
-    const db = dbService.getDbServiceInstance()
-    const result = db.getIntro(idUser)
-    result
-        .then(data => {
-            response.json({ data: data })
-        })
-        .catch(err => console.log(err))
+    try {
+        console.log(request.query.id)
+        let idUser = request.query.id
+        const db = dbService.getDbServiceInstance()
+        const result = db.getIntro(idUser)
+        result
+            .then(data => {
+                response.json({ data: data })
+            })
+    }
+    catch (err) {
+        console.error(err)
+        response.sendStatus(500)
+    }
 })
 app.get('/likesNumber', function (request, response) {
-    const db = dbService.getDbServiceInstance()
-    const result = db.getLikesNumber(request.query.likedPostId)
-    result
-        .then(data => {
-            response.json({ data: data })
-        })
-        .catch(err => console.log(err))
+    try {
+        const db = dbService.getDbServiceInstance()
+        const result = db.getLikesNumber(request.query.likedPostId)
+        result
+            .then(data => {
+                response.json({ data: data })
+            })
+    }
+    catch (err) {
+        console.error(err)
+        response.sendStatus(500)
+    }
 })
 app.get('/comments', function (request, response) {
-    const db = dbService.getDbServiceInstance()
-    const result = db.getComments(request.query.id, request.query.limit)
-    result
-        .then(data => {
-            response.json({ data: data })
-        })
-        .catch(err => console.log(err))
+    try {
+        const db = dbService.getDbServiceInstance()
+        const result = db.getComments(request.query.id, request.query.limit)
+        result
+            .then(data => {
+                response.json({ data: data })
+            })
+    }
+    catch (err) {
+        console.error(err)
+        response.sendStatus(500)
+    }
 })
 app.get('/currentUser/observedUsers/posts', authenticateJwt, async function (request, response) {
     try {
@@ -89,27 +104,50 @@ app.get('/currentUser/observedUsers/posts', authenticateJwt, async function (req
         console.error(error)
         response.sendStatus(500)
     }
-
 })
 app.post('/image', function (request, response) {
-    let file = request.files.file
-    file.mv('./uploads/' + file.name);
-    response.json({ url: 'uploads/' + file.name })
+    try {
+        let file = request.files.file
+        file.mv('./uploads/' + file.name);
+        response.json({ url: 'uploads/' + file.name })
+    }
+    catch (error) {
+        console.error(error)
+        response.sendStatus(500)
+    }
 })
 app.post('/post', function (request, response) {
-    const db = dbService.getDbServiceInstance()
-    const result = db.insertPost(request.body)
-    response.sendStatus(200)
+    try {
+        const db = dbService.getDbServiceInstance()
+        const result = db.insertPost(request.body)
+        response.sendStatus(200)
+    }
+    catch (error) {
+        console.error(error)
+        response.sendStatus(500)
+    }
 })
 app.post('/follow', authenticateJwt, function (request, response) {
-    const db = dbService.getDbServiceInstance()
-    const result = db.insertFollow(request.currentUserId, request.body.watchedId)
-    response.sendStatus(200)
+    try {
+        const db = dbService.getDbServiceInstance()
+        const result = db.insertFollow(request.currentUserId, request.body.watchedId)
+        response.sendStatus(200)
+    }
+    catch (error) {
+        console.error(error)
+        response.sendStatus(500)
+    }
 })
 app.post('/likes', authenticateJwt, function (request, response) {
-    const db = dbService.getDbServiceInstance()
-    const result = db.insertLikes(request.currentUserId, request.body.likedPostId)
-    response.sendStatus(200)
+    try {
+        const db = dbService.getDbServiceInstance()
+        const result = db.insertLikes(request.currentUserId, request.body.likedPostId)
+        response.sendStatus(200)
+    }
+    catch (error) {
+        console.error(error)
+        response.sendStatus(500)
+    }
 })
 app.post('/comment', authenticateJwt, async function (request, response) {
     try {
@@ -125,66 +163,97 @@ app.post('/comment', authenticateJwt, async function (request, response) {
     }
 })
 app.post('/signIn', async function (request, response) {
-    const db = dbService.getDbServiceInstance()
-    const id = await db.getUserId(request.body)
-    if (id === null) {
-        response.sendStatus(404)
-    } else {
-        let accessToken = jwt.sign({ currentUserId: id }, process.env.ACCESS_TOKEN_SECRET)
-        response.status(200).json({ accessToken, userId: id })
+    try {
+        const db = dbService.getDbServiceInstance()
+        const id = await db.getUserId(request.body)
+        if (id === null) {
+            response.sendStatus(404)
+        } else {
+            let accessToken = jwt.sign({ currentUserId: id }, process.env.ACCESS_TOKEN_SECRET)
+            response.status(200).json({ accessToken, userId: id })
+        }
     }
-    console.log(id)
+    catch (error) {
+        console.error(error)
+        response.sendStatus(500)
+    }
 })
 app.post('/searchUser', async function (request, response) {
-    const db = dbService.getDbServiceInstance()
-    const result = await db.searchUser(request.body)
-    if (result === null) {
-        response.sendStatus(404)
-    } else {
-        response.status(200).json({ users: result })
+    try {
+        const db = dbService.getDbServiceInstance()
+        const result = await db.searchUser(request.body)
+        if (result === null) {
+            response.sendStatus(404)
+        } else {
+            response.status(200).json({ users: result })
+        }
     }
-    console.log(result)
+    catch (error) {
+        console.error(error)
+        response.sendStatus(500)
+    }
 })
 
 app.delete('/follow', authenticateJwt, function (request, response) {
-    console.log(request.query.id)
-    let watchedId = request.query.id
-    const db = dbService.getDbServiceInstance()
-    const result = db.unfollow(request.currentUserId, watchedId)
-    result
-        .then(data => {
-            response.json({ data: data })
-        })
-        .catch(err => console.log(err))
+    try {
+        let watchedId = request.query.id
+        const db = dbService.getDbServiceInstance()
+        const result = db.unfollow(request.currentUserId, watchedId)
+        result
+            .then(data => {
+                response.json({ data: data })
+            })
+    }
+    catch (error) {
+        console.error(error)
+        response.sendStatus(500)
+    }
 })
 app.delete('/likes', authenticateJwt, function (request, response) {
-    const db = dbService.getDbServiceInstance()
-    const result = db.unlike(request.currentUserId, request.query.id)
-    result
-        .then(data => {
-            response.json({ data: data })
-        })
-        .catch(err => console.log(err))
+    try {
+        const db = dbService.getDbServiceInstance()
+        const result = db.unlike(request.currentUserId, request.query.id)
+        result
+            .then(data => {
+                response.json({ data: data })
+            })
+    }
+    catch (error) {
+        console.error(error)
+        response.sendStatus(500)
+    }
 })
 app.get('/follow', async function (request, response) {
-    let observerId = request.query.observerId
-    let watchedId = request.query.watchedId
-    const db = dbService.getDbServiceInstance()
-    const result = await db.getIsFollowing(observerId, watchedId)
-    console.log('Search Follow result', result)
-    if (result === null) {
-        response.sendStatus(404)
-    } else {
-        response.sendStatus(200)
+    try {
+        let observerId = request.query.observerId
+        let watchedId = request.query.watchedId
+        const db = dbService.getDbServiceInstance()
+        const result = await db.getIsFollowing(observerId, watchedId)
+        console.log('Search Follow result', result)
+        if (result === null) {
+            response.sendStatus(404)
+        } else {
+            response.sendStatus(200)
+        }
+    }
+    catch (error) {
+        console.error(error)
+        response.sendStatus(500)
     }
 })
 app.get('/likes', authenticateJwt, async function (request, response) {
-    const db = dbService.getDbServiceInstance()
-    const result = await db.getIsLiking(request.currentUserId, request.query.likedPostId)
-    if (result === null) {
-        response.sendStatus(404)
-    } else {
-        response.sendStatus(200)
+    try {
+        const db = dbService.getDbServiceInstance()
+        const result = await db.getIsLiking(request.currentUserId, request.query.likedPostId)
+        if (result === null) {
+            response.sendStatus(404)
+        } else {
+            response.sendStatus(200)
+        }
+    }
+    catch (error) {
+        console.error(error)
+        response.sendStatus(500)
     }
 })
 
