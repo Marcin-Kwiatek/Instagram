@@ -9,7 +9,7 @@ const connection = mysql.createConnection({
     password: process.env.PASSWORD,
     database: process.env.DATABASE,
     port: process.env.DB_PORT,
-    charset : 'utf8mb4'
+    charset: 'utf8mb4'
 })
 
 connection.connect((err) => {
@@ -23,21 +23,17 @@ class DbService {
     static getDbServiceInstance() {
         return instance ? instance : new DbService()
     }
-    async insertUser(user) {
-        try {
-            const responseAddUser = await new Promise((resolve, reject) => {
-                const queryAddUser = "INSERT INTO users (id, login, password) " +
-                    `VALUES ('` + user.id + `','` + user.login + `','` + user.password + `' )`
-                console.log(queryAddUser)
-                connection.query(queryAddUser, (err, results) => {
-                    if (err) reject(new Error(err.message))
-                    resolve(results)
-                })
+    async createUser(user) {
+        const responseAddUser = await new Promise((resolve, reject) => {
+            const queryAddUser = "INSERT INTO users (id, login, password) " +
+                `VALUES ('` + user.id + `','` + user.login + `','` + user.password + `' )`
+            console.log(queryAddUser)
+            connection.query(queryAddUser, (err, results) => {
+                if (err) reject(new Error(err.message))
+                resolve(results)
             })
-            return responseAddUser
-        } catch (error) {
-            console.error(error)
-        }
+        })
+        return responseAddUser
     }
     async getUserPosts(authorId) {
         try {
@@ -72,7 +68,7 @@ class DbService {
     async getLikesNumber(postId) {
         try {
             const response = await new Promise((resolve, reject) => {
-               
+
                 const query = `SELECT COUNT(DISTINCT likes.likingPersonId) AS likesNr, COUNT(DISTINCT comments.id) 
                 AS commentsNr FROM likes INNER JOIN comments ON likes.likedPostId=comments.postId 
                 WHERE likedPostId = '${postId}'`
@@ -82,7 +78,6 @@ class DbService {
                     resolve(results)
                 })
             })
-            console.log('sadasdsadas'+ response)
             return response
         } catch (error) {
             console.log(error)
@@ -198,19 +193,19 @@ class DbService {
             console.log(error)
         }
     }
-    async selectSignUp(user) {
-        try {
-            const responseSelectSignUp = await new Promise((resolve, reject) => {
-                const querySelectSignUp = `SELECT id FROM users WHERE login = '${user.login}'`
-                console.log(querySelectSignUp)
-                connection.query(querySelectSignUp, (err, results) => {
-                    if (err) reject(new Error(err.message))
-                    resolve(results)
-                })
+    async getUserIdByLogin(login) {
+        const response = await new Promise((resolve, reject) => {
+            const query = `SELECT id FROM users WHERE login = '${login}'`
+            console.log(query)
+            connection.query(query, (err, results) => {
+                if (err) reject(new Error(err.message))
+                resolve(results)
             })
-            if (responseSelectSignUp.length === 0) { return null } else return responseSelectUser[0].id
-        } catch (error) {
-            console.error(error)
+        })
+        if (response.length === 0) {
+            return null
+        } else {
+            return response[0]
         }
     }
     async searchUser(user) {

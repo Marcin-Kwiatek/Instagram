@@ -18,24 +18,17 @@ function SignUp() {
             setErr('Nie poprawna wartość login lub hasło')
         }
         else {
-            fetch(`http://localhost:5000/signUp`, {
+            fetch(`http://localhost:5000/user`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
                 },
-                body: JSON.stringify({ login: login, password: password })
+                body: JSON.stringify({ id: generateId(), login: login, password: password })
             })
                 .then((response) => {
-                    if (response.status === 404) {
+                    if (response.status === 409) {
                         setErr('Ten login jest już zajęty')
                     } else {
-                        fetch(`http://localhost:5000/user`, {
-                            method: 'POST',
-                            headers: {
-                                'Content-Type': 'application/json'
-                            },
-                            body: JSON.stringify({ id: generateId(), login: login, password: password })
-                        })
                         history.push("/SignIn");
                     }
                 })

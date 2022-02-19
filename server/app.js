@@ -15,10 +15,21 @@ app.use('/uploads', express.static(__dirname + '/uploads'));
 app.use(express.json())
 app.use(express.urlencoded({ extended: false }))
 
-app.post('/user', function (request, response) {
-    const db = dbService.getDbServiceInstance()
-    const result = db.insertUser(request.body)
-    response.sendStatus(200)
+app.post('/user', async function (request, response) {
+    try {
+        const db = dbService.getDbServiceInstance()
+        const userId = await db.getUserIdByLogin(request.body.login)
+        if (userId === null) {
+            db.createUser(request.body)
+            response.sendStatus(201)
+        }
+        else {
+            response.sendStatus(409)
+        }
+    } catch (error) {
+        console.error(error)
+        response.sendStatus(500)
+    }
 })
 app.get('/user/:userId/posts', async function (request, response) {
     try {
@@ -123,16 +134,6 @@ app.post('/signIn', async function (request, response) {
         response.status(200).json({ accessToken, userId: id })
     }
     console.log(id)
-})
-app.post('/signUp', async function (request, response) {
-    const db = dbService.getDbServiceInstance()
-    const result = await db.selectSignUp(request.body)
-    if (result === null) {
-        response.sendStatus(200)
-    } else {
-        response.sendStatus(404)
-    }
-    console.log(result)
 })
 app.post('/searchUser', async function (request, response) {
     const db = dbService.getDbServiceInstance()
