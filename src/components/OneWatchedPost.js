@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import { AiFillHeart, AiOutlineHeart, AiOutlineMessage } from "react-icons/ai";
 import './WatchedUsersPosts.css';
-import generateId from '../utils/generateId';
-import currentDate from '../utils/currentDate';
 import EmojiInput from './EmojiInput'
 import Modal from 'react-modal';
+import { getPostComments, addingComment, deleteLike, addLike, isPostLiking, getThreePostComments } from '../utils/Api';
+
 
 Modal.setAppElement('#root');
 const modalStyles = {
@@ -34,29 +34,17 @@ function OneWatchedPost(props) {
     const unlikePhoto = (postId) => {
         setVisibilityLikeIcon(true)
         setVisibilityUnlikeIcon(false)
-        fetch(`http://localhost:5000/likes?id=${postId}`, {
-            method: 'DELETE',
-            headers: {
-                'authorization': localStorage.getItem("accessToken")
-            },
-        })
+        deleteLike(postId)
             .then(function (response) { return response.json() })
     }
     const likePhoto = (postId) => {
         setVisibilityLikeIcon(false)
         setVisibilityUnlikeIcon(true)
-        fetch(`http://localhost:5000/likes`, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-                'authorization': localStorage.getItem("accessToken")
-            },
-            body: JSON.stringify({ likedPostId: postId })
-        })
+        addLike(postId)
             .catch((err) => { console.error(err) })
     }
     const openModal = () => {
-        fetch(`http://localhost:5000/comments?id=${props.id}&limit=100`, {})
+        getPostComments(props.id)
             .then(function (posts) { return (posts.json()) })
             .then((result) => {
                 if (result.data === null) {
@@ -74,12 +62,7 @@ function OneWatchedPost(props) {
 
     useEffect(async () => {
         try {
-            let response = await fetch(`http://localhost:5000/likes?likedPostId=${props.id}`, {
-                headers: {
-                    'Content-Type': 'application/json',
-                    'authorization': localStorage.getItem("accessToken")
-                },
-            })
+            let response = await isPostLiking(props.id)
             if (response.status === 404) {
                 setVisibilityLikeIcon(true)
                 setVisibilityUnlikeIcon(false)
@@ -91,7 +74,7 @@ function OneWatchedPost(props) {
         catch (error) {
             console.error(error)
         }
-        fetch(`http://localhost:5000/comments?id=${props.id}&limit=3`, {})
+        getThreePostComments(props.id)
             .then(function (posts) { return (posts.json()) })
             .then((result) => {
                 if (result.data === null) {
@@ -107,16 +90,10 @@ function OneWatchedPost(props) {
     }
     const addComment = (postId) => {
         if (newComment !== "") {
-            fetch(`http://localhost:5000/comment`, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'authorization': localStorage.getItem("accessToken")
-                },
-                body: JSON.stringify({ postId: postId, commentContent: newComment, id: generateId(), date: currentDate() })
-            }).then(() => {
-                setNewComment('')
-            })
+            addingComment(postId, newComment)
+                .then(() => {
+                    setNewComment('')
+                })
                 .catch((err) => { console.error(err) })
         }
     }
@@ -125,7 +102,7 @@ function OneWatchedPost(props) {
         <>
             <div className={'watchedUsersPost'}>
                 <div className='watchedPostNick'>{props.login}</div>
-                <img className='watchedPostImage' src={`http://localhost:5000/${props.imageUrl}`} />
+                <img className='watchedPostImage' src={`${process.env.REACT_APP_API_URL}/${props.imageUrl}`} />
                 <div className='watchedPostIcons'>
                     {visibilityUnlikeIcon &&
                         <div className='oneWatchedPostIcon' onClick={() => unlikePhoto(props.id)}
@@ -146,7 +123,7 @@ function OneWatchedPost(props) {
                     style={modalStyles}
                 >
                     <button className={'hideModalPost'} onClick={closeModal}>x</button>
-                    <img className='modalImage' src={`http://localhost:5000/${props.imageUrl}`}></img>
+                    <img className='modalImage' src={`${process.env.REACT_APP_API_URL}/${props.imageUrl}`}></img>
                     <div className='modalCommentContainer'>
                         <div className='modalPostNick'>{props.login}</div>
                         <div className='comments' id='modalPostComments'>

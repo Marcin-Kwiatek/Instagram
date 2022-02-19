@@ -2,6 +2,8 @@ import React, { useState } from 'react';
 import ClickAwayListener from 'react-click-away-listener';
 import './SearchUser.css';
 import { Link } from "react-router-dom";
+import { addSearchUser } from '../utils/Api';
+
 
 
 function SearchUser() {
@@ -9,14 +11,9 @@ function SearchUser() {
     const [searchUsers, setSearchUsers] = useState([]);
 
     const searchUser = async (value) => {
-        let response = await fetch(`http://localhost:5000/searchUser`, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({ login: value })
-        })
+        let response = await addSearchUser(value)
         if (response.status === 404) {
+
         } else {
             let responseJson = response.json()
             let result = await responseJson

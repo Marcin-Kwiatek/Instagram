@@ -3,8 +3,7 @@ import './ProfilePosts.css';
 import { AiFillHeart, AiOutlineHeart, AiOutlineMessage } from "react-icons/ai";
 import Modal from 'react-modal';
 import EmojiInput from './EmojiInput'
-import generateId from '../utils/generateId';
-import currentDate from '../utils/currentDate';
+import { getPostComments, addingComment, deleteLike, addLike, isPostLiking, getNumberLikesAndComment } from '../utils/Api';
 
 
 
@@ -38,7 +37,7 @@ function OneProfilePost(props) {
         setNewComment(inputValue)
     }
     const openModal = () => {
-        fetch(`http://localhost:5000/comments?id=${props.id}&limit=100`, {})
+        getPostComments(props.id)
             .then(function (posts) { return (posts.json()) })
             .then((result) => {
                 if (result.data === null) {
@@ -53,16 +52,10 @@ function OneProfilePost(props) {
     }
     const addComment = (postId) => {
         if (newComment !== "") {
-            fetch(`http://localhost:5000/comment`, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'authorization': localStorage.getItem("accessToken")
-                },
-                body: JSON.stringify({ postId: postId, commentContent: newComment, id: generateId(), date: currentDate() })
-            }).then(() => {
-                setNewComment('')
-            })
+            addingComment(postId, newComment)
+                .then(() => {
+                    setNewComment('')
+                })
                 .catch((err) => { console.error(err) })
         }
     }
@@ -72,35 +65,18 @@ function OneProfilePost(props) {
     const unlikePhoto = (postId) => {
         setVisibilityLikeIcon(true)
         setVisibilityUnlikeIcon(false)
-        fetch(`http://localhost:5000/likes?id=${postId}`, {
-            method: 'DELETE',
-            headers: {
-                'authorization': localStorage.getItem("accessToken")
-            },
-        })
+        deleteLike(postId)
             .then(function (response) { return response.json() })
     }
     const likePhoto = (postId) => {
         setVisibilityLikeIcon(false)
         setVisibilityUnlikeIcon(true)
-        fetch(`http://localhost:5000/likes`, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-                'authorization': localStorage.getItem("accessToken")
-            },
-            body: JSON.stringify({ likedPostId: postId })
-        })
+        addLike(postId)
             .catch((err) => { console.error(err) })
     }
     useEffect(async () => {
         try {
-            let response = await fetch(`http://localhost:5000/likes?likedPostId=${props.id}`, {
-                headers: {
-                    'Content-Type': 'application/json',
-                    'authorization': localStorage.getItem("accessToken")
-                },
-            })
+            let response = await isPostLiking(props.id)
             if (response.status === 404) {
                 setVisibilityLikeIcon(true)
                 setVisibilityUnlikeIcon(false)
@@ -112,18 +88,13 @@ function OneProfilePost(props) {
         catch (error) {
             console.error(error)
         }
-        fetch(`http://localhost:5000/likesNumber?likedPostId=${props.id}`, {})
-            .then(function (response) { return response.json() })
-            .then((data) => {
-                setLikesNumber(data.data[0].likesNr)
-                setCommentsNumber(data.data[0].commentsNr)
-            })
+        getNumberLikesAndComment(props.id) 
             .catch((error) => console.error(error))
     }, [])
     return (
         <>
             <div className='onePost' onClick={openModal}>
-                <img className='postImage' src={`http://localhost:5000/${props.imageUrl}`} />
+                <img className='postImage' src={`${process.env.REACT_APP_API_URL}/${props.imageUrl}`} />
                 <div className='profilePostIcons'>
                     {visibilityUnlikeIcon &&
                         <div className='profilePostIcon' onClick={() => unlikePhoto(props.id)}
@@ -145,7 +116,7 @@ function OneProfilePost(props) {
                 style={modalStyles}
             >
                 <button className={'hideModalPost'} onClick={closeModal}>x</button>
-                <img className='modalImage' src={`http://localhost:5000/${props.imageUrl}`}></img>
+                <img className='modalImage' src={`${process.env.REACT_APP_API_URL}/${props.imageUrl}`}></img>
                 <div className='modalCommentContainer'>
                     <div className='modalPostNick'>{props.nickName}</div>
                     <div className='comments' id='modalPostComments'>
@@ -158,14 +129,14 @@ function OneProfilePost(props) {
                     </div>
                     <div className='lowerPartOfModal'>
                         <div className='watchedPostIcons' id='modalWatchedPostIcons'>
-                        {visibilityUnlikeIcon &&
-                            <div className='oneWatchedPostIcon' onClick={() => unlikePhoto(props.id)}
-                                style={{ color: 'red' }}><AiFillHeart></AiFillHeart></div>
-                        }
-                        {visibilityLikeIcon &&
-                            <div className='oneWatchedPostIcon' onClick={() => likePhoto(props.id)}
-                                style={{ display: visibilityLikeIcon }}><AiOutlineHeart></AiOutlineHeart></div>
-                        }
+                            {visibilityUnlikeIcon &&
+                                <div className='oneWatchedPostIcon' onClick={() => unlikePhoto(props.id)}
+                                    style={{ color: 'red' }}><AiFillHeart></AiFillHeart></div>
+                            }
+                            {visibilityLikeIcon &&
+                                <div className='oneWatchedPostIcon' onClick={() => likePhoto(props.id)}
+                                    style={{ display: visibilityLikeIcon }}><AiOutlineHeart></AiOutlineHeart></div>
+                            }
                             <div className='oneWatchedPostIcon'><AiOutlineMessage></AiOutlineMessage></div>
                         </div>
                         <div className='likesText' id='modalLikesText'>{likesNumber} users like this</div>

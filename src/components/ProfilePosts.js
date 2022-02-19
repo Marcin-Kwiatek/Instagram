@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import './ProfilePosts.css';
 import { useLocation } from "react-router-dom"
 import OneProfilePost from './OneProfilePost';
+import { getUserPost, getPersonIntro } from '../utils/Api';
 
 function ProfilePosts() {
 
@@ -12,7 +13,7 @@ function ProfilePosts() {
 
     useEffect(() => {
         const userId = new URLSearchParams(location.search).get('id')
-        fetch(`http://localhost:5000/user/${userId}/posts`, {})
+        getUserPost(userId)
             .then(function (response) { return response.json() })
             .then((data) => {
                 let posts = data.data
@@ -23,7 +24,7 @@ function ProfilePosts() {
                     setPosts(posts)
                 }
             })
-            fetch(`http://localhost:5000/personIntro?id=${userId}`, {})
+            getPersonIntro(userId)
             .then(function (response) { return response.json() })
             .then((data) => {
                 let nick = data.data

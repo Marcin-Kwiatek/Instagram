@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import './PersonIntro.css';
+import { getPersonIntro } from '../utils/Api';
 
 
 function MyIntro() {
@@ -7,7 +8,7 @@ function MyIntro() {
 
     useEffect(async () => {
         const userId = localStorage.getItem("currentUserId")
-        fetch(`http://localhost:5000/personIntro?id=${userId}`, {})
+        getPersonIntro(userId)
             .then(function (response) { return response.json() })
             .then((data) => {
                 let nick = data.data

@@ -3,14 +3,12 @@ import './Navbar.css';
 import { Link } from "react-router-dom";
 import { AiFillHome } from "react-icons/ai";
 import { BsFillPersonFill, BsPlusSquare } from "react-icons/bs";
-import generateId from '../utils/generateId';
-import currentDate from '../utils/currentDate';
 import { ImImages } from "react-icons/im";
-import Modal from 'react-modal'; 
+import Modal from 'react-modal';
 import SearchUser from './SearchUser';
 import ClickAwayListener from 'react-click-away-listener';
 import { useHistory } from "react-router-dom";
-
+import { addingPost, addingImage } from '../utils/Api'
 Modal.setAppElement('#root');
 const modalStyles = {
     content: {
@@ -74,16 +72,8 @@ function Navbar() {
         }
         else {
             addImage().then((url) => {
-                fetch(`http://localhost:5000/post`, {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify({
-                        id: generateId(), text: addPostText, postAuthorId: currentUserId,
-                        date: currentDate(), url: url
-                    })
-                }).then(() => { closeModal() })
+                addingPost(addPostText, currentUserId, url)
+                    .then(() => { closeModal() })
                     .catch((err) => { console.error(err) })
             })
         }
@@ -92,14 +82,12 @@ function Navbar() {
         var data = new FormData()
         data.append('file', selectedFile)
         return new Promise(function (resolve, reject) {
-            fetch(`http://localhost:5000/image`, {
-                method: 'POST',
-                body: data
-            }).then((response) => {
-                return response.json()
-            }).then((data) => {
-                resolve(data.url)
-            })
+            addingImage(data)
+                .then((response) => {
+                    return response.json()
+                }).then((data) => {
+                    resolve(data.url)
+                })
                 .catch((err) => { console.error(err) })
         })
     }

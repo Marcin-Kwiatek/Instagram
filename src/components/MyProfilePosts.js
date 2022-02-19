@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import './ProfilePosts.css';
 import OneMyProfilePost from './OneMyProfilePosts';
+import { getUserPost, getPersonIntro } from '../utils/Api';
 
 
 function MyProfilePosts() {
@@ -11,7 +12,7 @@ function MyProfilePosts() {
 
     useEffect(() => {
         const currentUserId = localStorage.getItem("currentUserId")
-        fetch(`http://localhost:5000/user/${currentUserId}/posts`, {})
+        getUserPost(currentUserId)
             .then(function (response) { return response.json() })
             .then((data) => {
                 let posts = data.data
@@ -22,7 +23,7 @@ function MyProfilePosts() {
                     setPosts(posts)
                 }
             })
-        fetch(`http://localhost:5000/personIntro?id=${currentUserId}`, {})
+        getPersonIntro(currentUserId)
             .then(function (response) { return response.json() })
             .then((data) => {
                 let nick = data.data

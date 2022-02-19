@@ -2,8 +2,8 @@ import './FormFields.css';
 import React, { useState } from 'react';
 import { Link } from "react-router-dom";
 import { useHistory } from "react-router-dom";
-import generateId from '../utils/generateId';
-import Logo from './Logo';
+import { signUp } from '../utils/Api';
+
 
 function SignUp() {
 
@@ -18,13 +18,7 @@ function SignUp() {
             setErr('Nie poprawna wartość login lub hasło')
         }
         else {
-            fetch(`http://localhost:5000/user`, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({ id: generateId(), login: login, password: password })
-            })
+            signUp(login, password)
                 .then((response) => {
                     if (response.status === 409) {
                         setErr('Ten login jest już zajęty')

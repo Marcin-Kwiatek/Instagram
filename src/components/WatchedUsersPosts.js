@@ -2,17 +2,15 @@ import React, { useState, useEffect } from 'react';
 import './WatchedUsersPosts.css';
 import InfiniteScroll from 'react-infinite-scroll-component';
 import OneWatchedPost from './OneWatchedPost';
+import { getMorePosts} from '../utils/Api';
+
 
 function WatchedUsersPosts() {
 
     const [posts, setPosts] = useState([])
 
     const showMoreObservedPosts = () => {
-        fetch(`http://localhost:5000/currentUser/observedUsers/posts?offset=${posts.length}&limit=10`, {
-            headers: {
-                'authorization': localStorage.getItem("accessToken")
-            },
-        })
+        getMorePosts(posts.length)
             .then(function (posts) { return (posts.json()) })
             .then((result) => {
                 if (result.posts === undefined) {
