@@ -25,8 +25,7 @@ const modalStyles = {
 
 function OneProfilePost(props) {
 
-    const [visibilityLikeIcon, setVisibilityLikeIcon] = useState(false);
-    const [visibilityUnlikeIcon, setVisibilityUnlikeIcon] = useState(false);
+    const [isPostLikedByCurrentUser, setIsPostLikedByCurrentUser] = useState(false);
     const [likesNumber, setLikesNumber] = useState(0);
     const [commentsNumber, setCommentsNumber] = useState(0);
     const [modalIsOpen, setIsOpen] = useState(false);
@@ -63,14 +62,12 @@ function OneProfilePost(props) {
         setIsOpen(false)
     }
     const unlikePhoto = (postId) => {
-        setVisibilityLikeIcon(true)
-        setVisibilityUnlikeIcon(false)
+        setIsPostLikedByCurrentUser(false)
         deleteLike(postId)
             .then(function (response) { return response.json() })
     }
     const likePhoto = (postId) => {
-        setVisibilityLikeIcon(false)
-        setVisibilityUnlikeIcon(true)
+        setIsPostLikedByCurrentUser(true)
         addLike(postId)
             .catch((err) => { console.error(err) })
     }
@@ -78,11 +75,9 @@ function OneProfilePost(props) {
         try {
             let response = await isPostLiking(props.id)
             if (response.status === 404) {
-                setVisibilityLikeIcon(true)
-                setVisibilityUnlikeIcon(false)
+                setIsPostLikedByCurrentUser(false)
             } else {
-                setVisibilityLikeIcon(false)
-                setVisibilityUnlikeIcon(true)
+                setIsPostLikedByCurrentUser(true)
             }
         }
         catch (error) {
@@ -99,19 +94,17 @@ function OneProfilePost(props) {
             .then((data) => {
                 setCommentsNumber(data.data[0].commentsNr)
             })
-            .catch((error) => console.error(error)) 
+            .catch((error) => console.error(error))
     }, [])
     return (
         <>
             <div className='onePost' onClick={openModal}>
                 <img className='postImage' src={`${process.env.REACT_APP_API_URL}/${props.imageUrl}`} />
                 <div className='profilePostIcons'>
-                    {visibilityUnlikeIcon &&
+                    {isPostLikedByCurrentUser ?
                         <div className='profilePostIcon' onClick={() => unlikePhoto(props.id)}
                             style={{ color: 'red' }}><AiFillHeart></AiFillHeart></div>
-                    }
-                    {visibilityLikeIcon &&
-                        <div className='profilePostIcon' onClick={() => likePhoto(props.id)}>
+                        : <div className='profilePostIcon' onClick={() => likePhoto(props.id)}>
                             <AiOutlineHeart></AiOutlineHeart>
                         </div>
                     }
@@ -139,13 +132,12 @@ function OneProfilePost(props) {
                     </div>
                     <div className='lowerPartOfModal'>
                         <div className='watchedPostIcons' id='modalWatchedPostIcons'>
-                            {visibilityUnlikeIcon &&
-                                <div className='oneWatchedPostIcon' onClick={() => unlikePhoto(props.id)}
+                            {isPostLikedByCurrentUser ?
+                                <div className='profilePostIcon' onClick={() => unlikePhoto(props.id)}
                                     style={{ color: 'red' }}><AiFillHeart></AiFillHeart></div>
-                            }
-                            {visibilityLikeIcon &&
-                                <div className='oneWatchedPostIcon' onClick={() => likePhoto(props.id)}
-                                    style={{ display: visibilityLikeIcon }}><AiOutlineHeart></AiOutlineHeart></div>
+                                : <div className='profilePostIcon' onClick={() => likePhoto(props.id)}>
+                                    <AiOutlineHeart></AiOutlineHeart>
+                                </div>
                             }
                             <div className='oneWatchedPostIcon'><AiOutlineMessage></AiOutlineMessage></div>
                         </div>
