@@ -3,7 +3,7 @@ import './ProfilePosts.css';
 import { AiFillHeart, AiOutlineHeart, AiOutlineMessage } from "react-icons/ai";
 import Modal from 'react-modal';
 import EmojiInput from './EmojiInput'
-import { getPostComments, addingComment, deleteLike, addLike, isPostLiking, getNumberLikesAndComment } from '../utils/Api';
+import { getPostComments, addingComment, deleteLike, addLike, isPostLiking, getNumberLikes, getNumberComments } from '../utils/Api';
 
 
 
@@ -88,10 +88,15 @@ function OneMyProfilePost(props) {
         catch (error) {
             console.error(error)
         }
-        getNumberLikesAndComment(props.id)
+        getNumberLikes(props.id)
             .then(function (response) { return response.json() })
             .then((data) => {
                 setLikesNumber(data.data[0].likesNr)
+            })
+            .catch((error) => console.error(error))
+        getNumberComments(props.id)
+            .then(function (response) { return response.json() })
+            .then((data) => {
                 setCommentsNumber(data.data[0].commentsNr)
             })
             .catch((error) => console.error(error))

@@ -60,9 +60,18 @@ class DbService {
     async getLikesNumber(postId) {
         const response = await new Promise((resolve, reject) => {
 
-            const query = `SELECT COUNT(DISTINCT likes.likingPersonId) AS likesNr, COUNT(DISTINCT comments.id) 
-                AS commentsNr FROM likes INNER JOIN comments ON likes.likedPostId=comments.postId 
-                WHERE likedPostId = '${postId}'`
+            const query = `SELECT COUNT(DISTINCT likes.likingPersonId) AS likesNr FROM likes WHERE likedPostId = '${postId}'`
+            console.log(query)
+            connection.query(query, (err, results) => {
+                if (err) reject(new Error(err.message))
+                resolve(results)
+            })
+        })
+        return response
+    }
+    async getCommentsNumber(postId) {
+        const response = await new Promise((resolve, reject) => {
+            const query = `SELECT COUNT(DISTINCT comments.id) AS commentsNr FROM comments WHERE postId = '${postId}'`
             console.log(query)
             connection.query(query, (err, results) => {
                 if (err) reject(new Error(err.message))

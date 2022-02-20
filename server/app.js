@@ -74,6 +74,20 @@ app.get('/likesNumber', function (request, response) {
         response.sendStatus(500)
     }
 })
+app.get('/commentsNumber', function (request, response) {
+    try {
+        const db = dbService.getDbServiceInstance()
+        const result = db.getCommentsNumber(request.query.commentPostId)
+        result
+            .then(data => {
+                response.json({ data: data })
+            })
+    }
+    catch (err) {
+        console.error(err)
+        response.sendStatus(500)
+    }
+})
 app.get('/comments', function (request, response) {
     try {
         const db = dbService.getDbServiceInstance()

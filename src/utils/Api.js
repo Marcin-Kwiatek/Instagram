@@ -36,7 +36,7 @@ export const addingImage = (data) => {
     })
 }
 export const getPostComments = (id) => {
-    return fetch(`${process.env.REACT_APP_API_URL}?id=${id}&limit=100`, {})
+    return fetch(`${process.env.REACT_APP_API_URL}/comments/?id=${id}&limit=100`, {})
 }
 export const addingComment = (postId, newComment) => {
     return fetch(`${process.env.REACT_APP_API_URL}/comment`, {
@@ -74,8 +74,11 @@ export const isPostLiking = (id) => {
         },
     })
 }
-export const getNumberLikesAndComment = (id) => {
+export const getNumberLikes = (id) => {
     return fetch(`${process.env.REACT_APP_API_URL}/likesNumber?likedPostId=${id}`, {})
+}
+export const getNumberComments = (id) => {
+    return fetch(`${process.env.REACT_APP_API_URL}/commentsNumber?commentPostId=${id}`, {})
 }
 export const getThreePostComments = (id) => {
     return fetch(`${process.env.REACT_APP_API_URL}/comments?id=${id}&limit=3`, {})
