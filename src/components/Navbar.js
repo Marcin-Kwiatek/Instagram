@@ -2,13 +2,13 @@ import React, { useState, useEffect } from 'react';
 import './Navbar.css';
 import { Link } from "react-router-dom";
 import { AiFillHome } from "react-icons/ai";
-import { BsFillPersonFill, BsPlusSquare } from "react-icons/bs";
+import { BsPlusSquare } from "react-icons/bs";
 import { ImImages } from "react-icons/im";
 import Modal from 'react-modal';
 import SearchUser from './SearchUser';
-import ClickAwayListener from 'react-click-away-listener';
-import { useHistory } from "react-router-dom";
 import { addingPost, addingImage } from '../utils/Api'
+import ProfileDropdownMenu from './ProfileDropdownMenu'
+
 Modal.setAppElement('#root');
 const modalStyles = {
     content: {
@@ -28,21 +28,14 @@ const modalStyles = {
 };
 
 function Navbar() {
-    const [isProfileDropdownMenuOpen, setIsProfileDropdownMenuOpen] = useState(false);
     const [modalIsOpen, setIsOpen] = useState(false);
     const [addPostText, setAddPostText] = useState('');
     const [err, setErr] = useState('');
     const [currentUserId, setCurrentUserId] = useState('');
     const [selectedFile, setSelectedFile] = useState(null);
 
-    const history = useHistory()
 
-    const showProfileDropdownMenu = () => {
-        setIsProfileDropdownMenuOpen(true)
-    }
-    const hideProfileDropdownMenu = () => {
-        setIsProfileDropdownMenuOpen(false)
-    }
+    
     const openModal = () => {
         setIsOpen(true)
     }
@@ -50,11 +43,7 @@ function Navbar() {
         setErr('')
         setIsOpen(false)
     }
-    const LogOut = () => {
-        localStorage.removeItem('currentUserId');
-        localStorage.removeItem('accessToken');
-        history.push("/SignIn");
-    }
+    
     const onFileChange = event => {
         setSelectedFile(event.target.files[0]);
     };
@@ -104,23 +93,7 @@ function Navbar() {
                     <div className="icons">
                         <Link className='iconLink' to='/'><div className="oneIcon"><AiFillHome></AiFillHome></div></Link>
                         <div className='oneIcon' onClick={openModal}><BsPlusSquare ></BsPlusSquare></div>
-                        <div className="oneIcon" onClick={showProfileDropdownMenu} style={{ position: 'relative' }}>
-                            <BsFillPersonFill></BsFillPersonFill>
-                            {isProfileDropdownMenuOpen &&
-                                <ClickAwayListener onClickAway={hideProfileDropdownMenu}>
-                                    <div className='my-events'>
-                                        <Link className='iconLink' to='/myProfile'>
-                                            <div className='my-event'>
-                                                <BsFillPersonFill></BsFillPersonFill>Profile
-                                            </div>
-                                        </Link>
-                                        <div className='my-event' id='my-event-log-out' onClick={LogOut}>
-                                            Log Out
-                                        </div>
-                                    </div>
-                                </ClickAwayListener>
-                            }
-                        </div>
+                        <ProfileDropdownMenu></ProfileDropdownMenu>
                     </div>
                 </div>
             </div>
