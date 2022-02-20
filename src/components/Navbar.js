@@ -28,7 +28,7 @@ const modalStyles = {
 };
 
 function Navbar() {
-    const [visibiltyShowMyProfileEvents, setVisibiltyShowMyProfileEvents] = useState(false);
+    const [isProfileDropdownMenuOpen, setIsProfileDropdownMenuOpen] = useState(false);
     const [modalIsOpen, setIsOpen] = useState(false);
     const [addPostText, setAddPostText] = useState('');
     const [err, setErr] = useState('');
@@ -37,11 +37,11 @@ function Navbar() {
 
     const history = useHistory()
 
-    const showMyProfileEvents = () => {
-        setVisibiltyShowMyProfileEvents(true)
+    const showProfileDropdownMenu = () => {
+        setIsProfileDropdownMenuOpen(true)
     }
-    const hideMyProfileEvents = () => {
-        setVisibiltyShowMyProfileEvents(false)
+    const hideProfileDropdownMenu = () => {
+        setIsProfileDropdownMenuOpen(false)
     }
     const openModal = () => {
         setIsOpen(true)
@@ -104,10 +104,10 @@ function Navbar() {
                     <div className="icons">
                         <Link className='iconLink' to='/'><div className="oneIcon"><AiFillHome></AiFillHome></div></Link>
                         <div className='oneIcon' onClick={openModal}><BsPlusSquare ></BsPlusSquare></div>
-                        <div className="oneIcon" onClick={showMyProfileEvents} style={{ position: 'relative' }}>
+                        <div className="oneIcon" onClick={showProfileDropdownMenu} style={{ position: 'relative' }}>
                             <BsFillPersonFill></BsFillPersonFill>
-                            {visibiltyShowMyProfileEvents &&
-                                <ClickAwayListener onClickAway={hideMyProfileEvents}>
+                            {isProfileDropdownMenuOpen &&
+                                <ClickAwayListener onClickAway={hideProfileDropdownMenu}>
                                     <div className='my-events'>
                                         <Link className='iconLink' to='/myProfile'>
                                             <div className='my-event'>
